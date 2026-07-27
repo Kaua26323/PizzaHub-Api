@@ -1,0 +1,21 @@
+{
+  "name": "pizzahub-api",
+  "version": "1.0.0",
+  "description": "PizzaHub is a backend API for managing a pizzeria's catalog and order workflow.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Kauã Souza",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
+  }
+}
