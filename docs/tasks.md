@@ -173,14 +173,14 @@ Freeze the implementation baseline and resolve the few technology choices that m
 
 Prepare the TypeScript, testing, environment, Docker, and folder foundations.
 
-- [ ] **T009** — Initialize package metadata and development scripts
+- [x] **T009** — Initialize package metadata and development scripts
   - **Depends on:** T001
   - **Covers:** Architecture — Technology Stack
   - **Likely files:** `package.json`
   - **Verify:**
     - Scripts exist for development, build, start, typecheck, lint, format, test, test:unit, test:integration, test:http, and bootstrap:admin.
 
-- [ ] **T010** — Configure strict TypeScript compilation
+- [x] **T010** — Configure strict TypeScript compilation
   - **Depends on:** T009
   - **Covers:** Architecture — Technology Stack; Architecture — Project Structure
   - **Likely files:** `tsconfig.json`, `tsconfig.build.json`
@@ -188,7 +188,7 @@ Prepare the TypeScript, testing, environment, Docker, and folder foundations.
     - Strict mode is enabled.
     - Build output excludes tests and runtime uploads.
 
-- [ ] **T011** [P] — Configure ESLint and Prettier with separate responsibilities
+- [x] **T011** [P] — Configure ESLint and Prettier with separate responsibilities
   - **Depends on:** T009
   - **Covers:** Architecture — Technology Stack
   - **Likely files:** `eslint.config.js`, `.prettierrc`, `.prettierignore`
@@ -196,7 +196,7 @@ Prepare the TypeScript, testing, environment, Docker, and folder foundations.
     - Linting checks code quality.
     - Prettier owns formatting without duplicated formatting rules in ESLint.
 
-- [ ] **T012** — Configure Vitest for unit, integration, and HTTP test projects
+- [x] **T012** — Configure Vitest for unit, integration, and HTTP test projects
   - **Depends on:** T009, T010
   - **Covers:** Architecture — Testing
   - **Likely files:** `vitest.config.ts`, `tests/setup/`
@@ -204,14 +204,14 @@ Prepare the TypeScript, testing, environment, Docker, and folder foundations.
     - Unit tests can run without PostgreSQL.
     - Integration and HTTP tests can use dedicated setup files.
 
-- [ ] **T013** — Create the initial Clean Architecture folder structure
+- [x] **T013** — Create the initial Clean Architecture folder structure
   - **Depends on:** T010
   - **Covers:** Architecture — Project Structure
   - **Likely files:** `src/domain/`, `src/application/`, `src/infrastructure/`, `src/presentation/`, `src/main/`, `database/migrations/`, `tests/`
   - **Verify:**
     - No layer imports an outer layer in the starter structure.
 
-- [ ] **T014** — Implement typed environment loading and startup validation
+- [x] **T014** — Implement typed environment loading and startup validation
   - **Depends on:** T009, T010
   - **Covers:** Architecture — Validation and Configuration
   - **Likely files:** `src/infrastructure/config/environment.ts`, `.env.example`
@@ -223,7 +223,7 @@ Prepare the TypeScript, testing, environment, Docker, and folder foundations.
       environment-controlled values.
     - Invalid or missing required values fail startup with a clear message.
 
-- [ ] **T015** [P] — Configure repository ignore rules
+- [x] **T015** [P] — Configure repository ignore rules
   - **Depends on:** T013
   - **Covers:** Architecture — Project Structure; Architecture — Constraints
   - **Likely files:** `.gitignore`
@@ -231,7 +231,7 @@ Prepare the TypeScript, testing, environment, Docker, and folder foundations.
     - .env files, build output, coverage, PostgreSQL data, temporary uploads, and generated product images are ignored.
     - Empty runtime directories are retained only through placeholder files when needed.
 
-- [ ] **T016** — Create Dockerfile and Docker Compose development services
+- [x] **T016** — Create Dockerfile and Docker Compose development services
   - **Depends on:** T009, T014
   - **Covers:** Architecture — Technology Stack; Architecture — Product Images
   - **Likely files:** `Dockerfile`, `docker-compose.yml`
@@ -240,7 +240,7 @@ Prepare the TypeScript, testing, environment, Docker, and folder foundations.
     - PostgreSQL and product images use separate persistent volumes.
     - The upload directory survives API container recreation.
 
-- [ ] **T017** — Create the initial SQL migration execution workflow
+- [x] **T017** — Create the initial SQL migration execution workflow
   - **Depends on:** T009, T014
   - **Covers:** Architecture — Persistence
   - **Likely files:** `scripts/migrate.ts`, `package.json`, `database/migrations/`
@@ -248,7 +248,7 @@ Prepare the TypeScript, testing, environment, Docker, and folder foundations.
     - Migrations execute in sequence.
     - A failed migration stops execution and returns a non-zero status.
 
-- [ ] **T018** — Create a minimal build and startup smoke test
+- [x] **T018** — Create a minimal build and startup smoke test
   - **Depends on:** T010, T013, T014
   - **Likely files:** `src/main/server.ts`, `tests/smoke/build.test.ts`
   - **Verify:**

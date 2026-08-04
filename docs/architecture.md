@@ -926,7 +926,8 @@ uploads/
 tests/
 ├── unit/
 ├── integration/
-└── http/
+├── http/
+└── setup/
 ```
 
 Folders may evolve, but layer boundaries must remain stable.

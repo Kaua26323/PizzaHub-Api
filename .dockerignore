@@ -1,0 +1,16 @@
+node_modules
+dist
+coverage
+tests
+
+.git
+.gitignore
+
+.env
+.env.*
+!.env.example
+
+uploads
+*.log
+
+docs
