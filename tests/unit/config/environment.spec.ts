@@ -24,7 +24,7 @@ afterEach(() => {
   vi.resetAllMocks();
 });
 
-describe('Environments (Unity)', () => {
+describe('Environments (Unit)', () => {
   it('should parse a valid environment', () => {
     const result = parseEnv(validEnv);
     expect(result).toEqual({
