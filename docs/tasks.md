@@ -202,7 +202,7 @@ Prepare the TypeScript, testing, environment, Docker, and folder foundations.
   - **Likely files:** `vitest.config.ts`, `tests/setup/`
   - **Verify:**
     - Unit tests can run without PostgreSQL.
-    - Integration and HTTP tests can use dedicated setup files.
+    - Integration and HTTP tests can use dedicated setup files.c
 
 - [x] **T013** — Create the initial Clean Architecture folder structure
   - **Depends on:** T010
@@ -258,21 +258,21 @@ Prepare the TypeScript, testing, environment, Docker, and folder foundations.
 
 Implement business concepts and invariants without HTTP, PostgreSQL, or external libraries.
 
-- [ ] **T019** [P] — Implement UserRole and OrderStatus enumerations
+- [x] **T019** [P] — Implement UserRole and OrderStatus enumerations
   - **Depends on:** T013
   - **Covers:** Domain §4
   - **Likely files:** `src/domain/enums/user-role.ts`, `src/domain/enums/order-status.ts`
   - **Verify:**
     - Only ADMIN/STAFF and DRAFT/IN_PREPARATION/COMPLETED/CANCELLED are representable.
 
-- [ ] **T020** [P] — Implement focused domain error types
+- [] **T020** [P] — Implement focused domain error types
   - **Depends on:** T013
   - **Covers:** Architecture — Domain; Architecture — HTTP Design; ADR-005
   - **Likely files:** `src/domain/errors/`
   - **Verify:**
     - Errors describe invalid business state without HTTP status codes.
 
-- [ ] **T021** — Implement the Email value object
+- [] **T021** — Implement the Email value object
   - **Depends on:** T020
   - **Covers:** Domain §3.1
   - **Likely files:** `src/domain/value-objects/email.ts`
