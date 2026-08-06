@@ -265,14 +265,14 @@ Implement business concepts and invariants without HTTP, PostgreSQL, or external
   - **Verify:**
     - Only ADMIN/STAFF and DRAFT/IN_PREPARATION/COMPLETED/CANCELLED are representable.
 
-- [] **T020** [P] — Implement focused domain error types
+- [x] **T020** [P] — Implement focused domain error types
   - **Depends on:** T013
   - **Covers:** Architecture — Domain; Architecture — HTTP Design; ADR-005
   - **Likely files:** `src/domain/errors/`
   - **Verify:**
     - Errors describe invalid business state without HTTP status codes.
 
-- [] **T021** — Implement the Email value object
+- [x] **T021** — Implement the Email value object
   - **Depends on:** T020
   - **Covers:** Domain §3.1
   - **Likely files:** `src/domain/value-objects/email.ts`
