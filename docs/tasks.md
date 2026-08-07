@@ -281,7 +281,7 @@ Implement business concepts and invariants without HTTP, PostgreSQL, or external
     - Comparison uses normalized values.
     - Invalid email construction fails.
 
-- [ ] **T022** — Implement the Money value object with exact USD arithmetic
+- [x] **T022** — Implement the Money value object with exact USD arithmetic
   - **Depends on:** T020
   - **Covers:** BR15; BR15A; BR15B; Domain §3.2; Architecture — Money
   - **Likely files:** `src/domain/value-objects/money.ts`
