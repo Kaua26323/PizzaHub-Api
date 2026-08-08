@@ -290,7 +290,7 @@ Implement business concepts and invariants without HTTP, PostgreSQL, or external
     - Addition and multiplication do not use unsafe binary floating-point arithmetic.
     - Persistence input and output use values such as "45.90".
 
-- [ ] **T023** — Implement the Quantity value object
+- [x] **T023** — Implement the Quantity value object
   - **Depends on:** T020
   - **Covers:** BR14; Domain §3.3
   - **Likely files:** `src/domain/value-objects/quantity.ts`
