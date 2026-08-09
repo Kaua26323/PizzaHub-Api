@@ -297,7 +297,7 @@ Implement business concepts and invariants without HTTP, PostgreSQL, or external
   - **Verify:**
     - Only positive integers are accepted.
 
-- [ ] **T024** — Implement the User entity
+- [x] **T024** — Implement the User entity
   - **Depends on:** T019, T020, T021
   - **Covers:** FR09–FR13; BR16; BR30; Domain §2.1
   - **Likely files:** `src/domain/entities/user.ts`
