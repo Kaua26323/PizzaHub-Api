@@ -306,7 +306,7 @@ Implement business concepts and invariants without HTTP, PostgreSQL, or external
     - Only valid roles are accepted.
     - Self-role-change rules can be enforced by the application workflow.
 
-- [ ] **T025** [P] — Implement the Category entity
+- [x] **T025** [P] — Implement the Category entity
   - **Depends on:** T020
   - **Covers:** FR16–FR19; BR02; BR17; Domain §2.2
   - **Likely files:** `src/domain/entities/category.ts`
