@@ -22,7 +22,7 @@ describe('Domain User (unit)', () => {
     vi.useRealTimers();
   });
 
-  it('should create a User successfully', () => {
+  it('should create an User successfully', () => {
     const userData = makeUserProps();
     const user = new User(userData);
 
@@ -99,44 +99,38 @@ describe('Domain User (unit)', () => {
 
   it('should update "updatedAt" when the name changes', () => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-01-01T00:00:00.000Z'));
 
-    const user = new User(
-      makeUserProps({ updatedAt: new Date('2026-01-01T01:00:00.000Z') }),
-    );
+    const user = new User(makeUserProps());
+    const now = new Date('2026-01-01T02:00:00.000Z');
 
-    vi.setSystemTime(new Date('2026-01-01T02:00:00.000Z'));
+    vi.setSystemTime(now);
     user.changeName('Other Name');
 
-    expect(user.updatedAt).toStrictEqual(new Date('2026-01-01T02:00:00.000Z'));
+    expect(user.updatedAt).toStrictEqual(now);
   });
 
   it('should update "updatedAt" when the email changes', () => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-01-01T00:00:00.000Z'));
 
-    const user = new User(
-      makeUserProps({ updatedAt: new Date('2026-01-01T01:00:00.000Z') }),
-    );
+    const user = new User(makeUserProps());
+    const now = new Date('2026-01-01T02:00:00.000Z');
 
-    vi.setSystemTime(new Date('2026-01-01T02:00:00.000Z'));
+    vi.setSystemTime(now);
 
     user.changeEmail('otheremail@gmail.com');
-    expect(user.updatedAt).toStrictEqual(new Date('2026-01-01T02:00:00.000Z'));
+    expect(user.updatedAt).toStrictEqual(now);
   });
 
   it('should update "updatedAt" when the role changes', () => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-01-01T00:00:00.000Z'));
 
-    const user = new User(
-      makeUserProps({ updatedAt: new Date('2026-01-01T01:00:00.000Z') }),
-    );
+    const user = new User(makeUserProps());
+    const now = new Date('2026-01-01T02:00:00.000Z');
 
-    vi.setSystemTime(new Date('2026-01-01T02:00:00.000Z'));
+    vi.setSystemTime(now);
     user.changeRole('STAFF');
 
-    expect(user.updatedAt).toStrictEqual(new Date('2026-01-01T02:00:00.000Z'));
+    expect(user.updatedAt).toStrictEqual(now);
   });
 
   it('should protect createdAt from external mutation', () => {

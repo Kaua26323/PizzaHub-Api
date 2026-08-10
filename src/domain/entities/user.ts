@@ -58,9 +58,7 @@ class User {
   }
 
   public changeName(newName: string): void {
-    if (newName.trim().length === 0) {
-      throw new InvalidUserError('User name is required.');
-    }
+    User.validateName(newName);
 
     this._name = newName.trim();
     this.touch();
@@ -72,9 +70,7 @@ class User {
   }
 
   public changeRole(newRole: UserRole): void {
-    if (newRole !== 'STAFF' && newRole !== 'ADMIN') {
-      throw new InvalidUserError('User role must be "STAFF" or "ADMIN".');
-    }
+    User.validateRole(newRole);
 
     this._role = newRole;
     this.touch();
@@ -84,18 +80,25 @@ class User {
     this._updatedAt = new Date();
   }
 
+  private static validateName(name: string): void {
+    if (name.trim().length === 0) {
+      throw new InvalidUserError('User name is required.');
+    }
+  }
+
+  private static validateRole(role: UserRole): void {
+    if (role !== 'STAFF' && role !== 'ADMIN') {
+      throw new InvalidUserError('User role must be "STAFF" or "ADMIN".');
+    }
+  }
+
   private static validate(data: UserProps): void {
     if (data.id.length === 0 || data.id !== data.id.trim()) {
       throw new InvalidUserError('User ID is invalid.');
     }
 
-    if (data.name.trim().length === 0) {
-      throw new InvalidUserError('User name is required.');
-    }
-
-    if (data.role !== 'STAFF' && data.role !== 'ADMIN') {
-      throw new InvalidUserError('User role must be "STAFF" or "ADMIN".');
-    }
+    User.validateName(data.name);
+    User.validateRole(data.role);
 
     if (data.passwordHash.trim().length === 0) {
       throw new InvalidUserError('Password hash is required.');
