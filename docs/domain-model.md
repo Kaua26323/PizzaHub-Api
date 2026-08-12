@@ -106,7 +106,7 @@ Represents an item offered by the pizzeria.
 #### Invariants
 
 - The name must not be empty.
-- The description must not be empty.
+- The description must not be empty and must not exceed 500 characters.
 - The price must be greater than zero.
 - The product must belong to exactly one category.
 - The product image must be represented by a valid `imageKey`.
