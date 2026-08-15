@@ -314,7 +314,7 @@ Implement business concepts and invariants without HTTP, PostgreSQL, or external
     - Empty names are rejected.
     - Rename behavior preserves entity validity.
 
-- [ ] **T026** — Implement the Product entity
+- [x] **T026** — Implement the Product entity
   - **Depends on:** T019, T020, T022
   - **Covers:** FR20–FR26; BR03; BR15; BR26–BR29; Domain §2.3
   - **Likely files:** `src/domain/entities/product.ts`
