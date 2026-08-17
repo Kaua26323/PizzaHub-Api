@@ -55,9 +55,7 @@ class OrderItem {
   }
 
   get subtotal(): string {
-    const price = this._unitPrice.multiply(this._quantity.value);
-
-    return price.value;
+    return this._unitPrice.multiply(this._quantity.value).value;
   }
 
   get notes(): string | null {
@@ -99,6 +97,9 @@ class OrderItem {
     }
     if (data.productName.trim().length === 0) {
       throw new InvalidOrderItemError('Product name is invalid.');
+    }
+    if (data.productName.trim().length > 80) {
+      throw new InvalidOrderItemError('Product name must not exceed 80 characters.');
     }
 
     OrderItem.validateNotes(data.notes);

@@ -39,6 +39,16 @@ describe('Domain OrderItem (unit)', () => {
     expect(orderItem.productName).toBe('Hamburger');
   });
 
+  it('should accept product name with 80 characters', () => {
+    const orderItem = new OrderItem(
+      makeOrderItemProps({
+        productName: 'a'.repeat(80),
+      }),
+    );
+
+    expect(orderItem.productName).toHaveLength(80);
+  });
+
   it('should normalize the order item notes', () => {
     const orderItem = new OrderItem(makeOrderItemProps({ notes: '  random-notes ' }));
 
@@ -140,6 +150,9 @@ describe('Domain OrderItem (unit)', () => {
     expect(() => new OrderItem(makeOrderItemProps({ productName: '  ' }))).toThrow(
       InvalidOrderItemError,
     );
+    expect(
+      () => new OrderItem(makeOrderItemProps({ productName: 'a'.repeat(81) })),
+    ).toThrow(InvalidOrderItemError);
   });
 
   it('should reject an invalid unit price', () => {
