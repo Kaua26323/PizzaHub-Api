@@ -314,11 +314,12 @@ Implement business concepts and invariants without HTTP, PostgreSQL, or external
     - Empty names are rejected.
     - Rename behavior preserves entity validity.
 
-- [x] **T026** — Implement the Product entity
+- [ ] **T026** — Implement the Product entity
   - **Depends on:** T019, T020, T022
   - **Covers:** FR20–FR26; BR03; BR15; BR26–BR29; Domain §2.3
   - **Likely files:** `src/domain/entities/product.ts`
   - **Verify:**
+    - Names are required and limited to 80 characters.
     - Price is positive.
     - imageKey is storage-neutral.
     - Activation and deactivation are explicit behaviors.
@@ -356,7 +357,7 @@ Implement business concepts and invariants without HTTP, PostgreSQL, or external
   - **Covers:** NFR09; Architecture — Testing
   - **Likely files:** `tests/unit/domain/entities/`
   - **Verify:**
-    - passwordHash, role, category-name, price, image, and availability invariants are covered.
+    - passwordHash, role, category-name, product-name length, price, image, and availability invariants are covered.
 
 - [ ] **T031** — Write exhaustive unit tests for Order and OrderItem
   - **Depends on:** T027, T028
@@ -762,6 +763,7 @@ Create migrations, repositories, transactions, constraints, and integration test
   - **Covers:** FR20–FR26; BR15A; BR15B; Architecture — Product Images; Architecture — Money; ADR-003
   - **Likely files:** `database/migrations/004_create_products.sql`
   - **Verify:**
+    - Product names are required and limited to 80 characters.
     - Price uses the chosen canonical string column and format check.
     - image_key, image_mime_type, image_size, is_active, and category FK are present.
 
@@ -779,7 +781,7 @@ Create migrations, repositories, transactions, constraints, and integration test
   - **Covers:** FR28–FR33; BR18; BR31–BR37; Domain — OrderItem; Architecture — Persistence
   - **Likely files:** `database/migrations/006_create_order_items.sql`
   - **Verify:**
-    - Historical product name and unit price are stored.
+    - Historical product name and unit price are stored, and the name column supports the product-name limit.
     - Quantity is positive.
     - Notes are nullable and length constrained.
     - No unique constraint exists on (order_id, product_id).
@@ -1087,6 +1089,7 @@ Expose categories, products, uploads, image delivery, product status, and deleti
   - **Verify:**
     - Create accepts product fields and one image in one request.
     - Update supports optional field changes and optional image replacement.
+    - Product names longer than 80 characters are rejected.
     - Listing supports categoryId.
 
 - [ ] **T113** — Implement product presentation mapping from imageKey to imageUrl
@@ -1115,6 +1118,7 @@ Expose categories, products, uploads, image delivery, product status, and deleti
       type, signature mismatch, oversized file, malformed fields, aborted
       request, replacement, compensation, category filtering, status changes,
       deletion restrictions, and image URLs are covered.
+    - Product-name boundary cases at 80 and 81 characters are covered.
     - Upload failures use the standard error envelope and leave no partial files.
 
 ## Phase 12 — Orders HTTP API

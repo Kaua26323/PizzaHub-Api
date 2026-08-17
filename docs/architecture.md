@@ -360,6 +360,7 @@ PostgreSQL reinforces rules where appropriate:
 ```text
 Unique user email
 Unique category name
+Product names limited to 80 characters
 Positive prices and quantities
 Valid foreign keys and required fields
 Valid enum values
