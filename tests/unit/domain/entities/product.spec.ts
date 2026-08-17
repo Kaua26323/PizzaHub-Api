@@ -49,6 +49,16 @@ describe('Domain Product (unit)', () => {
     expect(product.name).toBe('Chips');
   });
 
+  it('should accept a product name with 80 characters', () => {
+    const product = new Product(
+      makeProductProps({
+        name: 'a'.repeat(80),
+      }),
+    );
+
+    expect(product.name).toHaveLength(80);
+  });
+
   it('should normalize the product description', () => {
     const product = new Product(makeProductProps({ description: ' The best food ' }));
     expect(product.description).toBe('The best food');
@@ -236,6 +246,9 @@ describe('Domain Product (unit)', () => {
     expect(() => new Product(makeProductProps({ name: ' ' }))).toThrow(
       InvalidProductError,
     );
+    expect(() => new Product(makeProductProps({ name: 'a'.repeat(81) }))).toThrow(
+      InvalidProductError,
+    );
   });
 
   it('should reject an invalid description', () => {
@@ -351,6 +364,7 @@ describe('Domain Product (unit)', () => {
     vi.setSystemTime(new Date('2026-01-01T10:00:00.000Z'));
 
     expect(() => product.changeName(' ')).toThrow(InvalidProductError);
+    expect(() => product.changeName('a'.repeat(81))).toThrow(InvalidProductError);
     expect(product.name).toBe(previousName);
     expect(product.updatedAt).toStrictEqual(previousUpdatedAt);
   });

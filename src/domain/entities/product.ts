@@ -151,6 +151,10 @@ class Product {
     if (name.trim().length === 0) {
       throw new InvalidProductError('Name is required.');
     }
+
+    if (name.trim().length > 80) {
+      throw new InvalidProductError('Name must not exceed 80 characters.');
+    }
   }
 
   private static validateDescription(text: string): void {
