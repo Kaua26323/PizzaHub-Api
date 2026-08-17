@@ -324,7 +324,7 @@ Implement business concepts and invariants without HTTP, PostgreSQL, or external
     - Activation and deactivation are explicit behaviors.
     - Category and image metadata are required.
 
-- [ ] **T027** — Implement the OrderItem entity
+- [x] **T027** — Implement the OrderItem entity
   - **Depends on:** T020, T022, T023
   - **Covers:** FR29–FR33; BR18; BR31–BR37; Domain §2.5
   - **Likely files:** `src/domain/entities/order-item.ts`
