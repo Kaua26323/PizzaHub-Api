@@ -334,7 +334,7 @@ Implement business concepts and invariants without HTTP, PostgreSQL, or external
     - Notes are trimmed, empty notes become null, and length is limited to 500.
     - Quantity and subtotal rules are enforced.
 
-- [ ] **T028** — Implement the Order aggregate
+- [x] **T028** — Implement the Order aggregate
   - **Depends on:** T019, T020, T022, T027
   - **Covers:** FR27–FR42; BR06A–BR13; Domain §2.4; Domain §6.1; Domain §7
   - **Likely files:** `src/domain/entities/order.ts`
@@ -345,24 +345,24 @@ Implement business concepts and invariants without HTTP, PostgreSQL, or external
     - Status transitions and terminal-state immutability are enforced.
     - Totals use historical item prices.
 
-- [ ] **T029** — Write unit tests for Email, Money, and Quantity
+- [x] **T029** — Write unit tests for Email, Money, and Quantity
   - **Depends on:** T021, T022, T023
   - **Covers:** NFR09; Architecture — Testing
   - **Likely files:** `tests/unit/domain/value-objects/`
   - **Verify:**
     - Valid, invalid, boundary, normalization, and exact-arithmetic cases are covered.
 
-- [ ] **T030** — Write unit tests for User, Category, and Product
+- [x] **T030** — Write unit tests for User, Category, and Product
   - **Depends on:** T024, T025, T026
   - **Covers:** NFR09; Architecture — Testing
   - **Likely files:** `tests/unit/domain/entities/`
   - **Verify:**
     - passwordHash, role, category-name, product-name length, price, image, and availability invariants are covered.
 
-- [ ] **T031** — Write exhaustive unit tests for Order and OrderItem
+- [x] **T031** — Write exhaustive unit tests for Order and OrderItem
   - **Depends on:** T027, T028
   - **Covers:** BR07–BR14; BR31–BR37; NFR09; Architecture — Testing
-  - **Likely files:** `tests/unit/domain/entities/order.test.ts`, `tests/unit/domain/entities/order-item.test.ts`
+  - **Likely files:** `tests/unit/domain/entities/order.spec.ts`, `tests/unit/domain/entities/order-item.spec.ts`
   - **Verify:**
     - Repeated products remain distinct.
     - Notes rules are covered.
