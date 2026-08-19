@@ -373,7 +373,7 @@ Implement business concepts and invariants without HTTP, PostgreSQL, or external
 
 Define the contracts and test doubles required by the use cases.
 
-- [ ] **T032** — Define application errors and the authenticated actor model
+- [x] **T032** — Define application errors and the authenticated actor model
   - **Depends on:** T020, T024
   - **Covers:** Architecture — Application; Architecture — Authentication and Authorization
   - **Likely files:** `src/application/errors/`, `src/application/authenticated-actor.ts`
