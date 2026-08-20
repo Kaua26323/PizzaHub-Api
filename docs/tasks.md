@@ -381,7 +381,7 @@ Define the contracts and test doubles required by the use cases.
     - Application errors remain independent of HTTP.
     - Use cases receive actor ID and role explicitly.
 
-- [ ] **T033** — Define UsersRepository around identity use-case needs
+- [x] **T033** — Define UsersRepository around identity use-case needs
   - **Depends on:** T024, T032
   - **Covers:** Architecture — Application
   - **Likely files:** `src/application/repositories/users-repository.ts`
