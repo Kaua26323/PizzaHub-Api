@@ -388,7 +388,7 @@ Define the contracts and test doubles required by the use cases.
   - **Verify:**
     - The contract supports lookup by ID/email, creation, listing, and role update without exposing PostgreSQL rows.
 
-- [ ] **T034** — Define AuthSessionsRepository around rotation and revocation needs
+- [x] **T034** — Define AuthSessionsRepository around rotation and revocation needs
   - **Depends on:** T032
   - **Covers:** FR04–FR07; FR13–FR14; Architecture — Authentication; ADR-002; ADR-004
   - **Likely files:** `src/application/repositories/auth-sessions-repository.ts`
