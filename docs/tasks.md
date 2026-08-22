@@ -395,7 +395,7 @@ Define the contracts and test doubles required by the use cases.
   - **Verify:**
     - The contract supports session creation, lookup by token hash, atomic rotation, current-session revocation, user-session revocation, and family revocation.
 
-- [ ] **T035** — Define CategoriesRepository around category use cases
+- [x] **T035** — Define CategoriesRepository around category use cases
   - **Depends on:** T025, T032
   - **Covers:** FR16–FR19
   - **Likely files:** `src/application/repositories/categories-repository.ts`
