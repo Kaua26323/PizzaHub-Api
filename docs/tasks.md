@@ -402,7 +402,7 @@ Define the contracts and test doubles required by the use cases.
   - **Verify:**
     - The contract supports required create, find, list, rename, uniqueness, product-existence check, and delete operations.
 
-- [ ] **T036** — Define ProductsRepository around catalog and order needs
+- [x] **T036** — Define ProductsRepository around catalog and order needs
   - **Depends on:** T026, T032
   - **Covers:** FR20–FR26; BR26–BR29
   - **Likely files:** `src/application/repositories/products-repository.ts`
