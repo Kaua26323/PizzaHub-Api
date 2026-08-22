@@ -409,7 +409,7 @@ Define the contracts and test doubles required by the use cases.
   - **Verify:**
     - The contract supports lookup, filtered listing, persistence, status changes, order-history checks, and permanent deletion.
 
-- [ ] **T037** — Define OrdersRepository around aggregate persistence and concurrency
+- [x] **T037** — Define OrdersRepository around aggregate persistence and concurrency
   - **Depends on:** T028, T032
   - **Covers:** FR27–FR42; Architecture — Concurrency; ADR-004
   - **Likely files:** `src/application/repositories/orders-repository.ts`
