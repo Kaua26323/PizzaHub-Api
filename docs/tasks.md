@@ -431,7 +431,7 @@ Define the contracts and test doubles required by the use cases.
     - Issue and verify operations use application-owned claim types.
     - No JWT-library type leaks into Application.
 
-- [ ] **T040** — Define RefreshTokenGenerator and RefreshTokenHasher
+- [x] **T040** — Define RefreshTokenGenerator and RefreshTokenHasher
   - **Depends on:** T032
   - **Covers:** BR20–BR23; Architecture — Authentication; ADR-002; ADR-004
   - **Likely files:** `src/application/services/refresh-token-generator.ts`, `src/application/services/refresh-token-hasher.ts`
