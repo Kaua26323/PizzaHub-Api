@@ -416,7 +416,7 @@ Define the contracts and test doubles required by the use cases.
   - **Verify:**
     - The contract supports create, aggregate load, filtered listing, save, and protected state transitions without exposing SQL details.
 
-- [ ] **T038** — Define PasswordHasher
+- [x] **T038** — Define PasswordHasher
   - **Depends on:** T032
   - **Covers:** Architecture — Authentication and Authorization
   - **Likely files:** `src/application/services/password-hasher.ts`
