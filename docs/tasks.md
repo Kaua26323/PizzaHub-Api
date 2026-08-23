@@ -423,7 +423,7 @@ Define the contracts and test doubles required by the use cases.
   - **Verify:**
     - The contract exposes only hash and compare.
 
-- [ ] **T039** — Define AccessTokenProvider
+- [x] **T039** — Define AccessTokenProvider
   - **Depends on:** T019, T032
   - **Covers:** Architecture — Authentication; ADR-001
   - **Likely files:** `src/application/services/access-token-provider.ts`
