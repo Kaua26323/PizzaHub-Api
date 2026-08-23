@@ -438,7 +438,7 @@ Define the contracts and test doubles required by the use cases.
   - **Verify:**
     - Random token generation and deterministic token hashing are separate capabilities.
 
-- [ ] **T041** — Define ImageStorage and StoredImage contracts
+- [x] **T041** — Define ImageStorage and StoredImage contracts
   - **Depends on:** T032
   - **Covers:** Architecture — Product Images; ADR-003
   - **Likely files:** `src/application/services/image-storage.ts`
