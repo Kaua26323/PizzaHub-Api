@@ -446,7 +446,7 @@ Define the contracts and test doubles required by the use cases.
     - The contract supports temporary upload finalization and deletion.
     - It returns key, MIME type, and size without local paths.
 
-- [ ] **T042** — Define minimal Clock and IdGenerator contracts
+- [x] **T042** — Define minimal Clock and IdGenerator contracts
   - **Depends on:** T032
   - **Covers:** Testability; Manual dependency injection
   - **Likely files:** `src/application/services/clock.ts`, `src/application/services/id-generator.ts`
