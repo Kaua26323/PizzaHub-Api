@@ -453,7 +453,7 @@ Define the contracts and test doubles required by the use cases.
   - **Verify:**
     - Use cases can be tested deterministically without importing Node-specific APIs.
 
-- [ ] **T043** — Implement in-memory repositories and fake services for application tests
+- [x] **T043** — Implement in-memory repositories and fake services for application tests
   - **Depends on:** T033, T034, T035, T036, T037, T038, T039, T040, T041, T042
   - **Likely files:** `tests/doubles/`
   - **Verify:**
