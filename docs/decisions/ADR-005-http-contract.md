@@ -21,8 +21,7 @@ JSON responses use a discriminated union based on the literal `success` field.
 
 ```ts
 export type ApiResponse<TData, TMeta = unknown> =
-  | ApiSuccessResponse<TData, TMeta>
-  | ApiErrorResponse;
+  ApiSuccessResponse<TData, TMeta> | ApiErrorResponse;
 
 export interface ApiSuccessResponse<TData, TMeta = unknown> {
   success: true;

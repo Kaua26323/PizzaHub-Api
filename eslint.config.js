@@ -1,9 +1,9 @@
-import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ["dist/", "coverage/", "uploads/"],
+    ignores: ['dist/', 'coverage/', 'uploads/'],
   },
 
   eslint.configs.recommended,
