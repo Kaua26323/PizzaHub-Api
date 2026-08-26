@@ -84,7 +84,7 @@ Represents an item offered by the pizzeria.
 #### Attributes
 
 - `id`: unique product identifier.
-- `name`: product name.
+- `name`: product name, limited to 80 characters.
 - `description`: product description.
 - `price`: current selling price.
 - `imageKey`: storage-neutral reference used to identify the stored product image.
@@ -105,8 +105,8 @@ Represents an item offered by the pizzeria.
 
 #### Invariants
 
-- The name must not be empty.
-- The description must not be empty.
+- The name must not be empty and must not exceed 80 characters.
+- The description must not be empty and must not exceed 500 characters.
 - The price must be greater than zero.
 - The product must belong to exactly one category.
 - The product image must be represented by a valid `imageKey`.

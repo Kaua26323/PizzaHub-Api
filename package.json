@@ -7,15 +7,47 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "dotenv -e .env.development -- tsx watch src/main/server.ts",
+    "build": "npm run typecheck && tsdown",
+    "start": "node --enable-source-maps dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "migrate": "dotenv -e .env.development -- tsx scripts/migrate.ts",
+    "migrate:test": "dotenv -e .env.test -- tsx scripts/migrate.ts",
+    "test:smoke": "dotenv -e .env.test -- vitest run --project smoke",
+    "verify:foundation": "npm run typecheck && npm run build && npm run test:smoke",
+    "test": "dotenv -e .env.test -- vitest run --bail 1",
+    "test:watch": "dotenv -e .env.test -- vitest --bail 1",
+    "test:unit": "dotenv -e .env.test -- vitest run --project unit",
+    "test:http": "dotenv -e .env.test -- vitest run  --project http",
+    "test:integration": "dotenv -e .env.test -- vitest run --project integration",
+    "docker:test": "docker compose --env-file .env.test up -d database_test",
+    "docker:dev": "docker compose --env-file .env.development up -d database",
+    "bootstrap:admin": "dotenv -e .env.development -- tsx src/main/scripts/bootstrap-admin.ts"
   },
   "keywords": [],
   "author": "Kauã Souza",
   "license": "MIT",
   "type": "module",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^26.1.1",
+    "@types/pg": "^8.20.0",
+    "@types/supertest": "^7.2.1",
+    "dotenv-cli": "^11.0.0",
+    "eslint": "^10.8.0",
+    "prettier": "^3.9.6",
+    "supertest": "^7.2.2",
+    "tsdown": "^0.22.14",
     "tsx": "^4.23.1",
-    "typescript": "^7.0.2"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.65.0",
+    "vitest": "^4.1.10"
+  },
+  "dependencies": {
+    "pg": "^8.22.0",
+    "zod": "^4.4.3"
   }
 }

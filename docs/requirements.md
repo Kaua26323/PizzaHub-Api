@@ -70,7 +70,7 @@ Staff members cannot manage users, categories, or products.
 - **FR20:** Authenticated users must be able to list all products.
 - **FR21:** Products must be filterable by category.
 - **FR22:** An administrator must be able to create a product by sending its data and image in a single `multipart/form-data` request.
-- **FR23:** A product must contain a name, price, description, image, category, and availability status.
+- **FR23:** A product must contain a name, price, description, image, category, and availability status. The name must not exceed 80 characters, and the description must not exceed 500 characters.
 - **FR24:** An administrator must be able to update a product's data and optionally replace its image.
 - **FR25:** An administrator must be able to permanently delete a product only when it is not referenced by any order item.
 - **FR26:** An administrator must be able to activate or deactivate a product by changing its `isActive` status.
