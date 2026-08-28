@@ -1,6 +1,6 @@
 import type { PasswordHasher } from '@/application/services/password-hasher';
 
-class InMemoryPasswordHasherService implements PasswordHasher {
+class FakePasswordHasher implements PasswordHasher {
   public readonly hashedPasswords: string[] = [];
   public readonly comparisons: Array<{ hash: string; password: string }> = [];
 
@@ -17,4 +17,4 @@ class InMemoryPasswordHasherService implements PasswordHasher {
   }
 }
 
-export { InMemoryPasswordHasherService };
+export { FakePasswordHasher };
