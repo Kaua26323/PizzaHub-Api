@@ -463,7 +463,7 @@ Define the contracts and test doubles required by the use cases.
 
 Implement registration, authentication, sessions, profile, role management, and administrator bootstrap workflows.
 
-- [ ] **T044** — Implement RegisterUserUseCase
+- [x] **T044** — Implement RegisterUserUseCase
   - **Depends on:** T033, T038, T042, T024
   - **Covers:** FR01; FR09; FR10; BR16
   - **Likely files:** `src/application/use-cases/identity/register-user.ts`
