@@ -472,7 +472,7 @@ Implement registration, authentication, sessions, profile, role management, and 
     - Public registration always creates STAFF.
     - The password is hashed before persistence.
 
-- [ ] **T045** — Implement AuthenticateUserUseCase
+- [x] **T045** — Implement AuthenticateUserUseCase
   - **Depends on:** T033, T034, T038, T039, T040, T042
   - **Covers:** FR02; FR03; BR19–BR21
   - **Likely files:** `src/application/use-cases/identity/authenticate-user.ts`
