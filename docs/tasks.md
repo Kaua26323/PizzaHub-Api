@@ -481,7 +481,7 @@ Implement registration, authentication, sessions, profile, role management, and 
     - A JWT and an opaque refresh token are issued.
     - Only the refresh-token hash is persisted.
 
-- [ ] **T046** — Implement RefreshAuthenticationUseCase with rotation and reuse detection
+- [x] **T046** — Implement RefreshAuthenticationUseCase with rotation and reuse detection
   - **Depends on:** T034, T039, T040, T042, T006
   - **Covers:** FR04; FR05; BR22; BR23
   - **Likely files:** `src/application/use-cases/identity/refresh-authentication.ts`
