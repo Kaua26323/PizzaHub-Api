@@ -489,7 +489,7 @@ Implement registration, authentication, sessions, profile, role management, and 
     - Successful refresh invalidates the old token and creates a new session/token record atomically.
     - Reuse detection revokes the selected token family.
 
-- [ ] **T047** — Implement LogoutCurrentSessionUseCase
+- [x] **T047** — Implement LogoutCurrentSessionUseCase
   - **Depends on:** T034, T040
   - **Covers:** FR06; BR24
   - **Likely files:** `src/application/use-cases/identity/logout-current-session.ts`
