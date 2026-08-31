@@ -496,7 +496,7 @@ Implement registration, authentication, sessions, profile, role management, and 
   - **Verify:**
     - The current refresh session is revoked idempotently.
 
-- [ ] **T048** — Implement LogoutAllOwnSessionsUseCase
+- [x] **T048** — Implement LogoutAllOwnSessionsUseCase
   - **Depends on:** T034, T032
   - **Covers:** FR07
   - **Likely files:** `src/application/use-cases/identity/logout-all-own-sessions.ts`
