@@ -510,7 +510,7 @@ Implement registration, authentication, sessions, profile, role management, and 
   - **Verify:**
     - The response never includes passwordHash.
 
-- [ ] **T050** — Implement ListUsersUseCase
+- [x] **T050** — Implement ListUsersUseCase
   - **Depends on:** T033, T032
   - **Covers:** FR11; BR01
   - **Likely files:** `src/application/use-cases/identity/list-users.ts`
