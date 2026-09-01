@@ -503,7 +503,7 @@ Implement registration, authentication, sessions, profile, role management, and 
   - **Verify:**
     - Only sessions owned by the authenticated user are revoked.
 
-- [ ] **T049** — Implement GetOwnProfileUseCase
+- [x] **T049** — Implement GetOwnProfileUseCase
   - **Depends on:** T033, T032
   - **Covers:** FR08
   - **Likely files:** `src/application/use-cases/identity/get-own-profile.ts`
