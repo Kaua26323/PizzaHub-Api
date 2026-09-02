@@ -518,7 +518,7 @@ Implement registration, authentication, sessions, profile, role management, and 
     - Only ADMIN can execute the use case.
     - Returned users never expose passwordHash.
 
-- [ ] **T051** — Implement ChangeUserRoleUseCase
+- [x] **T051** — Implement ChangeUserRoleUseCase
   - **Depends on:** T033, T034, T032, T019
   - **Covers:** FR12; FR13; BR25; BR30
   - **Likely files:** `src/application/use-cases/identity/change-user-role.ts`
