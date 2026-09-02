@@ -527,7 +527,7 @@ Implement registration, authentication, sessions, profile, role management, and 
     - Self-role changes are rejected.
     - Target sessions are revoked after a successful role change.
 
-- [ ] **T052** — Implement BootstrapAdminUseCase
+- [x] **T052** — Implement BootstrapAdminUseCase
   - **Depends on:** T033, T038, T042
   - **Covers:** FR15; NFR12; Domain §10.5
   - **Likely files:** `src/application/use-cases/identity/bootstrap-admin.ts`
