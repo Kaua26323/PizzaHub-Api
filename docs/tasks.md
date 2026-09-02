@@ -536,7 +536,7 @@ Implement registration, authentication, sessions, profile, role management, and 
     - Duplicate email is rejected.
     - No hard-coded credentials exist.
 
-- [ ] **T053** — Write identity application unit tests
+- [x] **T053** — Write identity application unit tests
   - **Depends on:** T043, T044, T045, T046, T047, T048, T049, T050, T051, T052
   - **Covers:** FR01–FR15; NFR09; Architecture — Testing
   - **Likely files:** `tests/unit/application/identity/`
