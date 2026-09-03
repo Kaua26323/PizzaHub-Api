@@ -265,3 +265,16 @@ columns required by the response.
 
 This improvement is not part of the initial scope and should be added to the
 task plan only if the project scope is explicitly expanded.
+
+### Category-list scalability
+
+The category-list endpoint is also unpaginated in the initial scope. This is
+intentional because the catalog is expected to contain a small, administrator-
+managed set of categories, and each response contains only the category's
+small public fields (`id`, `name`, `createdAt`, and `updatedAt`).
+
+Pagination is therefore deferred for now and is not part of T054. If the
+catalog later supports a large number of categories, the endpoint should adopt
+bounded pagination and the repository should select only the fields required
+by the response. That change should be added to the task plan when the project
+scope or expected data volume is expanded.

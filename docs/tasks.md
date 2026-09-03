@@ -547,7 +547,7 @@ Implement registration, authentication, sessions, profile, role management, and 
 
 Implement category and product workflows, including image compensation rules.
 
-- [ ] **T054** — Implement ListCategoriesUseCase
+- [x] **T054** — Implement ListCategoriesUseCase
   - **Depends on:** T035, T032
   - **Covers:** FR16
   - **Likely files:** `src/application/use-cases/catalog/list-categories.ts`
