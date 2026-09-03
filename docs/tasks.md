@@ -554,7 +554,7 @@ Implement category and product workflows, including image compensation rules.
   - **Verify:**
     - Authenticated STAFF and ADMIN actors are accepted.
 
-- [ ] **T055** — Implement CreateCategoryUseCase
+- [x] **T055** — Implement CreateCategoryUseCase
   - **Depends on:** T035, T032, T025, T042
   - **Covers:** FR17; BR01
   - **Likely files:** `src/application/use-cases/catalog/create-category.ts`
