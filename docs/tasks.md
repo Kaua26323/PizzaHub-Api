@@ -463,7 +463,7 @@ Define the contracts and test doubles required by the use cases.
 
 Implement registration, authentication, sessions, profile, role management, and administrator bootstrap workflows.
 
-- [ ] **T044** — Implement RegisterUserUseCase
+- [x] **T044** — Implement RegisterUserUseCase
   - **Depends on:** T033, T038, T042, T024
   - **Covers:** FR01; FR09; FR10; BR16
   - **Likely files:** `src/application/use-cases/identity/register-user.ts`
@@ -472,7 +472,7 @@ Implement registration, authentication, sessions, profile, role management, and 
     - Public registration always creates STAFF.
     - The password is hashed before persistence.
 
-- [ ] **T045** — Implement AuthenticateUserUseCase
+- [x] **T045** — Implement AuthenticateUserUseCase
   - **Depends on:** T033, T034, T038, T039, T040, T042
   - **Covers:** FR02; FR03; BR19–BR21
   - **Likely files:** `src/application/use-cases/identity/authenticate-user.ts`
@@ -481,7 +481,7 @@ Implement registration, authentication, sessions, profile, role management, and 
     - A JWT and an opaque refresh token are issued.
     - Only the refresh-token hash is persisted.
 
-- [ ] **T046** — Implement RefreshAuthenticationUseCase with rotation and reuse detection
+- [x] **T046** — Implement RefreshAuthenticationUseCase with rotation and reuse detection
   - **Depends on:** T034, T039, T040, T042, T006
   - **Covers:** FR04; FR05; BR22; BR23
   - **Likely files:** `src/application/use-cases/identity/refresh-authentication.ts`
@@ -489,28 +489,28 @@ Implement registration, authentication, sessions, profile, role management, and 
     - Successful refresh invalidates the old token and creates a new session/token record atomically.
     - Reuse detection revokes the selected token family.
 
-- [ ] **T047** — Implement LogoutCurrentSessionUseCase
+- [x] **T047** — Implement LogoutCurrentSessionUseCase
   - **Depends on:** T034, T040
   - **Covers:** FR06; BR24
   - **Likely files:** `src/application/use-cases/identity/logout-current-session.ts`
   - **Verify:**
     - The current refresh session is revoked idempotently.
 
-- [ ] **T048** — Implement LogoutAllOwnSessionsUseCase
+- [x] **T048** — Implement LogoutAllOwnSessionsUseCase
   - **Depends on:** T034, T032
   - **Covers:** FR07
   - **Likely files:** `src/application/use-cases/identity/logout-all-own-sessions.ts`
   - **Verify:**
     - Only sessions owned by the authenticated user are revoked.
 
-- [ ] **T049** — Implement GetOwnProfileUseCase
+- [x] **T049** — Implement GetOwnProfileUseCase
   - **Depends on:** T033, T032
   - **Covers:** FR08
   - **Likely files:** `src/application/use-cases/identity/get-own-profile.ts`
   - **Verify:**
     - The response never includes passwordHash.
 
-- [ ] **T050** — Implement ListUsersUseCase
+- [x] **T050** — Implement ListUsersUseCase
   - **Depends on:** T033, T032
   - **Covers:** FR11; BR01
   - **Likely files:** `src/application/use-cases/identity/list-users.ts`
@@ -518,7 +518,7 @@ Implement registration, authentication, sessions, profile, role management, and 
     - Only ADMIN can execute the use case.
     - Returned users never expose passwordHash.
 
-- [ ] **T051** — Implement ChangeUserRoleUseCase
+- [x] **T051** — Implement ChangeUserRoleUseCase
   - **Depends on:** T033, T034, T032, T019
   - **Covers:** FR12; FR13; BR25; BR30
   - **Likely files:** `src/application/use-cases/identity/change-user-role.ts`
@@ -527,7 +527,7 @@ Implement registration, authentication, sessions, profile, role management, and 
     - Self-role changes are rejected.
     - Target sessions are revoked after a successful role change.
 
-- [ ] **T052** — Implement BootstrapAdminUseCase
+- [x] **T052** — Implement BootstrapAdminUseCase
   - **Depends on:** T033, T038, T042
   - **Covers:** FR15; NFR12; Domain §10.5
   - **Likely files:** `src/application/use-cases/identity/bootstrap-admin.ts`
@@ -536,7 +536,7 @@ Implement registration, authentication, sessions, profile, role management, and 
     - Duplicate email is rejected.
     - No hard-coded credentials exist.
 
-- [ ] **T053** — Write identity application unit tests
+- [x] **T053** — Write identity application unit tests
   - **Depends on:** T043, T044, T045, T046, T047, T048, T049, T050, T051, T052
   - **Covers:** FR01–FR15; NFR09; Architecture — Testing
   - **Likely files:** `tests/unit/application/identity/`

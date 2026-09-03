@@ -1,8 +1,8 @@
 import type { PasswordHasher } from '@/application/services/password-hasher';
 
-class InMemoryPasswordHasherService implements PasswordHasher {
+class FakePasswordHasher implements PasswordHasher {
   public readonly hashedPasswords: string[] = [];
-  public readonly comparisons: Array<{ hash: string; password: string }> = [];
+  public readonly comparisons: Array<{ password: string; hash: string }> = [];
 
   async hash(password: string): Promise<string> {
     this.hashedPasswords.push(password);
@@ -10,11 +10,11 @@ class InMemoryPasswordHasherService implements PasswordHasher {
     return `hashed:${password}`;
   }
 
-  async compare(hash: string, password: string): Promise<boolean> {
-    this.comparisons.push({ hash, password });
+  async compare(password: string, hash: string): Promise<boolean> {
+    this.comparisons.push({ password, hash });
 
-    return hash === `hashed:${password}`;
+    return `hashed:${password}` === hash;
   }
 }
 
-export { InMemoryPasswordHasherService };
+export { FakePasswordHasher };

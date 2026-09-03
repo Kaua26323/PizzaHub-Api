@@ -54,15 +54,23 @@ class InMemoryAuthSessionsRepository implements AuthSessionsRepository {
           session.createdAt.getTime() >= revokedAt.getTime(),
       );
 
-      return hasSuccessor
-        ? {
-            status: 'reuse-detected',
-            tokenFamilyId: currentSession.tokenFamilyId,
-          }
-        : { status: 'revoked' };
+      if (!hasSuccessor) return { status: 'revoked' };
+
+      for (const session of this.sessions) {
+        if (session.tokenFamilyId === currentSession.tokenFamilyId) {
+          session.revokedAt ??= new Date(params.revokedAt.getTime());
+        }
+      }
+
+      return {
+        status: 'reuse-detected',
+        tokenFamilyId: currentSession.tokenFamilyId,
+      };
     }
 
     if (currentSession.expiresAt.getTime() <= params.revokedAt.getTime()) {
+      currentSession.revokedAt = new Date(params.revokedAt.getTime());
+
       return { status: 'expired' };
     }
 

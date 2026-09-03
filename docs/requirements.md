@@ -253,3 +253,15 @@ sessions.
 
 These capabilities must not be included in the initial `tasks.md` unless the
 project scope is explicitly expanded.
+
+### User-list scalability
+
+The user-list endpoint is not paginated in the initial scope because PizzaHub
+is expected to have a small number of employees.
+
+If the number of users or the response size grows, the endpoint should adopt
+bounded pagination, and the repository should select only the public profile
+columns required by the response.
+
+This improvement is not part of the initial scope and should be added to the
+task plan only if the project scope is explicitly expanded.
