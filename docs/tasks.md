@@ -562,7 +562,7 @@ Implement category and product workflows, including image compensation rules.
     - Only ADMIN can create.
     - Duplicate normalized names are rejected.
 
-- [ ] **T056** — Implement UpdateCategoryUseCase
+- [x] **T056** — Implement UpdateCategoryUseCase
   - **Depends on:** T035, T032
   - **Covers:** FR18; BR01
   - **Likely files:** `src/application/use-cases/catalog/update-category.ts`
