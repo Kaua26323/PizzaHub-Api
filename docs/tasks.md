@@ -586,7 +586,7 @@ Implement category and product workflows, including image compensation rules.
     - Authenticated actors can list.
     - categoryId filtering is optional and explicit.
 
-- [ ] **T059** — Implement CreateProductUseCase with image compensation
+- [x] **T059** — Implement CreateProductUseCase with image compensation
   - **Depends on:** T035, T036, T041, T032, T026, T042
   - **Covers:** FR22; FR23; NFR08; Architecture — Product Images; ADR-003
   - **Likely files:** `src/application/use-cases/catalog/create-product.ts`
