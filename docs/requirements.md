@@ -278,3 +278,18 @@ catalog later supports a large number of categories, the endpoint should adopt
 bounded pagination and the repository should select only the fields required
 by the response. That change should be added to the task plan when the project
 scope or expected data volume is expanded.
+
+### Product-list scalability
+
+The product-list endpoint is also unpaginated in the initial scope. This is
+intentional because PizzaHub is expected to maintain a reasonably small,
+administrator-managed product catalog, and product image binaries are not
+included in list responses.
+
+Pagination is therefore deferred for now and is not part of T058. Category
+filtering must be performed by the repository rather than by loading all
+products and filtering them in application memory. If the catalog or response
+size grows, the endpoint should adopt bounded pagination, and the repository
+should select only the fields required by the response. That change should be
+added to the task plan when the project scope or expected data volume is
+expanded.

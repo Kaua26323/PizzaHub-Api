@@ -578,7 +578,7 @@ Implement category and product workflows, including image compensation rules.
     - Only ADMIN can delete.
     - Deletion is rejected while products still reference the category.
 
-- [ ] **T058** — Implement ListProductsUseCase with optional category filtering
+- [x] **T058** — Implement ListProductsUseCase with optional category filtering
   - **Depends on:** T036, T032
   - **Covers:** FR20; FR21
   - **Likely files:** `src/application/use-cases/catalog/list-products.ts`
