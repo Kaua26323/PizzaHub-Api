@@ -570,7 +570,7 @@ Implement category and product workflows, including image compensation rules.
     - Only ADMIN can rename.
     - Missing and duplicate categories are handled.
 
-- [ ] **T057** — Implement DeleteCategoryUseCase
+- [x] **T057** — Implement DeleteCategoryUseCase
   - **Depends on:** T035, T032
   - **Covers:** FR19; BR17
   - **Likely files:** `src/application/use-cases/catalog/delete-category.ts`
