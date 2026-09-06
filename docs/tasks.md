@@ -614,7 +614,7 @@ Implement category and product workflows, including image compensation rules.
     - Historical records are not altered.
     - A product can be reactivated.
 
-- [ ] **T062** — Implement DeleteProductUseCase
+- [x] **T062** — Implement DeleteProductUseCase
   - **Depends on:** T036, T041, T032
   - **Covers:** FR25; BR26; BR27
   - **Likely files:** `src/application/use-cases/catalog/delete-product.ts`
