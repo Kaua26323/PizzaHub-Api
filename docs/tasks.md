@@ -645,7 +645,7 @@ Implement the complete order and order-item lifecycle.
     - customerName is optional.
     - The authenticated user becomes the creator.
 
-- [ ] **T065** — Implement AddOrderItemUseCase
+- [x] **T065** — Implement AddOrderItemUseCase
   - **Depends on:** T036, T037, T032, T027, T028, T042
   - **Covers:** FR28–FR31; BR07; BR18; BR29; BR31–BR37
   - **Likely files:** `src/application/use-cases/orders/add-order-item.ts`
