@@ -605,7 +605,7 @@ Implement category and product workflows, including image compensation rules.
     - A new image is deleted if database update fails.
     - The old image is deleted only after the database confirms the replacement.
 
-- [ ] **T061** — Implement ChangeProductStatusUseCase
+- [x] **T061** — Implement ChangeProductStatusUseCase
   - **Depends on:** T036, T032
   - **Covers:** FR26; BR28; BR29
   - **Likely files:** `src/application/use-cases/catalog/change-product-status.ts`
