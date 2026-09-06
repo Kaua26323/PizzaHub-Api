@@ -547,14 +547,14 @@ Implement registration, authentication, sessions, profile, role management, and 
 
 Implement category and product workflows, including image compensation rules.
 
-- [ ] **T054** — Implement ListCategoriesUseCase
+- [x] **T054** — Implement ListCategoriesUseCase
   - **Depends on:** T035, T032
   - **Covers:** FR16
   - **Likely files:** `src/application/use-cases/catalog/list-categories.ts`
   - **Verify:**
     - Authenticated STAFF and ADMIN actors are accepted.
 
-- [ ] **T055** — Implement CreateCategoryUseCase
+- [x] **T055** — Implement CreateCategoryUseCase
   - **Depends on:** T035, T032, T025, T042
   - **Covers:** FR17; BR01
   - **Likely files:** `src/application/use-cases/catalog/create-category.ts`
@@ -562,7 +562,7 @@ Implement category and product workflows, including image compensation rules.
     - Only ADMIN can create.
     - Duplicate normalized names are rejected.
 
-- [ ] **T056** — Implement UpdateCategoryUseCase
+- [x] **T056** — Implement UpdateCategoryUseCase
   - **Depends on:** T035, T032
   - **Covers:** FR18; BR01
   - **Likely files:** `src/application/use-cases/catalog/update-category.ts`
@@ -570,7 +570,7 @@ Implement category and product workflows, including image compensation rules.
     - Only ADMIN can rename.
     - Missing and duplicate categories are handled.
 
-- [ ] **T057** — Implement DeleteCategoryUseCase
+- [x] **T057** — Implement DeleteCategoryUseCase
   - **Depends on:** T035, T032
   - **Covers:** FR19; BR17
   - **Likely files:** `src/application/use-cases/catalog/delete-category.ts`
@@ -578,7 +578,7 @@ Implement category and product workflows, including image compensation rules.
     - Only ADMIN can delete.
     - Deletion is rejected while products still reference the category.
 
-- [ ] **T058** — Implement ListProductsUseCase with optional category filtering
+- [x] **T058** — Implement ListProductsUseCase with optional category filtering
   - **Depends on:** T036, T032
   - **Covers:** FR20; FR21
   - **Likely files:** `src/application/use-cases/catalog/list-products.ts`
@@ -586,7 +586,7 @@ Implement category and product workflows, including image compensation rules.
     - Authenticated actors can list.
     - categoryId filtering is optional and explicit.
 
-- [ ] **T059** — Implement CreateProductUseCase with image compensation
+- [x] **T059** — Implement CreateProductUseCase with image compensation
   - **Depends on:** T035, T036, T041, T032, T026, T042
   - **Covers:** FR22; FR23; NFR08; Architecture — Product Images; ADR-003
   - **Likely files:** `src/application/use-cases/catalog/create-product.ts`
@@ -596,7 +596,7 @@ Implement category and product workflows, including image compensation rules.
     - The image is finalized before product persistence.
     - A stored image is deleted when product persistence fails.
 
-- [ ] **T060** — Implement UpdateProductUseCase with optional image replacement
+- [x] **T060** — Implement UpdateProductUseCase with optional image replacement
   - **Depends on:** T035, T036, T041, T032
   - **Covers:** FR24; Architecture — Product Images; ADR-003
   - **Likely files:** `src/application/use-cases/catalog/update-product.ts`
@@ -605,7 +605,7 @@ Implement category and product workflows, including image compensation rules.
     - A new image is deleted if database update fails.
     - The old image is deleted only after the database confirms the replacement.
 
-- [ ] **T061** — Implement ChangeProductStatusUseCase
+- [x] **T061** — Implement ChangeProductStatusUseCase
   - **Depends on:** T036, T032
   - **Covers:** FR26; BR28; BR29
   - **Likely files:** `src/application/use-cases/catalog/change-product-status.ts`
@@ -614,7 +614,7 @@ Implement category and product workflows, including image compensation rules.
     - Historical records are not altered.
     - A product can be reactivated.
 
-- [ ] **T062** — Implement DeleteProductUseCase
+- [x] **T062** — Implement DeleteProductUseCase
   - **Depends on:** T036, T041, T032
   - **Covers:** FR25; BR26; BR27
   - **Likely files:** `src/application/use-cases/catalog/delete-product.ts`
@@ -624,7 +624,7 @@ Implement category and product workflows, including image compensation rules.
     - The stored image is removed only after successful permanent deletion.
     - Image cleanup failures are surfaced or recorded without restoring a deleted database row.
 
-- [ ] **T063** — Write catalog application unit tests
+- [x] **T063** — Write catalog application unit tests
   - **Depends on:** T043, T054, T055, T056, T057, T058, T059, T060, T061, T062
   - **Covers:** FR16–FR26; NFR09
   - **Likely files:** `tests/unit/application/catalog/`

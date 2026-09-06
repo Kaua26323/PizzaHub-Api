@@ -265,3 +265,57 @@ columns required by the response.
 
 This improvement is not part of the initial scope and should be added to the
 task plan only if the project scope is explicitly expanded.
+
+### Category-list scalability
+
+The category-list endpoint is also unpaginated in the initial scope. This is
+intentional because the catalog is expected to contain a small, administrator-
+managed set of categories, and each response contains only the category's
+small public fields (`id`, `name`, `createdAt`, and `updatedAt`).
+
+Pagination is therefore deferred for now and is not part of T054. If the
+catalog later supports a large number of categories, the endpoint should adopt
+bounded pagination and the repository should select only the fields required
+by the response. That change should be added to the task plan when the project
+scope or expected data volume is expanded.
+
+### Product-list scalability
+
+The product-list endpoint is also unpaginated in the initial scope. This is
+intentional because PizzaHub is expected to maintain a reasonably small,
+administrator-managed product catalog, and product image binaries are not
+included in list responses.
+
+Pagination is therefore deferred for now and is not part of T058. Category
+filtering must be performed by the repository rather than by loading all
+products and filtering them in application memory. If the catalog or response
+size grows, the endpoint should adopt bounded pagination, and the repository
+should select only the fields required by the response. That change should be
+added to the task plan when the project scope or expected data volume is
+expanded.
+
+### Image-cleanup failure observability
+
+Product image workflows use compensating cleanup when an operation fails after
+an image has been uploaded or finalized. Temporary images must be removed when
+product creation fails before finalization, and newly stored images must be
+removed when persistence fails after finalization.
+
+In the initial scope, cleanup failures are surfaced through the normal
+application error flow. The system does not yet provide structured
+observability for preserving the original operation failure while separately
+recording a subsequent cleanup failure.
+
+A future version may introduce structured logging, monitoring, or a dedicated
+cleanup-retry mechanism so that both failures can be retained independently.
+For example, if product persistence fails and removal of the newly stored image
+also fails, the original persistence failure should remain identifiable while
+the cleanup failure is recorded for investigation or retry.
+
+Any future cleanup-retry mechanism should remain storage-agnostic and operate
+through the `ImageStorage` contract rather than depending on local file-system
+paths or a specific storage provider.
+
+This capability is not part of the initial scope and should be added to
+`tasks.md` only if structured observability or asynchronous cleanup recovery is
+introduced.
