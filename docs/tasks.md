@@ -635,7 +635,7 @@ Implement category and product workflows, including image compensation rules.
 
 Implement the complete order and order-item lifecycle.
 
-- [ ] **T064** — Implement CreateOrderUseCase
+- [x] **T064** — Implement CreateOrderUseCase
   - **Depends on:** T037, T032, T028, T042
   - **Covers:** FR27; FR41; FR42; BR06A; BR06B
   - **Likely files:** `src/application/use-cases/orders/create-order.ts`
