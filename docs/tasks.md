@@ -624,7 +624,7 @@ Implement category and product workflows, including image compensation rules.
     - The stored image is removed only after successful permanent deletion.
     - Image cleanup failures are surfaced or recorded without restoring a deleted database row.
 
-- [ ] **T063** — Write catalog application unit tests
+- [x] **T063** — Write catalog application unit tests
   - **Depends on:** T043, T054, T055, T056, T057, T058, T059, T060, T061, T062
   - **Covers:** FR16–FR26; NFR09
   - **Likely files:** `tests/unit/application/catalog/`
