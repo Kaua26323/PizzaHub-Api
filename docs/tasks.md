@@ -596,7 +596,7 @@ Implement category and product workflows, including image compensation rules.
     - The image is finalized before product persistence.
     - A stored image is deleted when product persistence fails.
 
-- [ ] **T060** — Implement UpdateProductUseCase with optional image replacement
+- [x] **T060** — Implement UpdateProductUseCase with optional image replacement
   - **Depends on:** T035, T036, T041, T032
   - **Covers:** FR24; Architecture — Product Images; ADR-003
   - **Likely files:** `src/application/use-cases/catalog/update-product.ts`
