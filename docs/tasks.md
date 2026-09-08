@@ -655,7 +655,7 @@ Implement the complete order and order-item lifecycle.
     - Every request creates a distinct item.
     - Notes and quantity rules are enforced.
 
-- [ ] **T066** — Implement UpdateOrderItemUseCase
+- [x] **T066** — Implement UpdateOrderItemUseCase
   - **Depends on:** T037, T032, T028
   - **Covers:** FR32; BR07; BR34–BR37
   - **Likely files:** `src/application/use-cases/orders/update-order-item.ts`
