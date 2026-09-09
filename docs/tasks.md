@@ -671,7 +671,7 @@ Implement the complete order and order-item lifecycle.
     - Only DRAFT orders can remove items.
     - The target item must belong to the target order.
 
-- [ ] **T068** — Implement GetOrderUseCase
+- [x] **T068** — Implement GetOrderUseCase
   - **Depends on:** T037, T032
   - **Covers:** FR34
   - **Likely files:** `src/application/use-cases/orders/get-order.ts`
