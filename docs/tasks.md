@@ -663,7 +663,7 @@ Implement the complete order and order-item lifecycle.
     - Only DRAFT orders can change quantity or notes.
     - The target item must belong to the target order.
 
-- [ ] **T067** — Implement RemoveOrderItemUseCase
+- [x] **T067** — Implement RemoveOrderItemUseCase
   - **Depends on:** T037, T032, T028
   - **Covers:** FR33; BR07
   - **Likely files:** `src/application/use-cases/orders/remove-order-item.ts`
