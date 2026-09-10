@@ -678,7 +678,7 @@ Implement the complete order and order-item lifecycle.
   - **Verify:**
     - Authenticated STAFF and ADMIN actors can retrieve complete order details including historical item data.
 
-- [ ] **T069** — Implement ListOrdersUseCase with optional status filtering
+- [x] **T069** — Implement ListOrdersUseCase with optional status filtering
   - **Depends on:** T037, T032, T019
   - **Covers:** FR35; FR36; FR38
   - **Likely files:** `src/application/use-cases/orders/list-orders.ts`
