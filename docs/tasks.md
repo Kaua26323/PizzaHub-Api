@@ -695,7 +695,7 @@ Implement the complete order and order-item lifecycle.
     - submittedAt is recorded.
     - Concurrent invalid transitions are rejected by persistence.
 
-- [ ] **T071** — Implement CompleteOrderUseCase
+- [x] **T071** — Implement CompleteOrderUseCase
   - **Depends on:** T037, T032, T028
   - **Covers:** FR39; BR10; BR12
   - **Likely files:** `src/application/use-cases/orders/complete-order.ts`
