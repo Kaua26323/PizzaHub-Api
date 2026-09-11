@@ -686,7 +686,7 @@ Implement the complete order and order-item lifecycle.
     - All orders or a selected status can be returned.
     - IN_PREPARATION supports the preparation queue.
 
-- [ ] **T070** — Implement SubmitOrderUseCase
+- [x] **T070** — Implement SubmitOrderUseCase
   - **Depends on:** T037, T032, T028
   - **Covers:** FR37; BR08; BR09
   - **Likely files:** `src/application/use-cases/orders/submit-order.ts`
