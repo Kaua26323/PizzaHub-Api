@@ -141,27 +141,15 @@ describe('CompleteOrderUseCase', () => {
 
     await ordersRepository.create(order);
 
-    vi.spyOn(ordersRepository, 'save').mockImplementationOnce(
-      async (_orderId, change) => {
-        const currentOrder = await ordersRepository.findById('order-id');
+    const originalSave = ordersRepository.save.bind(ordersRepository);
 
-        if (!currentOrder) {
-          return {
-            status: 'not-found',
-          };
-        }
-
+    vi.spyOn(ordersRepository, 'save').mockImplementationOnce(async (orderId, change) => {
+      await originalSave(orderId, (currentOrder) => {
         currentOrder.cancel(cancelledAt);
-        await ordersRepository.cancel(currentOrder);
+      });
 
-        change(currentOrder);
-
-        console.log(currentOrder);
-        return {
-          status: 'saved',
-        };
-      },
-    );
+      return originalSave(orderId, change);
+    });
 
     const execution = sut.execute({
       actor: makeActor(),
