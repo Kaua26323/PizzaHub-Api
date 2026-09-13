@@ -704,7 +704,7 @@ Implement the complete order and order-item lifecycle.
     - completedAt is recorded.
     - Concurrent cancel/complete cannot both succeed.
 
-- [ ] **T072** — Implement CancelOrderUseCase
+- [x] **T072** — Implement CancelOrderUseCase
   - **Depends on:** T037, T032, T028
   - **Covers:** FR40; BR11–BR13
   - **Likely files:** `src/application/use-cases/orders/cancel-order.ts`
