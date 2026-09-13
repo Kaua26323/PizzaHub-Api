@@ -713,7 +713,7 @@ Implement the complete order and order-item lifecycle.
     - cancelledAt is recorded.
     - Terminal orders remain immutable.
 
-- [ ] **T073** — Write orders application unit tests
+- [x] **T073** — Write orders application unit tests
   - **Depends on:** T043, T064, T065, T066, T067, T068, T069, T070, T071, T072
   - **Covers:** FR27–FR42; NFR09; Architecture — Testing
   - **Likely files:** `tests/unit/application/orders/`
