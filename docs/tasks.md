@@ -635,7 +635,7 @@ Implement category and product workflows, including image compensation rules.
 
 Implement the complete order and order-item lifecycle.
 
-- [ ] **T064** — Implement CreateOrderUseCase
+- [x] **T064** — Implement CreateOrderUseCase
   - **Depends on:** T037, T032, T028, T042
   - **Covers:** FR27; FR41; FR42; BR06A; BR06B
   - **Likely files:** `src/application/use-cases/orders/create-order.ts`
@@ -645,7 +645,7 @@ Implement the complete order and order-item lifecycle.
     - customerName is optional.
     - The authenticated user becomes the creator.
 
-- [ ] **T065** — Implement AddOrderItemUseCase
+- [x] **T065** — Implement AddOrderItemUseCase
   - **Depends on:** T036, T037, T032, T027, T028, T042
   - **Covers:** FR28–FR31; BR07; BR18; BR29; BR31–BR37
   - **Likely files:** `src/application/use-cases/orders/add-order-item.ts`
@@ -655,7 +655,7 @@ Implement the complete order and order-item lifecycle.
     - Every request creates a distinct item.
     - Notes and quantity rules are enforced.
 
-- [ ] **T066** — Implement UpdateOrderItemUseCase
+- [x] **T066** — Implement UpdateOrderItemUseCase
   - **Depends on:** T037, T032, T028
   - **Covers:** FR32; BR07; BR34–BR37
   - **Likely files:** `src/application/use-cases/orders/update-order-item.ts`
@@ -663,7 +663,7 @@ Implement the complete order and order-item lifecycle.
     - Only DRAFT orders can change quantity or notes.
     - The target item must belong to the target order.
 
-- [ ] **T067** — Implement RemoveOrderItemUseCase
+- [x] **T067** — Implement RemoveOrderItemUseCase
   - **Depends on:** T037, T032, T028
   - **Covers:** FR33; BR07
   - **Likely files:** `src/application/use-cases/orders/remove-order-item.ts`
@@ -671,14 +671,14 @@ Implement the complete order and order-item lifecycle.
     - Only DRAFT orders can remove items.
     - The target item must belong to the target order.
 
-- [ ] **T068** — Implement GetOrderUseCase
+- [x] **T068** — Implement GetOrderUseCase
   - **Depends on:** T037, T032
   - **Covers:** FR34
   - **Likely files:** `src/application/use-cases/orders/get-order.ts`
   - **Verify:**
     - Authenticated STAFF and ADMIN actors can retrieve complete order details including historical item data.
 
-- [ ] **T069** — Implement ListOrdersUseCase with optional status filtering
+- [x] **T069** — Implement ListOrdersUseCase with optional status filtering
   - **Depends on:** T037, T032, T019
   - **Covers:** FR35; FR36; FR38
   - **Likely files:** `src/application/use-cases/orders/list-orders.ts`
@@ -686,7 +686,7 @@ Implement the complete order and order-item lifecycle.
     - All orders or a selected status can be returned.
     - IN_PREPARATION supports the preparation queue.
 
-- [ ] **T070** — Implement SubmitOrderUseCase
+- [x] **T070** — Implement SubmitOrderUseCase
   - **Depends on:** T037, T032, T028
   - **Covers:** FR37; BR08; BR09
   - **Likely files:** `src/application/use-cases/orders/submit-order.ts`
@@ -695,7 +695,7 @@ Implement the complete order and order-item lifecycle.
     - submittedAt is recorded.
     - Concurrent invalid transitions are rejected by persistence.
 
-- [ ] **T071** — Implement CompleteOrderUseCase
+- [x] **T071** — Implement CompleteOrderUseCase
   - **Depends on:** T037, T032, T028
   - **Covers:** FR39; BR10; BR12
   - **Likely files:** `src/application/use-cases/orders/complete-order.ts`
@@ -704,7 +704,7 @@ Implement the complete order and order-item lifecycle.
     - completedAt is recorded.
     - Concurrent cancel/complete cannot both succeed.
 
-- [ ] **T072** — Implement CancelOrderUseCase
+- [x] **T072** — Implement CancelOrderUseCase
   - **Depends on:** T037, T032, T028
   - **Covers:** FR40; BR11–BR13
   - **Likely files:** `src/application/use-cases/orders/cancel-order.ts`
@@ -713,7 +713,7 @@ Implement the complete order and order-item lifecycle.
     - cancelledAt is recorded.
     - Terminal orders remain immutable.
 
-- [ ] **T073** — Write orders application unit tests
+- [x] **T073** — Write orders application unit tests
   - **Depends on:** T043, T064, T065, T066, T067, T068, T069, T070, T071, T072
   - **Covers:** FR27–FR42; NFR09; Architecture — Testing
   - **Likely files:** `tests/unit/application/orders/`

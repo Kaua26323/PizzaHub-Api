@@ -1,11 +1,11 @@
-import type {
-  ListOrdersFilters,
-  OrderChange,
-  OrdersRepository,
-  OrderTransitionResult,
-  SaveOrderResult,
-} from '@/application/repositories/orders-repository';
 import { Order } from '@/domain/entities/order';
+
+import type {
+  OrderChange,
+  SaveOrderResult,
+  OrdersRepository,
+  ListOrdersFilters,
+} from '@/application/repositories/orders-repository';
 
 function cloneOrder(order: Order): Order {
   return Order.restore({
@@ -54,40 +54,6 @@ class InMemoryOrdersRepository implements OrdersRepository {
     this.orders[index] = changedOrder;
 
     return { status: 'saved' };
-  }
-
-  async complete(order: Order): Promise<OrderTransitionResult> {
-    const index = this.orders.findIndex((item) => item.id === order.id);
-    const persistedOrder = index === -1 ? undefined : this.orders[index];
-
-    if (
-      !persistedOrder ||
-      persistedOrder.status !== 'IN_PREPARATION' ||
-      order.status !== 'COMPLETED'
-    ) {
-      return { status: 'not-applied' };
-    }
-
-    this.orders[index] = cloneOrder(order);
-
-    return { status: 'applied' };
-  }
-
-  async cancel(order: Order): Promise<OrderTransitionResult> {
-    const index = this.orders.findIndex((item) => item.id === order.id);
-    const persistedOrder = index === -1 ? undefined : this.orders[index];
-
-    if (
-      !persistedOrder ||
-      (persistedOrder.status !== 'DRAFT' && persistedOrder.status !== 'IN_PREPARATION') ||
-      order.status !== 'CANCELLED'
-    ) {
-      return { status: 'not-applied' };
-    }
-
-    this.orders[index] = cloneOrder(order);
-
-    return { status: 'applied' };
   }
 }
 
