@@ -724,7 +724,7 @@ Implement the complete order and order-item lifecycle.
 
 Create migrations, repositories, transactions, constraints, and integration tests.
 
-- [ ] **T074** — Implement the PostgreSQL connection pool and transaction helper
+- [x] **T074** — Implement the PostgreSQL connection pool and transaction helper
   - **Depends on:** T014, T016
   - **Covers:** Architecture — Persistence
   - **Likely files:** `src/infrastructure/database/postgres/connection/pool.ts`, `src/infrastructure/database/postgres/connection/transaction.ts`
