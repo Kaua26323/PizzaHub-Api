@@ -732,7 +732,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - One pool is reused.
     - Transactions always commit or roll back and release the client.
 
-- [ ] **T075** — Create the users migration
+- [x] **T075** — Create the users migration
   - **Depends on:** T017
   - **Covers:** FR01; FR11–FR15; Domain — User; Architecture — Persistence
   - **Likely files:** `database/migrations/001_create_users.sql`
