@@ -758,7 +758,7 @@ Create migrations, repositories, transactions, constraints, and integration test
   - **Verify:**
     - Category names are required and unique according to the selected normalization strategy.
 
-- [ ] **T078** — Create the products migration
+- [x] **T078** — Create the products migration
   - **Depends on:** T077
   - **Covers:** FR20–FR26; BR15A; BR15B; Architecture — Product Images; Architecture — Money; ADR-003
   - **Likely files:** `database/migrations/004_create_products.sql`
