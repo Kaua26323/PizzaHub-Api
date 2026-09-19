@@ -776,7 +776,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - customer_name and lifecycle timestamps are nullable as appropriate.
     - Status values are constrained.
 
-- [ ] **T080** — Create the order_items migration
+- [x] **T080** — Create the order_items migration
   - **Depends on:** T078, T079
   - **Covers:** FR28–FR33; BR18; BR31–BR37; Domain — OrderItem; Architecture — Persistence
   - **Likely files:** `database/migrations/006_create_order_items.sql`
