@@ -739,7 +739,7 @@ Create migrations, repositories, transactions, constraints, and integration test
   - **Verify:**
     - Email uniqueness, role validity, password_hash, timestamps, and required fields are constrained.
 
-- [ ] **T076** — Create the auth_sessions migration
+- [x] **T076** — Create the auth_sessions migration
   - **Depends on:** T075
   - **Covers:** FR03–FR07; FR13–FR14; NFR10; Architecture — Authentication; ADR-002; ADR-004
   - **Likely files:** `database/migrations/002_create_auth_sessions.sql`
