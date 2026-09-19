@@ -751,7 +751,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - At most one non-revoked successor session can exist per token family.
     - Lookup, family-revocation, and cleanup indexes exist.
 
-- [ ] **T077** — Create the categories migration
+- [x] **T077** — Create the categories migration
   - **Depends on:** T017
   - **Covers:** FR16–FR19; BR17
   - **Likely files:** `database/migrations/003_create_categories.sql`
