@@ -767,7 +767,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Price uses the chosen canonical string column and format check.
     - image_key, image_mime_type, image_size, is_active, and category FK are present.
 
-- [ ] **T079** — Create the orders migration
+- [x] **T079** — Create the orders migration
   - **Depends on:** T075
   - **Covers:** FR27; FR34–FR42; Domain — Order; Architecture — Persistence
   - **Likely files:** `database/migrations/005_create_orders.sql`
