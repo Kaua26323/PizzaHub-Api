@@ -786,7 +786,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Notes are nullable and length constrained.
     - No unique constraint exists on (order_id, product_id).
 
-- [ ] **T081** — Review and add required indexes and referential actions
+- [x] **T081** — Review and add required indexes and referential actions
   - **Depends on:** T076, T077, T078, T079, T080
   - **Covers:** NFR07; Architecture — Persistence
   - **Likely files:** `database/migrations/007_add_indexes.sql`
