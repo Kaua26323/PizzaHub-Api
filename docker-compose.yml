@@ -18,8 +18,6 @@ services:
   database:
     image: postgres:17-alpine
 
-    container_name: pizzahub_db_dev
-
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -38,30 +36,6 @@ services:
       retries: 5
       start_period: 10s
 
-  database_test:
-    image: postgres:17-alpine
-
-    container_name: pizzahub_db_test
-
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-
-    ports:
-      - '5433:5432'
-
-    volumes:
-      - postgres_test_data:/var/lib/postgresql/data
-
-    healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-
 volumes:
   postgres_dev_data:
-  postgres_test_data:
   product_images:

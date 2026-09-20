@@ -794,7 +794,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Email, refresh hash, token family, category filter, order status, foreign keys, and queue queries have appropriate indexes.
     - Delete/restrict behavior preserves historical orders.
 
-- [ ] **T082** — Create isolated integration-test database setup and cleanup
+- [x] **T082** — Create isolated integration-test database setup and cleanup
   - **Depends on:** T074, T081, T012
   - **Likely files:** `tests/setup/postgres.ts`, `docker-compose.test.yml`
   - **Verify:**
