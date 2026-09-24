@@ -802,14 +802,16 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Migrations run before integration tests.
     - Test data is isolated and repeatable.
 
-- [ ] **T083** — Implement PostgresUsersRepository and row mapping
-  - **Depends on:** T033, T074, T075
+- [x] **T083** — Implement PostgresUsersRepository, row mapping, and atomic role change
+  - **Depends on:** T033, T074, T075, T076
   - **Covers:** FR01; FR08; FR11–FR13
   - **Likely files:** `src/infrastructure/database/postgres/repositories/postgres-users-repository.ts`
   - **Verify:**
     - Queries are parameterized.
     - Rows map to domain/application types.
     - passwordHash is never returned by list/profile result models.
+    - Role changes update the user timestamp and revoke active refresh-token sessions in one transaction.
+    - A missing user returns not-found without changing sessions.
 
 - [ ] **T084** — Implement PostgresAuthSessionsRepository with atomic rotation
   - **Depends on:** T034, T074, T076, T006
