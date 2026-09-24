@@ -386,7 +386,7 @@ Define the contracts and test doubles required by the use cases.
   - **Covers:** Architecture — Application
   - **Likely files:** `src/application/repositories/users-repository.ts`
   - **Verify:**
-    - The contract supports lookup by ID/email, creation, listing, and role update without exposing PostgreSQL rows.
+    - The contract supports lookup by ID/email, creation, listing, and atomic role change with session revocation without exposing PostgreSQL rows.
 
 - [x] **T034** — Define AuthSessionsRepository around rotation and revocation needs
   - **Depends on:** T032

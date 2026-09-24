@@ -12,28 +12,22 @@ import type { CreateAuthSessionParams } from '@/application/repositories/auth-se
 import { FakeClock } from '@tests/doubles/services/fake-clock';
 import { InMemoryUsersRepository } from '@tests/doubles/repositories/in-memory-users-repository';
 import { InMemoryAuthSessionsRepository } from '@tests/doubles/repositories/in-memory-auth-sessions-repository';
-import { InMemoryUserRoleChangeRepository } from '@tests/doubles/repositories/in-memory-user-role-change-repository';
 
 const currentDate = new Date('2026-01-01T00:00:00.000Z');
 
 function makeSut() {
-  const usersRepository = new InMemoryUsersRepository();
   const authSessionsRepository = new InMemoryAuthSessionsRepository();
-  const userRoleChangeRepository = new InMemoryUserRoleChangeRepository(
-    usersRepository,
-    authSessionsRepository,
-  );
+  const usersRepository = new InMemoryUsersRepository(authSessionsRepository);
 
   const clock = new FakeClock(currentDate);
 
-  const sut = new ChangeUserRoleUseCase(clock, userRoleChangeRepository);
+  const sut = new ChangeUserRoleUseCase(clock, usersRepository);
 
   return {
     sut,
     clock,
     usersRepository,
     authSessionsRepository,
-    userRoleChangeRepository,
   };
 }
 
