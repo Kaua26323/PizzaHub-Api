@@ -813,7 +813,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Role changes update the user timestamp and revoke active refresh-token sessions in one transaction.
     - A missing user returns not-found without changing sessions.
 
-- [ ] **T084** — Implement PostgresAuthSessionsRepository with atomic rotation
+- [x] **T084** — Implement PostgresAuthSessionsRepository with atomic rotation
   - **Depends on:** T034, T074, T076, T006
   - **Covers:** FR03–FR07; BR21–BR25
   - **Likely files:** `src/infrastructure/database/postgres/repositories/postgres-auth-sessions-repository.ts`
