@@ -826,7 +826,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Reuse detection and family revocation are supported.
     - Only deterministic token hashes are persisted.
 
-- [ ] **T085** — Implement PostgresCategoriesRepository
+- [x] **T085** — Implement PostgresCategoriesRepository
   - **Depends on:** T035, T074, T077
   - **Covers:** FR16–FR19; BR17
   - **Likely files:** `src/infrastructure/database/postgres/repositories/postgres-categories-repository.ts`
