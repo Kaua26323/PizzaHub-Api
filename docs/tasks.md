@@ -834,7 +834,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - All values are parameterized.
     - Product-existence checks support safe deletion.
 
-- [ ] **T086** — Implement PostgresProductsRepository
+- [x] **T086** — Implement PostgresProductsRepository
   - **Depends on:** T036, T074, T078, T080
   - **Covers:** FR20–FR26; BR26–BR29
   - **Likely files:** `src/infrastructure/database/postgres/repositories/postgres-products-repository.ts`
