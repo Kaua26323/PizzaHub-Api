@@ -841,7 +841,7 @@ Create migrations, repositories, transactions, constraints, and integration test
   - **Verify:**
     - Category filtering, status changes, order-history checks, permanent deletion, and canonical monetary mapping work.
 
-- [ ] **T087** — Implement PostgresOrdersRepository with aggregate mapping and protected transitions
+- [x] **T087** — Implement PostgresOrdersRepository with aggregate mapping and protected transitions
   - **Depends on:** T037, T074, T079, T080, T006
   - **Covers:** FR27–FR42; Architecture — Persistence; Architecture — Concurrency; ADR-004
   - **Likely files:** `src/infrastructure/database/postgres/repositories/postgres-orders-repository.ts`
