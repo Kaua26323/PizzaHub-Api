@@ -22,9 +22,9 @@
     "test:watch": "dotenv -e .env.test -- vitest --bail 1",
     "test:unit": "dotenv -e .env.test -- vitest run --project unit",
     "test:http": "dotenv -e .env.test -- vitest run  --project http",
+    "docker:dev": "docker compose -f docker-compose.yml --env-file .env.development up -d --wait database",
+    "docker:test": "docker compose -f docker-compose.test.yml --env-file .env.test up -d --wait database_test",
     "test:integration": "dotenv -e .env.test -- vitest run --project integration",
-    "docker:test": "docker compose --env-file .env.test up -d database_test",
-    "docker:dev": "docker compose --env-file .env.development up -d database",
     "bootstrap:admin": "dotenv -e .env.development -- tsx src/main/scripts/bootstrap-admin.ts"
   },
   "keywords": [],

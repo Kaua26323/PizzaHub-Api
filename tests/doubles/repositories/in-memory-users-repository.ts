@@ -1,7 +1,9 @@
 import type {
-  UpdateUserRoleParams,
+  ChangeRoleAndRevokeSessionsParams,
+  ChangeRoleAndRevokeSessionsResult,
   UsersRepository,
 } from '@/application/repositories/users-repository';
+import type { AuthSessionsRepository } from '@/application/repositories/auth-sessions-repository';
 import { User } from '@/domain/entities/user';
 
 function cloneUser(user: User): User {
@@ -18,6 +20,12 @@ function cloneUser(user: User): User {
 
 class InMemoryUsersRepository implements UsersRepository {
   public readonly users: User[] = [];
+  constructor(
+    private readonly authSessionsRepository?: Pick<
+      AuthSessionsRepository,
+      'revokeAllByUserId'
+    >,
+  ) {}
 
   async create(data: User): Promise<void> {
     this.users.push(cloneUser(data));
@@ -40,10 +48,25 @@ class InMemoryUsersRepository implements UsersRepository {
     return user ? cloneUser(user) : null;
   }
 
-  async updateRole(params: UpdateUserRoleParams): Promise<void> {
+  async changeRoleAndRevokeSessions(
+    params: ChangeRoleAndRevokeSessionsParams,
+  ): Promise<ChangeRoleAndRevokeSessionsResult> {
     const user = this.users.find((item) => item.id === params.userId);
 
-    user?.changeRole(params.role);
+    if (!user) return { status: 'not-found' };
+
+    if (!this.authSessionsRepository) {
+      throw new Error('Auth sessions repository is required for role changes.');
+    }
+
+    user.changeRole(params.role);
+
+    await this.authSessionsRepository.revokeAllByUserId({
+      userId: params.userId,
+      revokedAt: params.revokedAt,
+    });
+
+    return { status: 'changed' };
   }
 }
 

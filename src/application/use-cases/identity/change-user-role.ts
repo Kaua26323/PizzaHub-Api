@@ -4,7 +4,7 @@ import { ResourceNotFoundError } from '@/application/errors/resource-not-found-e
 import type { UserRole } from '@/domain/enums/user-role';
 import type { Clock } from '@/application/services/clock';
 import type { AuthenticatedActor } from '@/application/authenticated-actor';
-import type { UserRoleChangeRepository } from '@/application/repositories/user-role-change-repository';
+import type { UsersRepository } from '@/application/repositories/users-repository';
 
 export type ChangeUserRoleDTO = {
   actor: AuthenticatedActor;
@@ -15,7 +15,7 @@ export type ChangeUserRoleDTO = {
 class ChangeUserRoleUseCase {
   constructor(
     private readonly clock: Clock,
-    private readonly userRoleChangeRepository: UserRoleChangeRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   async execute(data: ChangeUserRoleDTO): Promise<void> {
@@ -29,7 +29,7 @@ class ChangeUserRoleUseCase {
       throw new AuthorizationError();
     }
 
-    const result = await this.userRoleChangeRepository.changeRoleAndRevokeSessions({
+    const result = await this.usersRepository.changeRoleAndRevokeSessions({
       userId: targetUserId,
       role: targetRole,
       revokedAt: this.clock.now(),

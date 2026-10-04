@@ -386,7 +386,7 @@ Define the contracts and test doubles required by the use cases.
   - **Covers:** Architecture — Application
   - **Likely files:** `src/application/repositories/users-repository.ts`
   - **Verify:**
-    - The contract supports lookup by ID/email, creation, listing, and role update without exposing PostgreSQL rows.
+    - The contract supports lookup by ID/email, creation, listing, and atomic role change with session revocation without exposing PostgreSQL rows.
 
 - [x] **T034** — Define AuthSessionsRepository around rotation and revocation needs
   - **Depends on:** T032
@@ -724,7 +724,7 @@ Implement the complete order and order-item lifecycle.
 
 Create migrations, repositories, transactions, constraints, and integration tests.
 
-- [ ] **T074** — Implement the PostgreSQL connection pool and transaction helper
+- [x] **T074** — Implement the PostgreSQL connection pool and transaction helper
   - **Depends on:** T014, T016
   - **Covers:** Architecture — Persistence
   - **Likely files:** `src/infrastructure/database/postgres/connection/pool.ts`, `src/infrastructure/database/postgres/connection/transaction.ts`
@@ -732,14 +732,14 @@ Create migrations, repositories, transactions, constraints, and integration test
     - One pool is reused.
     - Transactions always commit or roll back and release the client.
 
-- [ ] **T075** — Create the users migration
+- [x] **T075** — Create the users migration
   - **Depends on:** T017
   - **Covers:** FR01; FR11–FR15; Domain — User; Architecture — Persistence
   - **Likely files:** `database/migrations/001_create_users.sql`
   - **Verify:**
     - Email uniqueness, role validity, password_hash, timestamps, and required fields are constrained.
 
-- [ ] **T076** — Create the auth_sessions migration
+- [x] **T076** — Create the auth_sessions migration
   - **Depends on:** T075
   - **Covers:** FR03–FR07; FR13–FR14; NFR10; Architecture — Authentication; ADR-002; ADR-004
   - **Likely files:** `database/migrations/002_create_auth_sessions.sql`
@@ -751,14 +751,14 @@ Create migrations, repositories, transactions, constraints, and integration test
     - At most one non-revoked successor session can exist per token family.
     - Lookup, family-revocation, and cleanup indexes exist.
 
-- [ ] **T077** — Create the categories migration
+- [x] **T077** — Create the categories migration
   - **Depends on:** T017
   - **Covers:** FR16–FR19; BR17
   - **Likely files:** `database/migrations/003_create_categories.sql`
   - **Verify:**
     - Category names are required and unique according to the selected normalization strategy.
 
-- [ ] **T078** — Create the products migration
+- [x] **T078** — Create the products migration
   - **Depends on:** T077
   - **Covers:** FR20–FR26; BR15A; BR15B; Architecture — Product Images; Architecture — Money; ADR-003
   - **Likely files:** `database/migrations/004_create_products.sql`
@@ -767,7 +767,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Price uses the chosen canonical string column and format check.
     - image_key, image_mime_type, image_size, is_active, and category FK are present.
 
-- [ ] **T079** — Create the orders migration
+- [x] **T079** — Create the orders migration
   - **Depends on:** T075
   - **Covers:** FR27; FR34–FR42; Domain — Order; Architecture — Persistence
   - **Likely files:** `database/migrations/005_create_orders.sql`
@@ -776,7 +776,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - customer_name and lifecycle timestamps are nullable as appropriate.
     - Status values are constrained.
 
-- [ ] **T080** — Create the order_items migration
+- [x] **T080** — Create the order_items migration
   - **Depends on:** T078, T079
   - **Covers:** FR28–FR33; BR18; BR31–BR37; Domain — OrderItem; Architecture — Persistence
   - **Likely files:** `database/migrations/006_create_order_items.sql`
@@ -786,7 +786,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Notes are nullable and length constrained.
     - No unique constraint exists on (order_id, product_id).
 
-- [ ] **T081** — Review and add required indexes and referential actions
+- [x] **T081** — Review and add required indexes and referential actions
   - **Depends on:** T076, T077, T078, T079, T080
   - **Covers:** NFR07; Architecture — Persistence
   - **Likely files:** `database/migrations/007_add_indexes.sql`
@@ -794,7 +794,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Email, refresh hash, token family, category filter, order status, foreign keys, and queue queries have appropriate indexes.
     - Delete/restrict behavior preserves historical orders.
 
-- [ ] **T082** — Create isolated integration-test database setup and cleanup
+- [x] **T082** — Create isolated integration-test database setup and cleanup
   - **Depends on:** T074, T081, T012
   - **Likely files:** `tests/setup/postgres.ts`, `docker-compose.test.yml`
   - **Verify:**
@@ -802,16 +802,18 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Migrations run before integration tests.
     - Test data is isolated and repeatable.
 
-- [ ] **T083** — Implement PostgresUsersRepository and row mapping
-  - **Depends on:** T033, T074, T075
+- [x] **T083** — Implement PostgresUsersRepository, row mapping, and atomic role change
+  - **Depends on:** T033, T074, T075, T076
   - **Covers:** FR01; FR08; FR11–FR13
   - **Likely files:** `src/infrastructure/database/postgres/repositories/postgres-users-repository.ts`
   - **Verify:**
     - Queries are parameterized.
     - Rows map to domain/application types.
     - passwordHash is never returned by list/profile result models.
+    - Role changes update the user timestamp and revoke active refresh-token sessions in one transaction.
+    - A missing user returns not-found without changing sessions.
 
-- [ ] **T084** — Implement PostgresAuthSessionsRepository with atomic rotation
+- [x] **T084** — Implement PostgresAuthSessionsRepository with atomic rotation
   - **Depends on:** T034, T074, T076, T006
   - **Covers:** FR03–FR07; BR21–BR25
   - **Likely files:** `src/infrastructure/database/postgres/repositories/postgres-auth-sessions-repository.ts`
@@ -824,7 +826,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Reuse detection and family revocation are supported.
     - Only deterministic token hashes are persisted.
 
-- [ ] **T085** — Implement PostgresCategoriesRepository
+- [x] **T085** — Implement PostgresCategoriesRepository
   - **Depends on:** T035, T074, T077
   - **Covers:** FR16–FR19; BR17
   - **Likely files:** `src/infrastructure/database/postgres/repositories/postgres-categories-repository.ts`
@@ -832,14 +834,14 @@ Create migrations, repositories, transactions, constraints, and integration test
     - All values are parameterized.
     - Product-existence checks support safe deletion.
 
-- [ ] **T086** — Implement PostgresProductsRepository
+- [x] **T086** — Implement PostgresProductsRepository
   - **Depends on:** T036, T074, T078, T080
   - **Covers:** FR20–FR26; BR26–BR29
   - **Likely files:** `src/infrastructure/database/postgres/repositories/postgres-products-repository.ts`
   - **Verify:**
     - Category filtering, status changes, order-history checks, permanent deletion, and canonical monetary mapping work.
 
-- [ ] **T087** — Implement PostgresOrdersRepository with aggregate mapping and protected transitions
+- [x] **T087** — Implement PostgresOrdersRepository with aggregate mapping and protected transitions
   - **Depends on:** T037, T074, T079, T080, T006
   - **Covers:** FR27–FR42; Architecture — Persistence; Architecture — Concurrency; ADR-004
   - **Likely files:** `src/infrastructure/database/postgres/repositories/postgres-orders-repository.ts`
@@ -853,7 +855,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Concurrent complete/cancel operations cannot both succeed.
     - Repeated products remain distinct.
 
-- [ ] **T088** — Write PostgreSQL repository and migration integration tests
+- [x] **T088** — Write PostgreSQL repository and migration integration tests
   - **Depends on:** T082, T083, T084, T085, T086, T087
   - **Covers:** Architecture — Testing
   - **Likely files:** `tests/integration/postgres/`
