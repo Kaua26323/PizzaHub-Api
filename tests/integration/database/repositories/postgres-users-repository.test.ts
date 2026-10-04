@@ -241,5 +241,44 @@ describe('PostgresUsersRepository', () => {
       expect(updatedUser?.role).toBe('ADMIN');
       expect(updatedUser?.updatedAt).toStrictEqual(roleChangedAt);
     });
+
+    it('should roll back the role change when session revocation fails', async () => {
+      const user = makeUser({ role: 'STAFF' });
+      const sessionId = '550e8400-e29b-41d4-a716-446655440011';
+
+      await postgresUsersRepository.create(user);
+      await createSession(sessionId, user.id);
+
+      await testPool.query(
+        'ALTER TABLE auth_sessions ADD CONSTRAINT test_revoked_at_must_be_null CHECK (revoked_at IS NULL)',
+      );
+
+      try {
+        await expect(
+          postgresUsersRepository.changeRoleAndRevokeSessions({
+            userId: user.id,
+            role: 'ADMIN',
+            revokedAt: roleChangedAt,
+          }),
+        ).rejects.toMatchObject({
+          code: '23514',
+          constraint: 'test_revoked_at_must_be_null',
+        });
+
+        const persistedUser = await postgresUsersRepository.findById(user.id);
+        const session = await testPool.query<{ revoked_at: Date | null }>(
+          'SELECT revoked_at FROM auth_sessions WHERE id = $1',
+          [sessionId],
+        );
+
+        expect(persistedUser?.role).toBe('STAFF');
+        expect(persistedUser?.updatedAt).toStrictEqual(currentDate);
+        expect(session.rows[0]?.revoked_at).toBeNull();
+      } finally {
+        await testPool.query(
+          'ALTER TABLE auth_sessions DROP CONSTRAINT test_revoked_at_must_be_null',
+        );
+      }
+    });
   });
 });

@@ -481,6 +481,120 @@ describe('PostgresAuthSessionsRepository', () => {
 
       expect(createdSuccessor).toBeNull();
     });
+
+    it('should create only one successor when the same token is rotated concurrently', async () => {
+      const { sut } = makeSut();
+
+      const session = makeSession();
+
+      const firstSuccessor = makeSuccessor();
+      const secondSuccessor = makeSuccessor({
+        id: '000e0000-a29b-52e5-b827-557766551123',
+        refreshTokenHash: 'hash:000e0000-a29b-52e5-b827-557766551123',
+      });
+
+      await insertUser(makeUser());
+      await insertSession(session);
+
+      const results = await Promise.all([
+        sut.rotate({
+          currentRefreshTokenHash: session.refreshTokenHash,
+          revokedAt: rotatedAt,
+          successor: firstSuccessor,
+        }),
+        sut.rotate({
+          currentRefreshTokenHash: session.refreshTokenHash,
+          revokedAt: rotatedAt,
+          successor: secondSuccessor,
+        }),
+      ]);
+
+      expect(results.map((result) => result.status).sort()).toEqual([
+        'reuse-detected',
+        'rotated',
+      ]);
+
+      const family = await testPool.query<AuthSessionRow>(
+        'SELECT * FROM auth_sessions WHERE token_family_id = $1',
+        [session.tokenFamilyId],
+      );
+
+      expect(family.rows).toHaveLength(2);
+      expect(family.rows.filter((row) => row.revoked_at === null)).toHaveLength(0);
+      expect(
+        family.rows
+          .filter((row) => row.id !== session.id)
+          .map((row) => row.refresh_token_hash),
+      ).toEqual([
+        expect.stringMatching(/^hash:000e0000-a29b-52e5-b827-55776655112[23]$/),
+      ]);
+    });
+
+    it('should rotate another session while one session row is locked', async () => {
+      const { sut } = makeSut();
+
+      const first = makeSession();
+      const second = makeSession({
+        id: '440e9511-a29b-52e5-b827-557766551123',
+        tokenFamilyId: '440e9511-a29b-52e5-b827-557766551123',
+        refreshTokenHash: 'hash:440e9511-a29b-52e5-b827-557766551123',
+      });
+
+      await insertUser(makeUser());
+      await insertSession(first);
+      await insertSession(second);
+
+      const blocker = await testPool.connect();
+      let firstRotation: ReturnType<typeof sut.rotate> | undefined;
+
+      try {
+        await blocker.query('BEGIN');
+        await blocker.query('SELECT id FROM auth_sessions WHERE id = $1 FOR UPDATE', [
+          first.id,
+        ]);
+
+        firstRotation = sut.rotate({
+          currentRefreshTokenHash: first.refreshTokenHash,
+          revokedAt: rotatedAt,
+          successor: makeSuccessor(),
+        });
+
+        const secondRotation = sut.rotate({
+          currentRefreshTokenHash: second.refreshTokenHash,
+          revokedAt: rotatedAt,
+          successor: makeSuccessor({
+            id: '000e0000-a29b-52e5-b827-557766551123',
+            refreshTokenHash: 'hash:000e0000-a29b-52e5-b827-557766551123',
+          }),
+        });
+
+        let timer: ReturnType<typeof setTimeout> | undefined;
+
+        try {
+          const result = await Promise.race([
+            secondRotation,
+            new Promise<never>((_, reject) => {
+              timer = setTimeout(
+                () => reject(new Error('Independent rotation was blocked.')),
+                2000,
+              );
+            }),
+          ]);
+
+          expect(result).toEqual({ status: 'rotated' });
+          expect(await findSessionRowByHash(second.refreshTokenHash)).toMatchObject({
+            revoked_at: rotatedAt,
+          });
+        } finally {
+          if (timer) clearTimeout(timer);
+        }
+      } finally {
+        await blocker.query('ROLLBACK');
+        blocker.release();
+      }
+
+      expect(await firstRotation).toEqual({ status: 'rotated' });
+    });
   });
 
   describe('revokeCurrent', () => {

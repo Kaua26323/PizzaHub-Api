@@ -569,5 +569,27 @@ describe('PostgresProductsRepository', () => {
     it('should not throw when the product does not exist', async () => {
       await expect(makeSut().delete(missingProductId)).resolves.toBeUndefined();
     });
+
+    it('should retain a product referenced by historical order items', async () => {
+      const sut = makeSut();
+      const product = makeProduct();
+
+      await insertCategory();
+      await insertProduct(product);
+      await insertOrderItem(product);
+
+      await expect(sut.delete(product.id)).rejects.toMatchObject({ code: '23503' });
+
+      expect(await findProductRowById(product.id)).not.toBeNull();
+
+      const items = await testPool.query<{ product_id: string; product_name: string }>(
+        'SELECT product_id, product_name FROM order_items WHERE product_id = $1',
+        [product.id],
+      );
+
+      expect(items.rows).toEqual([
+        { product_id: product.id, product_name: product.name },
+      ]);
+    });
   });
 });

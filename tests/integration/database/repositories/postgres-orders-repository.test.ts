@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Order } from '@/domain/entities/order';
 import type { OrderStatus } from '@/domain/enums/order-status';
+import { InvalidOrderError } from '@/domain/errors/invalid-order-error';
 import type { AddOrderItemProps, OrderProps } from '@/domain/entities/order';
 
 import { PostgresOrdersRepository } from '@/infrastructure/database/postgres/repositories/postgres-orders-repository';
@@ -419,6 +420,25 @@ describe('PostgresOrdersRepository', () => {
       expect(result?.items[0]?.id).not.toBe(result?.items[1]?.id);
     });
 
+    it('should preserve item name and price after the product changes', async () => {
+      const sut = makeSut();
+
+      const order = makeOrder();
+      order.addItem(makeOrderItemProps());
+
+      await insertOrderAggregate(order);
+      await testPool.query('UPDATE products SET name = $1, price = $2 WHERE id = $3', [
+        'Updated Pizza',
+        '59.90',
+        productId,
+      ]);
+
+      const result = await sut.findById(order.id);
+
+      expect(result?.items[0]?.productName).toBe('Calabresa');
+      expect(result?.items[0]?.unitPrice).toBe('49.90');
+    });
+
     it('should return null when the order does not exist', async () => {
       const sut = makeSut();
 
@@ -654,7 +674,6 @@ describe('PostgresOrdersRepository', () => {
       const items = await findOrderItemRows(order.id);
 
       expect(items).toHaveLength(1);
-
       expect(items[0]?.id).toBe(secondItemId);
     });
 
@@ -705,9 +724,7 @@ describe('PostgresOrdersRepository', () => {
       expect(items).toHaveLength(2);
 
       const modifiedItem = items.find((item) => item.id === firstItemId);
-
       const removedItem = items.find((item) => item.id === secondItemId);
-
       const addedItem = items.find((item) => item.id === thirdItemId);
 
       expect(modifiedItem).toMatchObject({
@@ -809,11 +826,8 @@ describe('PostgresOrdersRepository', () => {
       const persistedOrder = await findOrderRow(order.id);
 
       expect(persistedOrder?.status).toBe('COMPLETED');
-
       expect(persistedOrder?.submitted_at).toStrictEqual(submittedAt);
-
       expect(persistedOrder?.completed_at).toStrictEqual(completedAt);
-
       expect(persistedOrder?.cancelled_at).toBeNull();
     });
 
@@ -839,11 +853,8 @@ describe('PostgresOrdersRepository', () => {
       const persistedOrder = await findOrderRow(order.id);
 
       expect(persistedOrder?.status).toBe('CANCELLED');
-
       expect(persistedOrder?.submitted_at).toStrictEqual(submittedAt);
-
       expect(persistedOrder?.completed_at).toBeNull();
-
       expect(persistedOrder?.cancelled_at).toStrictEqual(cancelledAt);
     });
 
@@ -939,6 +950,61 @@ describe('PostgresOrdersRepository', () => {
         expect(persistedOrder.cancelled_at).toStrictEqual(cancelledAt);
 
         expect(persistedOrder.completed_at).toBeNull();
+      }
+    });
+
+    it('should serialize concurrent changes to the same item quantity', async () => {
+      const sut = makeSut();
+
+      const order = makeOrder();
+      order.addItem(makeOrderItemProps());
+
+      await insertOrderAggregate(order);
+
+      const incrementQuantity = () =>
+        sut.save(order.id, (currentOrder) => {
+          const quantity = currentOrder.items[0]?.quantity;
+          if (quantity === undefined) throw new Error('Expected an order item.');
+          currentOrder.changeItemQuantity(firstItemId, quantity + 1);
+        });
+
+      const results = await Promise.all([incrementQuantity(), incrementQuantity()]);
+
+      expect(results).toEqual([{ status: 'saved' }, { status: 'saved' }]);
+      expect((await findOrderItemRows(order.id))[0]?.quantity).toBe(3);
+    });
+
+    it('should serialize item changes with order submission', async () => {
+      const sut = makeSut();
+
+      const order = makeOrder();
+      order.addItem(makeOrderItemProps());
+
+      await insertOrderAggregate(order);
+
+      const results = await Promise.allSettled([
+        sut.save(order.id, (currentOrder) => currentOrder.submit(submittedAt)),
+        sut.save(order.id, (currentOrder) => {
+          currentOrder.addItem(makeOrderItemProps({ id: secondItemId }));
+        }),
+      ]);
+
+      expect(results[0]).toMatchObject({
+        status: 'fulfilled',
+        value: { status: 'saved' },
+      });
+
+      const persistedOrder = await findOrderRow(order.id);
+      const items = await findOrderItemRows(order.id);
+
+      expect(persistedOrder?.status).toBe('IN_PREPARATION');
+      expect(persistedOrder?.submitted_at).toStrictEqual(submittedAt);
+
+      if (results[1]?.status === 'fulfilled') {
+        expect(items.map((item) => item.id)).toEqual([firstItemId, secondItemId]);
+      } else {
+        expect(results[1]?.reason).toBeInstanceOf(InvalidOrderError);
+        expect(items.map((item) => item.id)).toEqual([firstItemId]);
       }
     });
   });

@@ -855,7 +855,7 @@ Create migrations, repositories, transactions, constraints, and integration test
     - Concurrent complete/cancel operations cannot both succeed.
     - Repeated products remain distinct.
 
-- [ ] **T088** — Write PostgreSQL repository and migration integration tests
+- [x] **T088** — Write PostgreSQL repository and migration integration tests
   - **Depends on:** T082, T083, T084, T085, T086, T087
   - **Covers:** Architecture — Testing
   - **Likely files:** `tests/integration/postgres/`
