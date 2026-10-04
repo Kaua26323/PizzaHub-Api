@@ -33,6 +33,7 @@
   "type": "module",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/bcrypt": "^6.0.0",
     "@types/node": "^26.1.1",
     "@types/pg": "^8.20.0",
     "@types/supertest": "^7.2.1",
@@ -47,6 +48,7 @@
     "vitest": "^4.1.10"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "pg": "^8.22.0",
     "zod": "^4.4.3"
   }

@@ -866,7 +866,7 @@ Create migrations, repositories, transactions, constraints, and integration test
 
 Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
 
-- [ ] **T089** — Implement BcryptPasswordHasher
+- [x] **T089** — Implement BcryptPasswordHasher
   - **Depends on:** T038, T014
   - **Covers:** Architecture — Authentication and Authorization
   - **Likely files:** `src/infrastructure/cryptography/bcrypt-password-hasher.ts`
