@@ -874,7 +874,7 @@ Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
     - The work factor is configurable.
     - Passwords and hashes are never logged.
 
-- [ ] **T090** — Implement JwtAccessTokenProvider
+- [x] **T090** — Implement JwtAccessTokenProvider
   - **Depends on:** T003, T004, T039, T014
   - **Covers:** FR03; Architecture — Authentication; ADR-001; ADR-002
   - **Likely files:** `src/infrastructure/authentication/jwt-access-token-provider.ts`
