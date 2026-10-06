@@ -885,7 +885,7 @@ Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
     - Access-token lifetime is 15 minutes.
     - Sensitive data is absent from payloads.
 
-- [ ] **T091** — Implement cryptographic refresh-token generation and hashing
+- [x] **T091** — Implement cryptographic refresh-token generation and hashing
   - **Depends on:** T040
   - **Covers:** BR20; BR21; Architecture — Authentication; ADR-002
   - **Likely files:** `src/infrastructure/authentication/node-refresh-token-generator.ts`, `src/infrastructure/authentication/node-refresh-token-hasher.ts`
