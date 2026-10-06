@@ -893,7 +893,7 @@ Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
     - Tokens contain sufficient cryptographic entropy.
     - SHA-256 or the selected deterministic cryptographic hash produces stable lookup values.
 
-- [ ] **T092** — Implement LocalImageStorage with temporary and permanent files
+- [x] **T092** — Implement LocalImageStorage with temporary and permanent files
   - **Depends on:** T005, T041, T014
   - **Covers:** NFR08; Architecture — Product Images; ADR-003
   - **Likely files:** `src/infrastructure/storage/local-image-storage.ts`
