@@ -905,7 +905,7 @@ Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
     - No client filename, extension, or path determines the stored path.
     - Stored results expose key, MIME type, and size only.
 
-- [ ] **T093** — Write adapter integration tests
+- [x] **T093** — Write adapter integration tests
   - **Depends on:** T089, T090, T091, T092
   - **Covers:** Architecture — Testing
   - **Likely files:** `tests/integration/adapters/`
