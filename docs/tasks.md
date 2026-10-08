@@ -912,7 +912,7 @@ Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
   - **Verify:**
     - Password hashing, JWT validation, token entropy/hash, file finalization, deletion, and cleanup are covered.
 
-- [ ] **T094** — Implement the bootstrap-admin CLI adapter
+- [x] **T094** — Implement the bootstrap-admin CLI adapter
   - **Depends on:** T052, T083, T089, T014
   - **Covers:** FR15; NFR12; Architecture — Authentication and Authorization
   - **Likely files:** `src/main/scripts/bootstrap-admin.ts`, `package.json`
