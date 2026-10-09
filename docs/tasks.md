@@ -866,7 +866,7 @@ Create migrations, repositories, transactions, constraints, and integration test
 
 Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
 
-- [ ] **T089** — Implement BcryptPasswordHasher
+- [x] **T089** — Implement BcryptPasswordHasher
   - **Depends on:** T038, T014
   - **Covers:** Architecture — Authentication and Authorization
   - **Likely files:** `src/infrastructure/cryptography/bcrypt-password-hasher.ts`
@@ -874,7 +874,7 @@ Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
     - The work factor is configurable.
     - Passwords and hashes are never logged.
 
-- [ ] **T090** — Implement JwtAccessTokenProvider
+- [x] **T090** — Implement JwtAccessTokenProvider
   - **Depends on:** T003, T004, T039, T014
   - **Covers:** FR03; Architecture — Authentication; ADR-001; ADR-002
   - **Likely files:** `src/infrastructure/authentication/jwt-access-token-provider.ts`
@@ -885,7 +885,7 @@ Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
     - Access-token lifetime is 15 minutes.
     - Sensitive data is absent from payloads.
 
-- [ ] **T091** — Implement cryptographic refresh-token generation and hashing
+- [x] **T091** — Implement cryptographic refresh-token generation and hashing
   - **Depends on:** T040
   - **Covers:** BR20; BR21; Architecture — Authentication; ADR-002
   - **Likely files:** `src/infrastructure/authentication/node-refresh-token-generator.ts`, `src/infrastructure/authentication/node-refresh-token-hasher.ts`
@@ -893,7 +893,7 @@ Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
     - Tokens contain sufficient cryptographic entropy.
     - SHA-256 or the selected deterministic cryptographic hash produces stable lookup values.
 
-- [ ] **T092** — Implement LocalImageStorage with temporary and permanent files
+- [x] **T092** — Implement LocalImageStorage with temporary and permanent files
   - **Depends on:** T005, T041, T014
   - **Covers:** NFR08; Architecture — Product Images; ADR-003
   - **Likely files:** `src/infrastructure/storage/local-image-storage.ts`
@@ -905,14 +905,14 @@ Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
     - No client filename, extension, or path determines the stored path.
     - Stored results expose key, MIME type, and size only.
 
-- [ ] **T093** — Write adapter integration tests
+- [x] **T093** — Write adapter integration tests
   - **Depends on:** T089, T090, T091, T092
   - **Covers:** Architecture — Testing
   - **Likely files:** `tests/integration/adapters/`
   - **Verify:**
     - Password hashing, JWT validation, token entropy/hash, file finalization, deletion, and cleanup are covered.
 
-- [ ] **T094** — Implement the bootstrap-admin CLI adapter
+- [x] **T094** — Implement the bootstrap-admin CLI adapter
   - **Depends on:** T052, T083, T089, T014
   - **Covers:** FR15; NFR12; Architecture — Authentication and Authorization
   - **Likely files:** `src/main/scripts/bootstrap-admin.ts`, `package.json`
