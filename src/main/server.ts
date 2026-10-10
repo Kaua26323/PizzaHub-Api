@@ -3,46 +3,31 @@ import type { Server } from 'node:http';
 import { fileURLToPath } from 'node:url';
 
 import { env } from '@/infrastructure/config/env';
+import { Router } from '@/presentation/http/routes/router';
 import { createHttpServer } from '@/presentation/http/server/create-http-server';
-import type { HttpRequestHandler } from '@/presentation/http/server/create-http-server';
 
-const temporaryHandler: HttpRequestHandler = (request, response) => {
-  if (request.method === 'GET' && request.url === '/health') {
-    response.statusCode = 200;
+const router = new Router();
 
-    response.setHeader('content-type', 'application/json; charset=utf-8');
-
-    response.end(
-      JSON.stringify({
-        success: true,
-        data: {
-          status: 'ok',
-        },
-        error: null,
-      }),
-    );
-
-    return;
-  }
-
-  response.statusCode = 404;
+router.get('/health', (_request, response) => {
+  response.statusCode = 200;
 
   response.setHeader('content-type', 'application/json; charset=utf-8');
 
   response.end(
     JSON.stringify({
-      success: false,
-      data: null,
-      error: {
-        code: 'ROUTE_NOT_FOUND',
-        message: 'Route not found',
+      success: true,
+      data: {
+        status: 'ok',
       },
+      error: null,
     }),
   );
-};
+
+  return;
+});
 
 export function createApplicationServer(): Server {
-  return createHttpServer(temporaryHandler);
+  return createHttpServer(router.handle);
 }
 
 export async function startServer(): Promise<Server> {

@@ -933,7 +933,7 @@ Build only the HTTP features required by PizzaHub.
   - **Verify:**
     - Tests can create and close a server without binding the production port.
 
-- [ ] **T096** — Implement method-and-pattern route registration and matching
+- [x] **T096** — Implement method-and-pattern route registration and matching
   - **Depends on:** T095
   - **Covers:** Architecture — HTTP Design
   - **Likely files:** `src/presentation/http/routes/router.ts`

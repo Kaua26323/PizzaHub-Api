@@ -1,7 +1,10 @@
 import { createServer } from 'node:http';
 import type { IncomingMessage, Server, ServerResponse } from 'node:http';
 
-type HttpRequestHandler = (request: IncomingMessage, response: ServerResponse) => void;
+type HttpRequestHandler = (
+  request: IncomingMessage,
+  response: ServerResponse,
+) => void | Promise<void>;
 
 function createHttpServer(handler: HttpRequestHandler): Server {
   return createServer(handler);
