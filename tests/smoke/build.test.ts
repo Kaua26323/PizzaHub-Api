@@ -1,7 +1,7 @@
 import type { Server } from 'node:http';
 import { describe, expect, it } from 'vitest';
 
-import { createHttpServer } from '@/main/server';
+import { createApplicationServer } from '@/main/server';
 
 async function listen(server: Server): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -31,7 +31,7 @@ async function close(server: Server): Promise<void> {
 
 describe('Application startup', () => {
   it('starts the HTTP server and responds to the health check', async () => {
-    const server = createHttpServer();
+    const server = createApplicationServer();
 
     await listen(server);
     try {

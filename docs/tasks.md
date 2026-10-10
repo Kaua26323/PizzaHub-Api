@@ -926,7 +926,7 @@ Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
 
 Build only the HTTP features required by PizzaHub.
 
-- [ ] **T095** — Implement an injectable native HTTP server factory
+- [x] **T095** — Implement an injectable native HTTP server factory
   - **Depends on:** T013, T010
   - **Covers:** Architecture — HTTP Design
   - **Likely files:** `src/presentation/http/server/create-http-server.ts`

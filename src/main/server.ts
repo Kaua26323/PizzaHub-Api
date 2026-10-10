@@ -1,44 +1,52 @@
 import path from 'node:path';
+import type { Server } from 'node:http';
 import { fileURLToPath } from 'node:url';
-import { createServer, type Server } from 'node:http';
 
 import { env } from '@/infrastructure/config/env';
+import { createHttpServer } from '@/presentation/http/server/create-http-server';
+import type { HttpRequestHandler } from '@/presentation/http/server/create-http-server';
 
-export function createHttpServer(): Server {
-  return createServer((request, response) => {
-    if (request.method === 'GET' && request.url === '/health') {
-      response.statusCode = 200;
-      response.setHeader('content-type', 'application/json; charset=utf-8');
-      response.end(
-        JSON.stringify({
-          success: true,
-          data: {
-            status: 'ok',
-          },
-          error: null,
-        }),
-      );
+const temporaryHandler: HttpRequestHandler = (request, response) => {
+  if (request.method === 'GET' && request.url === '/health') {
+    response.statusCode = 200;
 
-      return;
-    }
-
-    response.statusCode = 404;
     response.setHeader('content-type', 'application/json; charset=utf-8');
+
     response.end(
       JSON.stringify({
-        success: false,
-        data: null,
-        error: {
-          code: 'ROUTE_NOT_FOUND',
-          message: 'Route not found',
+        success: true,
+        data: {
+          status: 'ok',
         },
+        error: null,
       }),
     );
-  });
+
+    return;
+  }
+
+  response.statusCode = 404;
+
+  response.setHeader('content-type', 'application/json; charset=utf-8');
+
+  response.end(
+    JSON.stringify({
+      success: false,
+      data: null,
+      error: {
+        code: 'ROUTE_NOT_FOUND',
+        message: 'Route not found',
+      },
+    }),
+  );
+};
+
+export function createApplicationServer(): Server {
+  return createHttpServer(temporaryHandler);
 }
 
 export async function startServer(): Promise<Server> {
-  const server = createHttpServer();
+  const server = createApplicationServer();
 
   return new Promise((resolve, reject) => {
     const handleStartupError = (error: Error): void => reject(error);
