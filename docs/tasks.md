@@ -941,7 +941,7 @@ Build only the HTTP features required by PizzaHub.
     - Static and parameterized routes match deterministically.
     - Unsupported routes return the standard not-found response.
 
-- [ ] **T097** — Implement the minimal middleware pipeline
+- [x] **T097** — Implement the minimal middleware pipeline
   - **Depends on:** T095, T096
   - **Covers:** Architecture — HTTP Design
   - **Likely files:** `src/presentation/http/middlewares/compose-middlewares.ts`
