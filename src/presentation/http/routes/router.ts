@@ -1,6 +1,13 @@
 import type { ServerResponse } from 'node:http';
 import type { HttpRequestHandler } from '../server/create-http-server';
 
+import {
+  parseRequestUrl,
+  setRequestContext,
+  RequestContextError,
+  createRequestContext,
+} from '../request/request-context';
+
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 
 type Route = {
@@ -26,18 +33,50 @@ function temporaryNotFoundResponse(response: ServerResponse): void {
   );
 }
 
+function temporaryBadRequestResponse(
+  response: ServerResponse,
+  error: RequestContextError,
+): void {
+  response.statusCode = 400;
+  response.setHeader('content-type', 'application/json; charset=utf-8');
+  response.end(
+    JSON.stringify({
+      success: false,
+      data: null,
+      error: { code: error.code, message: error.message },
+    }),
+  );
+}
+
 class Router {
   private readonly routes: Route[] = [];
 
   public handle: HttpRequestHandler = async (request, response) => {
     const method = request.method;
-    const pathname = request.url;
+    const rawUrl = request.url;
 
-    if (!method || !pathname) {
+    if (!method || !rawUrl) {
       return temporaryNotFoundResponse(response);
     }
 
-    const route = this.findRoute(method, pathname);
+    let route: Route | undefined;
+
+    try {
+      const parsedUrl = parseRequestUrl(rawUrl);
+      route = this.findRoute(method, parsedUrl.pathname);
+
+      if (route) {
+        const context = createRequestContext(parsedUrl, route.pattern);
+
+        setRequestContext(request, context);
+      }
+    } catch (error) {
+      if (error instanceof RequestContextError) {
+        return temporaryBadRequestResponse(response, error);
+      }
+
+      throw error;
+    }
 
     if (!route) {
       return temporaryNotFoundResponse(response);

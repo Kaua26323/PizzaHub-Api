@@ -948,7 +948,7 @@ Build only the HTTP features required by PizzaHub.
   - **Verify:**
     - Middleware can continue, short-circuit, and forward errors without becoming a general-purpose framework.
 
-- [ ] **T098** — Implement URL, route-parameter, and query-parameter extraction
+- [x] **T098** — Implement URL, route-parameter, and query-parameter extraction
   - **Depends on:** T096
   - **Covers:** Architecture — HTTP Design
   - **Likely files:** `src/presentation/http/request/request-context.ts`

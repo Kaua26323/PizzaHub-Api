@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { Router } from '@/presentation/http/routes/router';
 import { createHttpServer } from '@/presentation/http/server/create-http-server';
+import { getRequestContext } from '@/presentation/http/request/request-context';
 
 describe('Router', () => {
   let router: Router;
@@ -120,6 +121,64 @@ describe('Router', () => {
       error: {
         code: 'ROUTE_NOT_FOUND',
         message: 'Route not found',
+      },
+    });
+  });
+
+  it('should ignore query parameters when matching routes', async () => {
+    router.get('/products/:productId', (_request, response) => {
+      response.end('product');
+    });
+
+    const server = createHttpServer(router.handle);
+
+    await request(server).get('/products/123?active=true').expect(200).expect('product');
+  });
+
+  it('should make route and query parameters available through request context', async () => {
+    router.get('/products/:productId', (request, response) => {
+      const context = getRequestContext(request);
+
+      response.setHeader('content-type', 'application/json');
+
+      response.end(
+        JSON.stringify({
+          productId: context.params.productId,
+
+          active: context.query.get('active'),
+        }),
+      );
+    });
+
+    const server = createHttpServer(router.handle);
+
+    const response = await request(server)
+      .get('/products/pizza%20grande?active=true')
+      .expect(200);
+
+    expect(response.body).toEqual({
+      productId: 'pizza grande',
+      active: 'true',
+    });
+  });
+
+  it('should return bad request for an invalid query encoding', async () => {
+    router.get('/products', (_request, response) => {
+      response.end('products');
+    });
+
+    const server = createHttpServer(router.handle);
+
+    const response = await request(server).get('/products?name=%ZZ');
+
+    expect(response.status).toBe(400);
+
+    expect(response.body).toEqual({
+      success: false,
+      data: null,
+      error: {
+        code: 'INVALID_QUERY_PARAMETER',
+        message: 'Invalid URL encoding.',
       },
     });
   });
