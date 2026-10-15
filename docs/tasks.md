@@ -955,7 +955,7 @@ Build only the HTTP features required by PizzaHub.
   - **Verify:**
     - Encoded values and invalid URLs are handled predictably.
 
-- [ ] **T099** — Implement the bounded JSON body parser
+- [x] **T099** — Implement the bounded JSON body parser
   - **Depends on:** T095, T007
   - **Covers:** NFR02; Architecture — HTTP Design; ADR-005
   - **Likely files:** `src/presentation/http/parsers/json-body-parser.ts`

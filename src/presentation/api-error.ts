@@ -28,7 +28,7 @@ type ConflictErrors =
   | 'ORDER_STATE_CONFLICT';
 
 type PayloadError = 'FILE_TOO_LARGE';
-type MediaError = 'UNSUPPORTED_IMAGE_TYPE';
+type MediaError = 'UNSUPPORTED_IMAGE_TYPE' | 'UNSUPPORTED_CONTENT_TYPE';
 
 type InternalError = 'INTERNAL_ERROR';
 
