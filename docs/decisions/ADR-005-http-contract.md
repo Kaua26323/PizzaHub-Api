@@ -260,6 +260,7 @@ Example code:
 
 ```text
 UNSUPPORTED_IMAGE_TYPE
+UNSUPPORTED_CONTENT_TYPE
 ```
 
 ### 500 Internal Server Error

@@ -962,7 +962,7 @@ Build only the HTTP features required by PizzaHub.
   - **Verify:**
     - Malformed JSON, unsupported content type, oversized body, empty body, and aborted requests are handled.
 
-- [ ] **T100** — Implement the bounded Busboy multipart parser
+- [x] **T100** — Implement the bounded Busboy multipart parser
   - **Depends on:** T005, T095, T007
   - **Covers:** FR22; FR24; NFR02; NFR08; Architecture — HTTP Design; Architecture — Product Images; ADR-003; ADR-005
   - **Likely files:** `src/presentation/http/parsers/busboy-multipart-parser.ts`
