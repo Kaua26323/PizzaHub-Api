@@ -15,19 +15,20 @@ class DeleteCategoryUseCase {
 
   async execute({ actor, categoryId }: DeleteCategoryDTO): Promise<void> {
     if (actor.role !== 'ADMIN') {
-      throw new AuthorizationError();
+      throw new AuthorizationError('FORBIDDEN');
     }
 
     const category = await this.categoriesRepository.findById(categoryId);
 
     if (!category) {
-      throw new ResourceNotFoundError('Category not found.');
+      throw new ResourceNotFoundError('CATEGORY_NOT_FOUND', 'Category not found.');
     }
 
     const hasProducts = await this.categoriesRepository.hasProducts(categoryId);
 
     if (hasProducts) {
       throw new ConflictError(
+        'CATEGORY_NOT_EMPTY',
         'Category cannot be deleted while it has associated products.',
       );
     }

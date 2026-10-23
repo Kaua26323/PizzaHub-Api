@@ -1,5 +1,5 @@
 import type { IncomingMessage } from 'node:http';
-import type { ApiErrorCode } from '@/presentation/api-error';
+import type { ApiErrorCode } from '@/presentation/http/responses/api-response';
 
 type RequestContextErrorCode = Extract<
   ApiErrorCode,

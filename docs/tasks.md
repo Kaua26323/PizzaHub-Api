@@ -977,7 +977,7 @@ Build only the HTTP features required by PizzaHub.
     - Upload errors use the standard HTTP error contract.
     - The parser does not call use cases or PostgreSQL.
 
-- [ ] **T101** — Implement response helpers and centralized HTTP error mapping
+- [x] **T101** — Implement response helpers and centralized HTTP error mapping
   - **Depends on:** T007, T095, T020, T032
   - **Covers:** NFR06; Architecture — HTTP Design; ADR-005
   - **Likely files:** `src/presentation/http/responses/`, `src/presentation/http/errors/error-handler.ts`

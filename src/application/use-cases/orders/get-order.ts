@@ -17,7 +17,7 @@ class GetOrderUseCase {
     const order = await this.ordersRepository.findById(orderId);
 
     if (!order) {
-      throw new ResourceNotFoundError('Order not found.');
+      throw new ResourceNotFoundError('ORDER_NOT_FOUND', 'Order not found.');
     }
 
     return order;

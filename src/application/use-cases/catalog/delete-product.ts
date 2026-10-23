@@ -19,19 +19,22 @@ class DeleteProductUseCase {
 
   async execute({ actor, productId }: DeleteProductDTO): Promise<void> {
     if (actor.role !== 'ADMIN') {
-      throw new AuthorizationError();
+      throw new AuthorizationError('FORBIDDEN');
     }
 
     const product = await this.productsRepository.findById(productId);
 
     if (!product) {
-      throw new ResourceNotFoundError('Product not found.');
+      throw new ResourceNotFoundError('PRODUCT_NOT_FOUND', 'Product not found.');
     }
 
     const orderHistory = await this.productsRepository.hasOrderHistory(productId);
 
     if (orderHistory) {
-      throw new ConflictError('Product with order history cannot be deleted.');
+      throw new ConflictError(
+        'PRODUCT_HAS_ORDER_HISTORY',
+        'Product with order history cannot be deleted.',
+      );
     }
 
     await this.productsRepository.delete(productId);

@@ -25,13 +25,16 @@ class CreateCategoryUseCase {
     const { actor, categoryName } = data;
 
     if (actor.role !== 'ADMIN') {
-      throw new AuthorizationError();
+      throw new AuthorizationError('FORBIDDEN');
     }
 
     const existingName = await this.categoriesRepository.findByName(categoryName.trim());
 
     if (existingName) {
-      throw new ConflictError('Category name already exists.');
+      throw new ConflictError(
+        'CATEGORY_NAME_ALREADY_EXISTS',
+        'Category name already exists.',
+      );
     }
 
     const categoryId = this.idGenerator.generate();

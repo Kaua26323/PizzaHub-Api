@@ -22,11 +22,11 @@ class ChangeUserRoleUseCase {
     const { actor, targetUserId, targetRole } = data;
 
     if (actor.role !== 'ADMIN') {
-      throw new AuthorizationError();
+      throw new AuthorizationError('FORBIDDEN');
     }
 
     if (actor.id === targetUserId) {
-      throw new AuthorizationError();
+      throw new AuthorizationError('FORBIDDEN');
     }
 
     const result = await this.usersRepository.changeRoleAndRevokeSessions({
@@ -36,7 +36,7 @@ class ChangeUserRoleUseCase {
     });
 
     if (result.status === 'not-found') {
-      throw new ResourceNotFoundError();
+      throw new ResourceNotFoundError('USER_NOT_FOUND');
     }
   }
 }

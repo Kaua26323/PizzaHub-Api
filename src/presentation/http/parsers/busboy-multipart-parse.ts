@@ -9,7 +9,7 @@ import { mkdir, rm } from 'node:fs/promises';
 
 import { Transform } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import type { ApiErrorCode } from '@/presentation/api-error';
+import type { ApiErrorCode } from '@/presentation/http/responses/api-response';
 
 type MultipartErrorCode = Extract<
   ApiErrorCode,

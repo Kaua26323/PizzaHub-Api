@@ -36,14 +36,16 @@ class RegisterUserUseCase {
 
   async execute(data: RegisterUserDTO): Promise<RegisterUserResult> {
     if (data.password.trim().length === 0) {
-      throw new ValidationError('Password is required.');
+      throw new ValidationError('VALIDATION_ERROR', 'Password is required.');
     }
 
     const email = new Email(data.email);
 
     const existingUser = await this.usersRepository.findByEmail(email.value);
 
-    if (existingUser) throw new ConflictError('Email already exists.');
+    if (existingUser) {
+      throw new ConflictError('EMAIL_ALREADY_EXISTS', 'Email already exists.');
+    }
 
     const passwordHash = await this.passwordHasher.hash(data.password);
     const now = this.clock.now();

@@ -39,7 +39,10 @@ class AuthenticateUserUseCase {
     const user = await this.usersRepository.findByEmail(email.value);
 
     if (!user) {
-      throw new AuthenticationError('Email or password is incorrect.');
+      throw new AuthenticationError(
+        'INVALID_CREDENTIALS',
+        'Email or password is incorrect.',
+      );
     }
 
     const passwordMatches = await this.passwordHasher.compare(
@@ -48,7 +51,10 @@ class AuthenticateUserUseCase {
     );
 
     if (!passwordMatches) {
-      throw new AuthenticationError('Email or password is incorrect.');
+      throw new AuthenticationError(
+        'INVALID_CREDENTIALS',
+        'Email or password is incorrect.',
+      );
     }
 
     const accessToken = await this.accessTokenProvider.issue({

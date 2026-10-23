@@ -5,7 +5,7 @@ import { createHttpServer } from '@/presentation/http/server/create-http-server'
 
 describe('createHttpServer', () => {
   it('should create a server using the injected request handler', async () => {
-    const server = createHttpServer((_request, response) => {
+    const server = createHttpServer(async (_request, response) => {
       response.statusCode = 200;
       response.end('test-response');
     });

@@ -14,13 +14,13 @@ class ChangeProductStatusUseCase {
 
   async execute({ actor, productId, isActive }: ChangeProductStatusDTO): Promise<void> {
     if (actor.role !== 'ADMIN') {
-      throw new AuthorizationError();
+      throw new AuthorizationError('FORBIDDEN');
     }
 
     const product = await this.productsRepository.findById(productId);
 
     if (!product) {
-      throw new ResourceNotFoundError('Product not found.');
+      throw new ResourceNotFoundError('PRODUCT_NOT_FOUND', 'Product not found.');
     }
 
     if (product.isActive === isActive) return;

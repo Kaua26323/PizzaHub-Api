@@ -59,3 +59,13 @@ export type ApiErrorResponse = {
   data: null;
   error: ApiError;
 };
+
+export type ApiSuccessResponse<TData, TMeta = unknown> = {
+  success: true;
+  data: TData;
+  meta?: TMeta;
+  error: null;
+};
+
+export type ApiResponse<TData, TMeta = unknown> =
+  ApiSuccessResponse<TData, TMeta> | ApiErrorResponse;

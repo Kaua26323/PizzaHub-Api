@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 import type { IncomingMessage } from 'node:http';
-import type { ApiErrorCode } from '@/presentation/api-error';
+import type { ApiErrorCode } from '@/presentation/http/responses/api-response';
 
 export type JsonBodyParserOptions = {
   request: IncomingMessage;

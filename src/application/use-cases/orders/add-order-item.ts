@@ -30,26 +30,35 @@ class AddOrderItemUseCase {
     const order = await this.ordersRepository.findById(orderId);
 
     if (!order) {
-      throw new ResourceNotFoundError('Order not found.');
+      throw new ResourceNotFoundError('ORDER_NOT_FOUND', 'Order not found.');
     }
 
     if (order.status !== 'DRAFT') {
-      throw new ConflictError('Only draft orders can have items added.');
+      throw new ConflictError(
+        'ORDER_STATE_CONFLICT',
+        'Only draft orders can have items added.',
+      );
     }
 
     const product = await this.productsRepository.findById(productId);
 
     if (!product) {
-      throw new ResourceNotFoundError('Product not found.');
+      throw new ResourceNotFoundError('PRODUCT_NOT_FOUND', 'Product not found.');
     }
 
     if (!product.isActive) {
-      throw new ConflictError('Inactive products cannot be added to an order.');
+      throw new ConflictError(
+        'ORDER_STATE_CONFLICT',
+        'Inactive products cannot be added to an order.',
+      );
     }
 
     const result = await this.ordersRepository.save(orderId, (currentOrder) => {
       if (currentOrder.status !== 'DRAFT') {
-        throw new ConflictError('Only draft orders can have items added.');
+        throw new ConflictError(
+          'ORDER_STATE_CONFLICT',
+          'Only draft orders can have items added.',
+        );
       }
 
       currentOrder.addItem({
@@ -63,7 +72,7 @@ class AddOrderItemUseCase {
     });
 
     if (result.status === 'not-found') {
-      throw new ResourceNotFoundError('Order not found.');
+      throw new ResourceNotFoundError('ORDER_NOT_FOUND', 'Order not found.');
     }
   }
 }

@@ -21,14 +21,17 @@ class CompleteOrderUseCase {
 
     const result = await this.ordersRepository.save(orderId, (currentOrder) => {
       if (currentOrder.status !== 'IN_PREPARATION') {
-        throw new ConflictError('Only orders in preparation can be completed.');
+        throw new ConflictError(
+          'ORDER_STATE_CONFLICT',
+          'Only orders in preparation can be completed.',
+        );
       }
 
       currentOrder.complete(this.clock.now());
     });
 
     if (result.status === 'not-found') {
-      throw new ResourceNotFoundError('Order not found.');
+      throw new ResourceNotFoundError('ORDER_NOT_FOUND', 'Order not found.');
     }
   }
 }

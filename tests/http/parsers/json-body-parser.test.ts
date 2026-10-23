@@ -3,11 +3,7 @@ import { Readable } from 'node:stream';
 import type { IncomingMessage, IncomingHttpHeaders } from 'node:http';
 
 import { describe, expect, it } from 'vitest';
-
-import {
-  jsonBodyParser,
-  JsonBodyParserError,
-} from '@/presentation/http/parsers/json-body-parser';
+import { jsonBodyParser } from '@/presentation/http/parsers/json-body-parser';
 
 function createRequest(
   chunks: Buffer[],

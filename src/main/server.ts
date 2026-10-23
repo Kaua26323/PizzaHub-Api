@@ -4,30 +4,43 @@ import { fileURLToPath } from 'node:url';
 
 import { env } from '@/infrastructure/config/env';
 import { Router } from '@/presentation/http/routes/router';
+import { sendJson } from '@/presentation/http/responses/send-json';
+import { errorHandler } from '@/presentation/http/errors/error-handler';
 import { createHttpServer } from '@/presentation/http/server/create-http-server';
 
 const router = new Router();
 
-router.get('/health', (_request, response) => {
-  response.statusCode = 200;
-
-  response.setHeader('content-type', 'application/json; charset=utf-8');
-
-  response.end(
-    JSON.stringify({
+router.get('/health', async (_request, response) => {
+  sendJson({
+    response,
+    statusCode: 200,
+    body: {
       success: true,
       data: {
         status: 'ok',
       },
       error: null,
-    }),
-  );
+    },
+  });
 
   return;
 });
 
-export function createApplicationServer(): Server {
-  return createHttpServer(router.handle);
+export function createApplicationServer(applicationRouter: Router = router): Server {
+  return createHttpServer(async (request, response) => {
+    return applicationRouter
+      .handle(request, response)
+      .catch((error: unknown) => {
+        errorHandler({ error: error, response });
+      })
+      .catch((handlingError: unknown) => {
+        console.error('HTTP error handling failed:', handlingError);
+
+        if (!response.destroyed) {
+          response.destroy();
+        }
+      });
+  });
 }
 
 export async function startServer(): Promise<Server> {

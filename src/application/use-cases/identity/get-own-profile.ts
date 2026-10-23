@@ -19,7 +19,9 @@ class GetOwnProfileUseCase {
   async execute(actor: AuthenticatedActor): Promise<GetOwnProfileResult> {
     const user = await this.usersRepository.findById(actor.id);
 
-    if (!user) throw new AuthenticationError('Authentication failed.');
+    if (!user) {
+      throw new AuthenticationError('AUTHENTICATION_REQUIRED', 'Authentication failed.');
+    }
 
     return {
       id: user.id,

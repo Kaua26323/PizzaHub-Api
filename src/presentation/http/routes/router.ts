@@ -1,10 +1,9 @@
-import type { ServerResponse } from 'node:http';
+import { sendJson } from '../responses/send-json';
 import type { HttpRequestHandler } from '../server/create-http-server';
 
 import {
   parseRequestUrl,
   setRequestContext,
-  RequestContextError,
   createRequestContext,
 } from '../request/request-context';
 
@@ -16,38 +15,6 @@ type Route = {
   handler: HttpRequestHandler;
 };
 
-function temporaryNotFoundResponse(response: ServerResponse): void {
-  response.statusCode = 404;
-
-  response.setHeader('content-type', 'application/json; charset=utf-8');
-
-  response.end(
-    JSON.stringify({
-      success: false,
-      data: null,
-      error: {
-        code: 'ROUTE_NOT_FOUND',
-        message: 'Route not found',
-      },
-    }),
-  );
-}
-
-function temporaryBadRequestResponse(
-  response: ServerResponse,
-  error: RequestContextError,
-): void {
-  response.statusCode = 400;
-  response.setHeader('content-type', 'application/json; charset=utf-8');
-  response.end(
-    JSON.stringify({
-      success: false,
-      data: null,
-      error: { code: error.code, message: error.message },
-    }),
-  );
-}
-
 class Router {
   private readonly routes: Route[] = [];
 
@@ -56,31 +23,40 @@ class Router {
     const rawUrl = request.url;
 
     if (!method || !rawUrl) {
-      return temporaryNotFoundResponse(response);
+      return sendJson({
+        response,
+        statusCode: 400,
+        body: {
+          success: false,
+          data: null,
+          error: {
+            code: 'VALIDATION_ERROR',
+            message: 'Invalid request URL',
+          },
+        },
+      });
     }
 
-    let route: Route | undefined;
-
-    try {
-      const parsedUrl = parseRequestUrl(rawUrl);
-      route = this.findRoute(method, parsedUrl.pathname);
-
-      if (route) {
-        const context = createRequestContext(parsedUrl, route.pattern);
-
-        setRequestContext(request, context);
-      }
-    } catch (error) {
-      if (error instanceof RequestContextError) {
-        return temporaryBadRequestResponse(response, error);
-      }
-
-      throw error;
-    }
+    const parsedUrl = parseRequestUrl(rawUrl);
+    const route = this.findRoute(method, parsedUrl.pathname);
 
     if (!route) {
-      return temporaryNotFoundResponse(response);
+      return sendJson({
+        response,
+        statusCode: 404,
+        body: {
+          success: false,
+          data: null,
+          error: {
+            code: 'ROUTE_NOT_FOUND',
+            message: 'Route not found',
+          },
+        },
+      });
     }
+
+    const context = createRequestContext(parsedUrl, route.pattern);
+    setRequestContext(request, context);
 
     await route.handler(request, response);
   };

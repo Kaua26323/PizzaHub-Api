@@ -129,6 +129,7 @@ describe('DeleteProductUseCase', () => {
     });
 
     await expect(execution).rejects.toThrow(ConflictError);
+    await expect(execution).rejects.toMatchObject({ code: 'PRODUCT_HAS_ORDER_HISTORY' });
     await expect(execution).rejects.toThrow(
       'Product with order history cannot be deleted.',
     );

@@ -62,6 +62,7 @@ describe('DeleteCategoryUseCase', () => {
     });
 
     await expect(result).rejects.toThrow(AuthorizationError);
+    await expect(result).rejects.toMatchObject({ code: 'FORBIDDEN' });
     expect(categoriesRepository.categories).toHaveLength(1);
   });
 
@@ -74,6 +75,7 @@ describe('DeleteCategoryUseCase', () => {
     });
 
     await expect(result).rejects.toThrow(ResourceNotFoundError);
+    await expect(result).rejects.toMatchObject({ code: 'CATEGORY_NOT_FOUND' });
   });
 
   it('should reject deletion while products reference the category', async () => {
@@ -89,6 +91,7 @@ describe('DeleteCategoryUseCase', () => {
     });
 
     await expect(result).rejects.toThrow(ConflictError);
+    await expect(result).rejects.toMatchObject({ code: 'CATEGORY_NOT_EMPTY' });
     expect(categoriesRepository.categories).toHaveLength(1);
   });
 });
