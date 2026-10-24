@@ -26,16 +26,12 @@ function makeSut(overrides?: Partial<JwtAccessTokenProviderConfig>) {
 
   const sut = new JwtAccessTokenProvider(config);
 
-  return {
-    sut,
-    config,
-  };
+  return { sut, config };
 }
 
 describe('JwtAccessTokenProvider', () => {
   it('should issue an access token with the expected claims', async () => {
     const { sut, config } = makeSut();
-
     const token = await sut.issue(claims);
 
     const { payload, protectedHeader } = await jwtVerify(
@@ -49,17 +45,11 @@ describe('JwtAccessTokenProvider', () => {
       },
     );
 
-    expect(protectedHeader).toMatchObject({
-      alg: 'HS256',
-      typ: 'JWT',
-    });
-
+    expect(protectedHeader).toMatchObject({ alg: 'HS256', typ: 'JWT' });
     expect(payload.sub).toBe(claims.userId);
     expect(payload.role).toBe(claims.role);
-
     expect(payload.iss).toBe(config.issuer);
     expect(payload.aud).toBe(config.audience);
-
     expect(payload.iat).toEqual(expect.any(Number));
     expect(payload.exp).toEqual(expect.any(Number));
     expect(payload.jti).toEqual(expect.any(String));
@@ -67,7 +57,6 @@ describe('JwtAccessTokenProvider', () => {
 
   it('should issue an access token using the configured lifetime', async () => {
     const { sut, config } = makeSut();
-
     const token = await sut.issue(claims);
 
     const { payload } = await jwtVerify(token, encodeSecret(config.secret), {
@@ -79,13 +68,11 @@ describe('JwtAccessTokenProvider', () => {
 
     expect(payload.iat).toEqual(expect.any(Number));
     expect(payload.exp).toEqual(expect.any(Number));
-
     expect(payload.exp! - payload.iat!).toBe(config.ttlSeconds);
   });
 
   it('should issue a unique jti for each access token', async () => {
     const { sut, config } = makeSut();
-
     const firstToken = await sut.issue(claims);
     const secondToken = await sut.issue(claims);
 
@@ -108,60 +95,50 @@ describe('JwtAccessTokenProvider', () => {
 
   it('should verify a valid access token', async () => {
     const { sut } = makeSut();
-
     const token = await sut.issue(claims);
-
     await expect(sut.verify(token)).resolves.toEqual(claims);
   });
-
   it('should reject an access token signed with another secret', async () => {
     const { sut } = makeSut();
-
     const { sut: anotherProvider } = makeSut({
       secret: 'another-test-secret-that-is-long-enough',
     });
-
     const token = await anotherProvider.issue(claims);
 
-    await expect(sut.verify(token)).rejects.toThrow();
+    await expect(sut.verify(token)).rejects.toMatchObject({
+      code: 'INVALID_ACCESS_TOKEN',
+      message: 'Invalid access token.',
+    });
   });
 
   it('should reject an access token with another issuer', async () => {
     const { sut } = makeSut();
-
-    const { sut: anotherProvider } = makeSut({
-      issuer: 'another-api',
-    });
-
+    const { sut: anotherProvider } = makeSut({ issuer: 'another-api' });
     const token = await anotherProvider.issue(claims);
 
-    await expect(sut.verify(token)).rejects.toThrow();
+    await expect(sut.verify(token)).rejects.toMatchObject({
+      code: 'INVALID_ACCESS_TOKEN',
+      message: 'Invalid access token claims.',
+    });
   });
 
   it('should reject an access token with another audience', async () => {
     const { sut } = makeSut();
-
-    const { sut: anotherProvider } = makeSut({
-      audience: 'another-client',
-    });
-
+    const { sut: anotherProvider } = makeSut({ audience: 'another-client' });
     const token = await anotherProvider.issue(claims);
 
-    await expect(sut.verify(token)).rejects.toThrow();
+    await expect(sut.verify(token)).rejects.toMatchObject({
+      code: 'INVALID_ACCESS_TOKEN',
+      message: 'Invalid access token claims.',
+    });
   });
 
   it('should reject an expired access token', async () => {
     const { sut, config } = makeSut();
-
     const now = Math.floor(Date.now() / 1000);
 
-    const token = await new SignJWT({
-      role: claims.role,
-    })
-      .setProtectedHeader({
-        alg: 'HS256',
-        typ: 'JWT',
-      })
+    const token = await new SignJWT({ role: claims.role })
+      .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
       .setSubject(claims.userId)
       .setIssuer(config.issuer)
       .setAudience(config.audience)
@@ -170,19 +147,17 @@ describe('JwtAccessTokenProvider', () => {
       .setJti(randomUUID())
       .sign(encodeSecret(config.secret));
 
-    await expect(sut.verify(token)).rejects.toThrow();
+    await expect(sut.verify(token)).rejects.toMatchObject({
+      code: 'ACCESS_TOKEN_EXPIRED',
+      message: 'Access token has expired.',
+    });
   });
 
   it('should reject an access token using another algorithm', async () => {
     const { sut, config } = makeSut();
 
-    const token = await new SignJWT({
-      role: claims.role,
-    })
-      .setProtectedHeader({
-        alg: 'HS384',
-        typ: 'JWT',
-      })
+    const token = await new SignJWT({ role: claims.role })
+      .setProtectedHeader({ alg: 'HS384', typ: 'JWT' })
       .setSubject(claims.userId)
       .setIssuer(config.issuer)
       .setAudience(config.audience)
@@ -191,19 +166,17 @@ describe('JwtAccessTokenProvider', () => {
       .setJti(randomUUID())
       .sign(encodeSecret(config.secret));
 
-    await expect(sut.verify(token)).rejects.toThrow();
+    await expect(sut.verify(token)).rejects.toMatchObject({
+      code: 'INVALID_ACCESS_TOKEN',
+      message: 'Invalid access token.',
+    });
   });
 
   it('should reject an access token with an invalid role', async () => {
     const { sut, config } = makeSut();
 
-    const token = await new SignJWT({
-      role: 'OWNER',
-    })
-      .setProtectedHeader({
-        alg: 'HS256',
-        typ: 'JWT',
-      })
+    const token = await new SignJWT({ role: 'OWNER' })
+      .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
       .setSubject(claims.userId)
       .setIssuer(config.issuer)
       .setAudience(config.audience)
@@ -212,27 +185,37 @@ describe('JwtAccessTokenProvider', () => {
       .setJti(randomUUID())
       .sign(encodeSecret(config.secret));
 
-    await expect(sut.verify(token)).rejects.toThrow('Invalid access token claims.');
+    await expect(sut.verify(token)).rejects.toMatchObject({
+      code: 'INVALID_ACCESS_TOKEN',
+      message: 'Invalid access token claims.',
+    });
   });
 
   it('should reject an access token without required claims', async () => {
     const { sut, config } = makeSut();
 
-    const token = await new SignJWT({
-      role: claims.role,
-    })
-      .setProtectedHeader({
-        alg: 'HS256',
-        typ: 'JWT',
-      })
+    const token = await new SignJWT({ role: claims.role })
+      .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
       .setSubject(claims.userId)
       .setIssuer(config.issuer)
       .setAudience(config.audience)
       .setIssuedAt()
       .setExpirationTime('15m')
-      // intentionally missing jti
+      // Intentionally missing jti.
       .sign(encodeSecret(config.secret));
 
-    await expect(sut.verify(token)).rejects.toThrow();
+    await expect(sut.verify(token)).rejects.toMatchObject({
+      code: 'INVALID_ACCESS_TOKEN',
+      message: 'Invalid access token claims.',
+    });
+  });
+
+  it('should reject a malformed access token', async () => {
+    const { sut } = makeSut();
+
+    await expect(sut.verify('invalid-token')).rejects.toMatchObject({
+      code: 'INVALID_ACCESS_TOKEN',
+      message: 'Invalid access token.',
+    });
   });
 });

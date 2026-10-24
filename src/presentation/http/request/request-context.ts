@@ -1,4 +1,5 @@
 import type { IncomingMessage } from 'node:http';
+import type { AuthenticatedActor } from '@/application/authenticated-actor';
 import type { ApiErrorCode } from '@/presentation/http/responses/api-response';
 
 type RequestContextErrorCode = Extract<
@@ -23,6 +24,7 @@ export type ParsedRequestUrl = {
 
 export type RequestContext = ParsedRequestUrl & {
   params: Readonly<Record<string, string>>;
+  actor?: AuthenticatedActor;
 };
 
 const contexts = new WeakMap<IncomingMessage, RequestContext>();
@@ -128,4 +130,12 @@ export function getRequestContext(request: IncomingMessage): RequestContext {
   }
 
   return context;
+}
+
+export function setAuthenticatedActor(
+  request: IncomingMessage,
+  actor: AuthenticatedActor,
+): void {
+  const context = getRequestContext(request);
+  context.actor = actor;
 }

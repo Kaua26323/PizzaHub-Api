@@ -195,6 +195,8 @@ Example codes:
 AUTHENTICATION_REQUIRED
 INVALID_CREDENTIALS
 INVALID_REFRESH_TOKEN
+INVALID_ACCESS_TOKEN
+ACCESS_TOKEN_EXPIRED
 ```
 
 Authentication responses must not reveal whether a specific email exists.

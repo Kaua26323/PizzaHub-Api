@@ -4,11 +4,8 @@ import request from 'supertest';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Router } from '@/presentation/http/routes/router';
+import { getRequestContext } from '@/presentation/http/request/request-context';
 import { createHttpServer } from '@/presentation/http/server/create-http-server';
-import {
-  getRequestContext,
-  RequestContextError,
-} from '@/presentation/http/request/request-context';
 
 describe('Router', () => {
   let router: Router;

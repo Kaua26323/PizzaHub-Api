@@ -3,7 +3,11 @@ export type ValidationErrorCode = 'VALIDATION_ERROR';
 export type AuthorizationErrorCode = 'FORBIDDEN';
 
 export type AuthenticationErrorCode =
-  'AUTHENTICATION_REQUIRED' | 'INVALID_CREDENTIALS' | 'INVALID_REFRESH_TOKEN';
+  | 'AUTHENTICATION_REQUIRED'
+  | 'INVALID_CREDENTIALS'
+  | 'INVALID_REFRESH_TOKEN'
+  | 'INVALID_ACCESS_TOKEN'
+  | 'ACCESS_TOKEN_EXPIRED';
 
 export type NotFoundErrorCode =
   | 'USER_NOT_FOUND'

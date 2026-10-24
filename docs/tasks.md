@@ -992,7 +992,7 @@ Build only the HTTP features required by PizzaHub.
     - Successful image delivery remains binary.
     - Unexpected details and secrets are not exposed.
 
-- [ ] **T102** — Implement JWT authentication middleware
+- [x] **T102** — Implement JWT authentication middleware
   - **Depends on:** T039, T090, T097, T101
   - **Covers:** NFR03; Architecture — Authentication; ADR-001
   - **Likely files:** `src/presentation/http/middlewares/authenticate.ts`

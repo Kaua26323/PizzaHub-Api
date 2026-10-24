@@ -7,6 +7,7 @@ import {
   getRequestContext,
   RequestContextError,
   createRequestContext,
+  setAuthenticatedActor,
 } from '@/presentation/http/request/request-context';
 
 describe('request context', () => {
@@ -98,6 +99,37 @@ describe('request context', () => {
       const request = {} as IncomingMessage;
 
       expect(() => getRequestContext(request)).toThrow(
+        'Request context has not been set.',
+      );
+    });
+
+    it('should store an authenticated actor in the request context', () => {
+      const request = {} as IncomingMessage;
+
+      const parsed = parseRequestUrl('/users/me');
+      const context = createRequestContext(parsed, '/users/me');
+
+      setRequestContext(request, context);
+
+      const actor = {
+        id: 'user-123',
+        role: 'ADMIN' as const,
+      };
+
+      setAuthenticatedActor(request, actor);
+
+      expect(getRequestContext(request).actor).toEqual(actor);
+    });
+
+    it('should throw when setting an actor without an initialized request context', () => {
+      const request = {} as IncomingMessage;
+
+      const actor = {
+        id: 'user-123',
+        role: 'ADMIN' as const,
+      };
+
+      expect(() => setAuthenticatedActor(request, actor)).toThrow(
         'Request context has not been set.',
       );
     });
