@@ -1001,7 +1001,7 @@ Build only the HTTP features required by PizzaHub.
     - Authenticated actor ID and role are attached to request context.
     - Missing and invalid tokens return 401.
 
-- [ ] **T103** — Implement role authorization middleware
+- [x] **T103** — Implement role authorization middleware
   - **Depends on:** T097, T102
   - **Covers:** BR01; Architecture — Authentication and Authorization
   - **Likely files:** `src/presentation/http/middlewares/authorize-role.ts`
