@@ -4,29 +4,13 @@ import { fileURLToPath } from 'node:url';
 
 import { env } from '@/infrastructure/config/env';
 import { Router } from '@/presentation/http/routes/router';
-import { sendJson } from '@/presentation/http/responses/send-json';
 import { errorHandler } from '@/presentation/http/errors/error-handler';
 import { createHttpServer } from '@/presentation/http/server/create-http-server';
+import { createApplicationRoutes } from './routes';
 
-const router = new Router();
-
-router.get('/health', async (_request, response) => {
-  sendJson({
-    response,
-    statusCode: 200,
-    body: {
-      success: true,
-      data: {
-        status: 'ok',
-      },
-      error: null,
-    },
-  });
-
-  return;
-});
-
-export function createApplicationServer(applicationRouter: Router = router): Server {
+export function createApplicationServer(
+  applicationRouter: Router = createApplicationRoutes(),
+): Server {
   return createHttpServer(async (request, response) => {
     return applicationRouter
       .handle(request, response)

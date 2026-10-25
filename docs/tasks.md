@@ -1009,7 +1009,7 @@ Build only the HTTP features required by PizzaHub.
     - ADMIN-only routes reject STAFF with 403.
     - Use cases still perform critical authorization.
 
-- [ ] **T104** — Implement controlled product-image delivery
+- [x] **T104** — Implement controlled product-image delivery
   - **Depends on:** T092, T096, T101
   - **Covers:** Architecture — HTTP Design; Architecture — Product Images; ADR-003; ADR-005
   - **Likely files:** `src/presentation/http/controllers/catalog/get-product-image-controller.ts`, `src/presentation/http/routes/image-routes.ts`
