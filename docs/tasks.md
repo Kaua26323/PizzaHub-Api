@@ -1029,7 +1029,7 @@ Build only the HTTP features required by PizzaHub.
 
 Expose authentication and user-management use cases through HTTP.
 
-- [ ] **T106** — Create Zod schemas for identity routes and authentication transport
+- [x] **T106** — Create Zod schemas for identity routes and authentication transport
   - **Depends on:** T004, T099, T100
   - **Covers:** FR01–FR15; NFR05
   - **Likely files:** `src/presentation/http/validation/identity/`
