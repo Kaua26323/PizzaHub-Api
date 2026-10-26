@@ -1018,7 +1018,7 @@ Build only the HTTP features required by PizzaHub.
     - Path traversal and absolute paths are rejected.
     - Correct content type and not-found handling are returned.
 
-- [ ] **T105** — Write native HTTP foundation tests
+- [x] **T105** — Write native HTTP foundation tests
   - **Depends on:** T095, T096, T097, T098, T099, T100, T101, T102, T103, T104
   - **Covers:** Architecture — Testing
   - **Likely files:** `tests/http/foundation/`
