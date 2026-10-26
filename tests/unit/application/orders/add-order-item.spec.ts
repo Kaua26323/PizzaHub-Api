@@ -181,6 +181,7 @@ describe('AddOrderItemUseCase', () => {
     });
 
     await expect(execution).rejects.toThrow(ResourceNotFoundError);
+    await expect(execution).rejects.toMatchObject({ code: 'ORDER_NOT_FOUND' });
     await expect(execution).rejects.toThrow('Order not found.');
 
     expect(ordersRepository.orders).toHaveLength(0);
@@ -238,6 +239,7 @@ describe('AddOrderItemUseCase', () => {
     });
 
     await expect(execution).rejects.toThrow(ResourceNotFoundError);
+    await expect(execution).rejects.toMatchObject({ code: 'PRODUCT_NOT_FOUND' });
     await expect(execution).rejects.toThrow('Product not found.');
 
     const order = await ordersRepository.findById('order-id');
@@ -266,6 +268,7 @@ describe('AddOrderItemUseCase', () => {
     });
 
     await expect(execution).rejects.toThrow(ConflictError);
+    await expect(execution).rejects.toMatchObject({ code: 'ORDER_STATE_CONFLICT' });
     await expect(execution).rejects.toThrow(
       'Inactive products cannot be added to an order.',
     );

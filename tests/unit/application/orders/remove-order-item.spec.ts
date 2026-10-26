@@ -178,6 +178,7 @@ describe('RemoveOrderItemUseCase', () => {
     });
 
     await expect(execution).rejects.toThrow(ResourceNotFoundError);
+    await expect(execution).rejects.toMatchObject({ code: 'ORDER_ITEM_NOT_FOUND' });
     await expect(execution).rejects.toThrow('Order item not found.');
 
     const persistedTargetOrder = await ordersRepository.findById('order-id');

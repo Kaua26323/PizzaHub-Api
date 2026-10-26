@@ -195,6 +195,8 @@ Example codes:
 AUTHENTICATION_REQUIRED
 INVALID_CREDENTIALS
 INVALID_REFRESH_TOKEN
+INVALID_ACCESS_TOKEN
+ACCESS_TOKEN_EXPIRED
 ```
 
 Authentication responses must not reveal whether a specific email exists.
@@ -260,6 +262,7 @@ Example code:
 
 ```text
 UNSUPPORTED_IMAGE_TYPE
+UNSUPPORTED_CONTENT_TYPE
 ```
 
 ### 500 Internal Server Error

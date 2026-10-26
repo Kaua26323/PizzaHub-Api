@@ -19,7 +19,9 @@ class ListUsersUseCase {
   constructor(private readonly usersRepository: UsersRepository) {}
 
   async execute(actor: AuthenticatedActor): Promise<ListUsersResult> {
-    if (actor.role !== 'ADMIN') throw new AuthorizationError();
+    if (actor.role !== 'ADMIN') {
+      throw new AuthorizationError('FORBIDDEN');
+    }
 
     const users = await this.usersRepository.listUsers();
 

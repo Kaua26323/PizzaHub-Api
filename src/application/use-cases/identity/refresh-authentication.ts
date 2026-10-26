@@ -10,7 +10,7 @@ import type { AccessTokenProvider } from '@/application/services/access-token-pr
 import type { RefreshTokenGenerator } from '@/application/services/refresh-token-generator';
 
 function invalidRefreshTokenError(): AuthenticationError {
-  return new AuthenticationError('Invalid refresh token.');
+  return new AuthenticationError('INVALID_REFRESH_TOKEN', 'Invalid refresh token.');
 }
 
 function assertNever(value: never): never {

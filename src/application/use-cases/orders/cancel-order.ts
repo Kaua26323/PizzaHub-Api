@@ -21,14 +21,17 @@ class CancelOrderUseCase {
 
     const result = await this.orderRepository.save(orderId, (currentOrder) => {
       if (currentOrder.status !== 'DRAFT' && currentOrder.status !== 'IN_PREPARATION') {
-        throw new ConflictError('Only draft or in-preparation orders can be cancelled.');
+        throw new ConflictError(
+          'ORDER_STATE_CONFLICT',
+          'Only draft or in-preparation orders can be cancelled.',
+        );
       }
 
       currentOrder.cancel(this.clock.now());
     });
 
     if (result.status === 'not-found') {
-      throw new ResourceNotFoundError('Order not found.');
+      throw new ResourceNotFoundError('ORDER_NOT_FOUND', 'Order not found.');
     }
   }
 }

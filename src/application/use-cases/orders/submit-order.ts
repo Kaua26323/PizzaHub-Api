@@ -21,18 +21,24 @@ class SubmitOrderUseCase {
 
     const result = await this.ordersRepository.save(orderId, (currentOrder) => {
       if (currentOrder.status !== 'DRAFT') {
-        throw new ConflictError('Only draft orders can be submitted.');
+        throw new ConflictError(
+          'ORDER_STATE_CONFLICT',
+          'Only draft orders can be submitted.',
+        );
       }
 
       if (currentOrder.items.length === 0) {
-        throw new ConflictError('An empty order cannot be submitted.');
+        throw new ConflictError(
+          'ORDER_STATE_CONFLICT',
+          'An empty order cannot be submitted.',
+        );
       }
 
       currentOrder.submit(this.clock.now());
     });
 
     if (result.status === 'not-found') {
-      throw new ResourceNotFoundError('Order not found.');
+      throw new ResourceNotFoundError('ORDER_NOT_FOUND', 'Order not found.');
     }
   }
 }

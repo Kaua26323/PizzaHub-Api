@@ -1,6 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { SignJWT, jwtVerify } from 'jose';
+import { JOSEError, JWTClaimValidationFailed, JWTExpired } from 'jose/errors';
 
+import { AuthenticationError } from '@/application/errors/authentication-error';
 import type {
   AccessTokenClaims,
   AccessTokenProvider,
@@ -44,22 +46,51 @@ class JwtAccessTokenProvider implements AccessTokenProvider {
   }
 
   async verify(token: string): Promise<AccessTokenClaims> {
-    const { payload } = await jwtVerify(token, this.secret, {
-      typ: 'JWT',
-      issuer: this.config.issuer,
-      audience: this.config.audience,
-      algorithms: [algorithm],
-      requiredClaims: ['sub', 'iss', 'aud', 'iat', 'exp', 'jti'],
-    });
+    try {
+      const { payload } = await jwtVerify(token, this.secret, {
+        typ: 'JWT',
+        issuer: this.config.issuer,
+        audience: this.config.audience,
+        algorithms: [algorithm],
+        requiredClaims: ['sub', 'iss', 'aud', 'iat', 'exp', 'jti'],
+      });
 
-    if (typeof payload.sub !== 'string' || !isAccessTokenRole(payload.role)) {
-      throw new Error('Invalid access token claims.');
+      if (typeof payload.sub !== 'string' || !isAccessTokenRole(payload.role)) {
+        throw new AuthenticationError(
+          'INVALID_ACCESS_TOKEN',
+          'Invalid access token claims.',
+        );
+      }
+
+      return {
+        userId: payload.sub,
+        role: payload.role,
+      };
+    } catch (error: unknown) {
+      if (error instanceof AuthenticationError) {
+        throw error;
+      }
+
+      if (error instanceof JWTExpired) {
+        throw new AuthenticationError(
+          'ACCESS_TOKEN_EXPIRED',
+          'Access token has expired.',
+        );
+      }
+
+      if (error instanceof JWTClaimValidationFailed) {
+        throw new AuthenticationError(
+          'INVALID_ACCESS_TOKEN',
+          'Invalid access token claims.',
+        );
+      }
+
+      if (error instanceof JOSEError) {
+        throw new AuthenticationError('INVALID_ACCESS_TOKEN', 'Invalid access token.');
+      }
+
+      throw error;
     }
-
-    return {
-      userId: payload.sub,
-      role: payload.role,
-    };
   }
 }
 

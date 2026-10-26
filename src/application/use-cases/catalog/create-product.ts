@@ -44,13 +44,13 @@ class CreateProductUseCase {
 
     try {
       if (actor.role !== 'ADMIN') {
-        throw new AuthorizationError();
+        throw new AuthorizationError('FORBIDDEN');
       }
 
       const category = await this.categoriesRepository.findById(product.categoryId);
 
       if (!category) {
-        throw new ResourceNotFoundError('Category not found.');
+        throw new ResourceNotFoundError('CATEGORY_NOT_FOUND', 'Category not found.');
       }
 
       const now = this.clock.now();

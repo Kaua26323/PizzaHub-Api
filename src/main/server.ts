@@ -1,44 +1,34 @@
 import path from 'node:path';
+import type { Server } from 'node:http';
 import { fileURLToPath } from 'node:url';
-import { createServer, type Server } from 'node:http';
 
 import { env } from '@/infrastructure/config/env';
+import { Router } from '@/presentation/http/routes/router';
+import { errorHandler } from '@/presentation/http/errors/error-handler';
+import { createHttpServer } from '@/presentation/http/server/create-http-server';
+import { createApplicationRoutes } from './routes';
 
-export function createHttpServer(): Server {
-  return createServer((request, response) => {
-    if (request.method === 'GET' && request.url === '/health') {
-      response.statusCode = 200;
-      response.setHeader('content-type', 'application/json; charset=utf-8');
-      response.end(
-        JSON.stringify({
-          success: true,
-          data: {
-            status: 'ok',
-          },
-          error: null,
-        }),
-      );
+export function createApplicationServer(
+  applicationRouter: Router = createApplicationRoutes(),
+): Server {
+  return createHttpServer(async (request, response) => {
+    return applicationRouter
+      .handle(request, response)
+      .catch((error: unknown) => {
+        errorHandler({ error: error, response });
+      })
+      .catch((handlingError: unknown) => {
+        console.error('HTTP error handling failed:', handlingError);
 
-      return;
-    }
-
-    response.statusCode = 404;
-    response.setHeader('content-type', 'application/json; charset=utf-8');
-    response.end(
-      JSON.stringify({
-        success: false,
-        data: null,
-        error: {
-          code: 'ROUTE_NOT_FOUND',
-          message: 'Route not found',
-        },
-      }),
-    );
+        if (!response.destroyed) {
+          response.destroy();
+        }
+      });
   });
 }
 
 export async function startServer(): Promise<Server> {
-  const server = createHttpServer();
+  const server = createApplicationServer();
 
   return new Promise((resolve, reject) => {
     const handleStartupError = (error: Error): void => reject(error);

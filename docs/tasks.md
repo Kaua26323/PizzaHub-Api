@@ -926,14 +926,14 @@ Implement cryptography, JWT, refresh-token, local-image, and CLI adapters.
 
 Build only the HTTP features required by PizzaHub.
 
-- [ ] **T095** — Implement an injectable native HTTP server factory
+- [x] **T095** — Implement an injectable native HTTP server factory
   - **Depends on:** T013, T010
   - **Covers:** Architecture — HTTP Design
   - **Likely files:** `src/presentation/http/server/create-http-server.ts`
   - **Verify:**
     - Tests can create and close a server without binding the production port.
 
-- [ ] **T096** — Implement method-and-pattern route registration and matching
+- [x] **T096** — Implement method-and-pattern route registration and matching
   - **Depends on:** T095
   - **Covers:** Architecture — HTTP Design
   - **Likely files:** `src/presentation/http/routes/router.ts`
@@ -941,28 +941,28 @@ Build only the HTTP features required by PizzaHub.
     - Static and parameterized routes match deterministically.
     - Unsupported routes return the standard not-found response.
 
-- [ ] **T097** — Implement the minimal middleware pipeline
+- [x] **T097** — Implement the minimal middleware pipeline
   - **Depends on:** T095, T096
   - **Covers:** Architecture — HTTP Design
   - **Likely files:** `src/presentation/http/middlewares/compose-middlewares.ts`
   - **Verify:**
     - Middleware can continue, short-circuit, and forward errors without becoming a general-purpose framework.
 
-- [ ] **T098** — Implement URL, route-parameter, and query-parameter extraction
+- [x] **T098** — Implement URL, route-parameter, and query-parameter extraction
   - **Depends on:** T096
   - **Covers:** Architecture — HTTP Design
   - **Likely files:** `src/presentation/http/request/request-context.ts`
   - **Verify:**
     - Encoded values and invalid URLs are handled predictably.
 
-- [ ] **T099** — Implement the bounded JSON body parser
+- [x] **T099** — Implement the bounded JSON body parser
   - **Depends on:** T095, T007
   - **Covers:** NFR02; Architecture — HTTP Design; ADR-005
   - **Likely files:** `src/presentation/http/parsers/json-body-parser.ts`
   - **Verify:**
     - Malformed JSON, unsupported content type, oversized body, empty body, and aborted requests are handled.
 
-- [ ] **T100** — Implement the bounded Busboy multipart parser
+- [x] **T100** — Implement the bounded Busboy multipart parser
   - **Depends on:** T005, T095, T007
   - **Covers:** FR22; FR24; NFR02; NFR08; Architecture — HTTP Design; Architecture — Product Images; ADR-003; ADR-005
   - **Likely files:** `src/presentation/http/parsers/busboy-multipart-parser.ts`
@@ -977,7 +977,7 @@ Build only the HTTP features required by PizzaHub.
     - Upload errors use the standard HTTP error contract.
     - The parser does not call use cases or PostgreSQL.
 
-- [ ] **T101** — Implement response helpers and centralized HTTP error mapping
+- [x] **T101** — Implement response helpers and centralized HTTP error mapping
   - **Depends on:** T007, T095, T020, T032
   - **Covers:** NFR06; Architecture — HTTP Design; ADR-005
   - **Likely files:** `src/presentation/http/responses/`, `src/presentation/http/errors/error-handler.ts`
@@ -992,7 +992,7 @@ Build only the HTTP features required by PizzaHub.
     - Successful image delivery remains binary.
     - Unexpected details and secrets are not exposed.
 
-- [ ] **T102** — Implement JWT authentication middleware
+- [x] **T102** — Implement JWT authentication middleware
   - **Depends on:** T039, T090, T097, T101
   - **Covers:** NFR03; Architecture — Authentication; ADR-001
   - **Likely files:** `src/presentation/http/middlewares/authenticate.ts`
@@ -1001,7 +1001,7 @@ Build only the HTTP features required by PizzaHub.
     - Authenticated actor ID and role are attached to request context.
     - Missing and invalid tokens return 401.
 
-- [ ] **T103** — Implement role authorization middleware
+- [x] **T103** — Implement role authorization middleware
   - **Depends on:** T097, T102
   - **Covers:** BR01; Architecture — Authentication and Authorization
   - **Likely files:** `src/presentation/http/middlewares/authorize-role.ts`
@@ -1009,7 +1009,7 @@ Build only the HTTP features required by PizzaHub.
     - ADMIN-only routes reject STAFF with 403.
     - Use cases still perform critical authorization.
 
-- [ ] **T104** — Implement controlled product-image delivery
+- [x] **T104** — Implement controlled product-image delivery
   - **Depends on:** T092, T096, T101
   - **Covers:** Architecture — HTTP Design; Architecture — Product Images; ADR-003; ADR-005
   - **Likely files:** `src/presentation/http/controllers/catalog/get-product-image-controller.ts`, `src/presentation/http/routes/image-routes.ts`
@@ -1018,7 +1018,7 @@ Build only the HTTP features required by PizzaHub.
     - Path traversal and absolute paths are rejected.
     - Correct content type and not-found handling are returned.
 
-- [ ] **T105** — Write native HTTP foundation tests
+- [x] **T105** — Write native HTTP foundation tests
   - **Depends on:** T095, T096, T097, T098, T099, T100, T101, T102, T103, T104
   - **Covers:** Architecture — Testing
   - **Likely files:** `tests/http/foundation/`

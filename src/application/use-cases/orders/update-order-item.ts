@@ -22,13 +22,16 @@ class UpdateOrderItemUseCase {
 
     const result = await this.ordersRepository.save(orderId, (currentOrder) => {
       if (currentOrder.status !== 'DRAFT') {
-        throw new ConflictError('Only draft orders can update items.');
+        throw new ConflictError(
+          'ORDER_STATE_CONFLICT',
+          'Only draft orders can update items.',
+        );
       }
 
       const itemExists = currentOrder.items.some((item) => item.id === itemId);
 
       if (!itemExists) {
-        throw new ResourceNotFoundError('Order item not found.');
+        throw new ResourceNotFoundError('ORDER_ITEM_NOT_FOUND', 'Order item not found.');
       }
 
       if (changes.notes !== undefined) {
@@ -41,7 +44,7 @@ class UpdateOrderItemUseCase {
     });
 
     if (result.status === 'not-found') {
-      throw new ResourceNotFoundError('Order not found.');
+      throw new ResourceNotFoundError('ORDER_NOT_FOUND', 'Order not found.');
     }
   }
 }

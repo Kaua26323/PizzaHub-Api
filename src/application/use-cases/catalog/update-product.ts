@@ -35,20 +35,20 @@ class UpdateProductUseCase {
 
     try {
       if (actor.role !== 'ADMIN') {
-        throw new AuthorizationError();
+        throw new AuthorizationError('FORBIDDEN');
       }
 
       const productToUpdate = await this.productsRepository.findById(productId);
 
       if (!productToUpdate) {
-        throw new ResourceNotFoundError('Product not found.');
+        throw new ResourceNotFoundError('PRODUCT_NOT_FOUND', 'Product not found.');
       }
 
       if (changes.categoryId !== undefined) {
         const category = await this.categoriesRepository.findById(changes.categoryId);
 
         if (!category) {
-          throw new ResourceNotFoundError('Category not found.');
+          throw new ResourceNotFoundError('CATEGORY_NOT_FOUND', 'Category not found.');
         }
 
         productToUpdate.changeCategory(category.id);
