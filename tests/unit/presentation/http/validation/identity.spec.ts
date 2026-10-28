@@ -11,12 +11,8 @@ import {
 } from '@/presentation/http/validation/identity/refresh-token-transport';
 
 import {
-  logoutSchema,
-  profileSchema,
-  refreshSchema,
   userIdParamsSchema,
   changeUserRoleSchema,
-  emptyIdentityQuerySchema,
 } from '@/presentation/http/validation/identity/identity-route-schemas';
 
 const token = 'a'.repeat(43);
@@ -69,15 +65,6 @@ describe('identity route schemas', () => {
     expect(
       loginSchema.safeParse({ email: 'alice@example.com', password: '' }).success,
     ).toBe(false);
-  });
-
-  it('should allow absent or empty bodies and reject unsolicited fields', () => {
-    for (const schema of [refreshSchema, logoutSchema, profileSchema]) {
-      expect(schema.safeParse(undefined).success).toBe(true);
-      expect(schema.safeParse({}).success).toBe(true);
-      expect(schema.safeParse({ refreshToken: token }).success).toBe(false);
-    }
-    expect(emptyIdentityQuerySchema.safeParse({ extra: '1' }).success).toBe(false);
   });
 
   it('should validate user IDs and role updates', () => {

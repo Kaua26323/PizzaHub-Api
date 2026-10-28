@@ -1037,7 +1037,7 @@ Expose authentication and user-management use cases through HTTP.
     - Register, login, refresh, logout, profile, user ID, and role inputs are validated.
     - Refresh-token transport follows the documented browser/mobile decision.
 
-- [ ] **T107** — Implement thin identity controllers
+- [x] **T107** — Implement thin identity controllers
   - **Depends on:** T044, T045, T046, T047, T048, T049, T050, T051, T101, T106
   - **Covers:** Architecture — HTTP Design
   - **Likely files:** `src/presentation/http/controllers/identity/`

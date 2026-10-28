@@ -20,6 +20,7 @@ function assertNever(value: never): never {
 export type RefreshAuthenticationResult = {
   accessToken: string;
   refreshToken: string;
+  expiresAt: Date;
 };
 
 class RefreshAuthenticationUseCase {
@@ -89,6 +90,7 @@ class RefreshAuthenticationUseCase {
     return {
       accessToken,
       refreshToken: newRefreshToken,
+      expiresAt: currentSession.expiresAt,
     };
   }
 }
