@@ -42,6 +42,7 @@ describe('GetOwnProfileController', () => {
     const response = await request(server).get('/users/me').expect(200);
 
     expect(execute).toHaveBeenCalledExactlyOnceWith(adminActor);
+
     expect(response.body).toEqual({
       success: true,
       data: {
@@ -54,6 +55,7 @@ describe('GetOwnProfileController', () => {
       },
       error: null,
     });
+
     expect(response.text).not.toContain('private-hash');
     expect(response.text).not.toContain('private-session');
   });

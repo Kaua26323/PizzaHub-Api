@@ -34,6 +34,24 @@ describe('createApplicationServer', () => {
     });
   });
 
+  it.each([
+    ['post', '/auth/register', 400],
+    ['post', '/auth/login', 400],
+    ['post', '/auth/refresh', 401],
+    ['post', '/auth/logout', 401],
+    ['post', '/auth/logout-all', 401],
+    ['get', '/users/me', 401],
+    ['get', '/users', 401],
+    ['patch', '/users/00000000-0000-4000-8000-000000000001/role', 401],
+  ] as const)(
+    'should mount %s %s in the default router',
+    async (method, path, status) => {
+      const client = request(createApplicationServer());
+
+      await client[method](path).expect(status);
+    },
+  );
+
   it('should return 404 for an unknown route', async () => {
     const server = createApplicationServer();
 

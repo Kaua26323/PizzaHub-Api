@@ -1045,7 +1045,7 @@ Expose authentication and user-management use cases through HTTP.
     - Each controller validates transport input, calls one use case, and maps the result without business logic.
     - passwordHash is never serialized.
 
-- [ ] **T108** — Register authentication and user routes
+- [x] **T108** — Register authentication and user routes
   - **Depends on:** T096, T102, T103, T107
   - **Covers:** Requirements §5 Authentication; Requirements §5 Users
   - **Likely files:** `src/presentation/http/routes/identity-routes.ts`
