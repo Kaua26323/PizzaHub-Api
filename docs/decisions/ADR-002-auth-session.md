@@ -43,6 +43,9 @@ Production cookie name:
 
 \_\_Host-pizzahub_refresh
 
+Local development uses `pizzahub_refresh` without `Secure`, since the
+`__Host-` prefix requires a secure connection.
+
 The refresh token must never be stored in browser localStorage or
 sessionStorage.
 
@@ -50,6 +53,11 @@ sessionStorage.
 
 Native clients must keep refresh credentials in platform-provided secure
 storage or a securely managed cookie store.
+
+The initial HTTP API uses the cookie transport for native clients as well.
+Native clients keep the cookie in a securely managed cookie store and send
+`X-CSRF-Protection: 1` when refreshing or logging out. The refresh token is
+never included in a JSON response or accepted in a JSON request body.
 
 ### CSRF
 

@@ -1029,7 +1029,7 @@ Build only the HTTP features required by PizzaHub.
 
 Expose authentication and user-management use cases through HTTP.
 
-- [ ] **T106** — Create Zod schemas for identity routes and authentication transport
+- [x] **T106** — Create Zod schemas for identity routes and authentication transport
   - **Depends on:** T004, T099, T100
   - **Covers:** FR01–FR15; NFR05
   - **Likely files:** `src/presentation/http/validation/identity/`
@@ -1037,7 +1037,7 @@ Expose authentication and user-management use cases through HTTP.
     - Register, login, refresh, logout, profile, user ID, and role inputs are validated.
     - Refresh-token transport follows the documented browser/mobile decision.
 
-- [ ] **T107** — Implement thin identity controllers
+- [x] **T107** — Implement thin identity controllers
   - **Depends on:** T044, T045, T046, T047, T048, T049, T050, T051, T101, T106
   - **Covers:** Architecture — HTTP Design
   - **Likely files:** `src/presentation/http/controllers/identity/`
@@ -1045,7 +1045,7 @@ Expose authentication and user-management use cases through HTTP.
     - Each controller validates transport input, calls one use case, and maps the result without business logic.
     - passwordHash is never serialized.
 
-- [ ] **T108** — Register authentication and user routes
+- [x] **T108** — Register authentication and user routes
   - **Depends on:** T096, T102, T103, T107
   - **Covers:** Requirements §5 Authentication; Requirements §5 Users
   - **Likely files:** `src/presentation/http/routes/identity-routes.ts`
@@ -1053,7 +1053,7 @@ Expose authentication and user-management use cases through HTTP.
     - Public and private route boundaries match the requirements.
     - Role-change cannot target the authenticated administrator.
 
-- [ ] **T109** — Write identity HTTP API tests
+- [x] **T109** — Write identity HTTP API tests
   - **Depends on:** T105, T108, T053
   - **Covers:** FR01–FR15; Architecture — Testing
   - **Likely files:** `tests/http/identity/`

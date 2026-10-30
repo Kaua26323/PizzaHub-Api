@@ -30,7 +30,7 @@ async function close(server: Server): Promise<void> {
 }
 
 describe('Application startup', () => {
-  it('starts the HTTP server and responds to the health check', async () => {
+  it('should start the HTTP server and respond to the health check', async () => {
     const server = createApplicationServer();
 
     await listen(server);

@@ -41,7 +41,7 @@ describe('Domain Email (unit)', () => {
     '@gmail.com',
     'user gmail@gmail.com',
     'user@gmail',
-  ])('rejects the invalid email "%s"', (invalidEmail) => {
+  ])('should reject the invalid email "%s"', (invalidEmail) => {
     expect(() => new Email(invalidEmail)).toThrow(InvalidEmailError);
   });
 });

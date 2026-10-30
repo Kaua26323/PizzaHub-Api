@@ -105,6 +105,7 @@ describe('RefreshAuthenticationUseCase', () => {
     expect(result).toEqual({
       accessToken: 'access-token-1',
       refreshToken: 'new-refresh-token',
+      expiresAt: originalExpiration,
     });
 
     expect(refreshTokenHasher.hashedTokens).toEqual([

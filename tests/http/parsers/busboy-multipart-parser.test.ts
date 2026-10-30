@@ -128,7 +128,7 @@ describe('busboyMultipartParser — HTTP', () => {
     ['JPEG', JPEG, 'image/jpeg', '.jpg'],
     ['WebP', WEBP, 'image/webp', '.webp'],
   ])(
-    'accepts a valid %s and preserves the exact bytes on disk',
+    'should accept a valid %s and preserve the exact bytes on disk',
     async (_label, bytes, mime, extension) => {
       const response = await api()
         .post('/upload')
@@ -150,7 +150,7 @@ describe('busboyMultipartParser — HTTP', () => {
     },
   );
 
-  it('accepts fields-only requests when requireImage=false', async () => {
+  it('should accept fields-only requests when requireImage=false', async () => {
     const response = await api({ requireImage: false })
       .post('/upload')
       .field('name', 'Updated pizza')
@@ -163,13 +163,13 @@ describe('busboyMultipartParser — HTTP', () => {
     await expectNoTemporaryFiles();
   });
 
-  it('requires an image by default', async () => {
+  it('should require an image by default', async () => {
     const response = await api().post('/upload').field('name', 'Pizza').expect(400);
     expect(response.body.code).toBe('VALIDATION_ERROR');
     await expectNoTemporaryFiles();
   });
 
-  it('rejects an unexpected file field and leaves no temporary file', async () => {
+  it('should reject an unexpected file field and leave no temporary file', async () => {
     const response = await api()
       .post('/upload')
       .attach('avatar', PNG, { filename: 'image.png', contentType: 'image/png' })
@@ -178,7 +178,7 @@ describe('busboyMultipartParser — HTTP', () => {
     await expectNoTemporaryFiles();
   });
 
-  it('rejects unsupported MIME types', async () => {
+  it('should reject unsupported MIME types', async () => {
     const response = await api()
       .post('/upload')
       .attach('image', Buffer.from('hello'), {
@@ -190,7 +190,7 @@ describe('busboyMultipartParser — HTTP', () => {
     await expectNoTemporaryFiles();
   });
 
-  it('rejects content whose signature does not match the claimed MIME type', async () => {
+  it('should reject content whose signature does not match the claimed MIME type', async () => {
     const response = await api()
       .post('/upload')
       .attach('image', JPEG, { filename: 'fake.png', contentType: 'image/png' })
@@ -199,7 +199,7 @@ describe('busboyMultipartParser — HTTP', () => {
     await expectNoTemporaryFiles();
   });
 
-  it('rejects an empty image', async () => {
+  it('should reject an empty image', async () => {
     const response = await api()
       .post('/upload')
       .attach('image', Buffer.alloc(0), {
@@ -211,7 +211,7 @@ describe('busboyMultipartParser — HTTP', () => {
     await expectNoTemporaryFiles();
   });
 
-  it('rejects fileSize overruns and removes partial files', async () => {
+  it('should reject fileSize overruns and remove partial files', async () => {
     const response = await api({ maxFileSize: 12 })
       .post('/upload')
       .attach('image', PNG, { filename: 'image.png', contentType: 'image/png' })
@@ -220,7 +220,7 @@ describe('busboyMultipartParser — HTTP', () => {
     await expectNoTemporaryFiles();
   });
 
-  it('rejects oversized complete multipart bodies', async () => {
+  it('should reject oversized complete multipart bodies', async () => {
     const response = await api({ maxTotalBytes: 30 })
       .post('/upload')
       .attach('image', PNG, { filename: 'image.png', contentType: 'image/png' })
@@ -229,7 +229,7 @@ describe('busboyMultipartParser — HTTP', () => {
     await expectNoTemporaryFiles();
   });
 
-  it('rejects duplicated text field names and cleans up a valid uploaded image', async () => {
+  it('should reject duplicated text field names and clean up a valid uploaded image', async () => {
     const response = await api()
       .post('/upload')
       .field('name', 'First')
@@ -240,7 +240,7 @@ describe('busboyMultipartParser — HTTP', () => {
     await expectNoTemporaryFiles();
   });
 
-  it('rejects too many text fields', async () => {
+  it('should reject too many text fields', async () => {
     const response = await api({ maxFields: 1 })
       .post('/upload')
       .field('name', 'First')
@@ -251,7 +251,7 @@ describe('busboyMultipartParser — HTTP', () => {
     await expectNoTemporaryFiles();
   });
 
-  it('rejects multiple files', async () => {
+  it('should reject multiple files', async () => {
     const response = await api()
       .post('/upload')
       .attach('image', PNG, { filename: 'first.png', contentType: 'image/png' })
@@ -261,13 +261,13 @@ describe('busboyMultipartParser — HTTP', () => {
     await expectNoTemporaryFiles();
   });
 
-  it('rejects a request without a multipart Content-Type', async () => {
+  it('should reject a request without a multipart Content-Type', async () => {
     const response = await api().post('/upload').send('hello').expect(415);
     expect(response.body.code).toBe('UNSUPPORTED_CONTENT_TYPE');
     await expectNoTemporaryFiles();
   });
 
-  it('rejects a truncated multipart body', async () => {
+  it('should reject a truncated multipart body', async () => {
     const boundary = 'pizzahub-truncated-boundary';
     const invalidBody = Buffer.from(
       `--${boundary}\r\nContent-Disposition: form-data; name="name"\r\n\r\nPizza`,
@@ -281,7 +281,7 @@ describe('busboyMultipartParser — HTTP', () => {
     await expectNoTemporaryFiles();
   });
 
-  it('rejects application/json', async () => {
+  it('should reject application/json', async () => {
     const response = await api()
       .post('/upload')
       .set('Content-Type', 'application/json')

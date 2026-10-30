@@ -7,6 +7,7 @@ import { Router } from '@/presentation/http/routes/router';
 import { jsonBodyParser } from '@/presentation/http/parsers/json-body-parser';
 import { ResourceNotFoundError } from '@/application/errors/resource-not-found-error';
 import { busboyMultipartParser } from '@/presentation/http/parsers/busboy-multipart-parse';
+import { env } from '@/infrastructure/config/env';
 
 function createJsonParsingServer(maxBytes: number) {
   const router = new Router();
@@ -33,6 +34,31 @@ describe('createApplicationServer', () => {
       error: null,
     });
   });
+
+  it.each([
+    ['post', '/auth/register', 400],
+    ['post', '/auth/login', 400],
+    ['post', '/auth/refresh', 401],
+    ['post', '/auth/logout', 401],
+    ['post', '/auth/logout-all', 401],
+    ['get', '/users/me', 401],
+    ['get', '/users', 401],
+    ['patch', '/users/00000000-0000-4000-8000-000000000001/role', 401],
+  ] as const)(
+    'should mount %s %s in the default router',
+    async (method, path, status) => {
+      const client = request(createApplicationServer());
+
+      if (path === '/auth/refresh' || path === '/auth/logout') {
+        await client[method](path)
+          .set('Origin', env.WEB_ORIGIN)
+          .set('X-CSRF-Protection', '1')
+          .expect(status);
+      } else {
+        await client[method](path).expect(status);
+      }
+    },
+  );
 
   it('should return 404 for an unknown route', async () => {
     const server = createApplicationServer();
