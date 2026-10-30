@@ -101,6 +101,7 @@ export function createApplicationRoutes(): Router {
   });
 
   registerIdentityRoutes(route, {
+    allowedOrigins: env.WEB_ORIGIN,
     accessTokenProvider: jwtTokenProvider,
     registerUserController: new RegisterUserController(
       registerUserUseCase,

@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import type { IncomingMessage } from 'node:http';
 
-import { AuthorizationError } from '@/application/errors/authorization-error';
 import { AuthenticationError } from '@/application/errors/authentication-error';
 
 const refreshTokenSchema = z.string().regex(/^[A-Za-z0-9_-]{43}$/);
@@ -27,10 +26,6 @@ export function readRefreshToken(request: IncomingMessage, production: boolean):
 
   if (!parsed.success) {
     throw new AuthenticationError('INVALID_REFRESH_TOKEN', 'Invalid refresh token.');
-  }
-
-  if (request.headers['x-csrf-protection'] !== '1') {
-    throw new AuthorizationError('FORBIDDEN');
   }
 
   return parsed.data;

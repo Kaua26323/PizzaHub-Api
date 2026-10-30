@@ -92,7 +92,7 @@ async function expectRejectedUpdate(
 }
 
 describe('PostgreSQL migrations', () => {
-  it('applies every migration in order and skips them on a second run', async () => {
+  it('should apply every migration in order and skip them on a second run', async () => {
     await withIsolatedSchema(async (pool) => {
       const filenames = (await readdir(migrationsDirectory))
         .filter((filename) => /^\d{3}_[a-z0-9_-]+\.sql$/i.test(filename))
@@ -134,7 +134,7 @@ describe('PostgreSQL migrations', () => {
     });
   });
 
-  it('rolls back a failed migration without recording it as applied', async () => {
+  it('should roll back a failed migration without recording it as applied', async () => {
     const directory = await mkdtemp(path.join(tmpdir(), 'pizzahub-migrations-'));
 
     try {
@@ -240,7 +240,7 @@ describe('PostgreSQL migration constraints', () => {
       constraint,
     })),
   )(
-    'rejects an invalid $table.$column value',
+    'should reject an invalid $table.$column value',
     async ({ table, id, column, value, constraint }) => {
       await expectRejectedUpdate(table, id, column, value, '23514', constraint);
     },
@@ -255,9 +255,12 @@ describe('PostgreSQL migration constraints', () => {
         ['order_items', itemId, 'notes', 'x'.repeat(501)],
       ] as const
     ).map(([table, id, column, value]) => ({ table, id, column, value })),
-  )('rejects an oversized $table.$column value', async ({ table, id, column, value }) => {
-    await expectRejectedUpdate(table, id, column, value, '22001');
-  });
+  )(
+    'should reject an oversized $table.$column value',
+    async ({ table, id, column, value }) => {
+      await expectRejectedUpdate(table, id, column, value, '22001');
+    },
+  );
 
   it.each(
     (
@@ -270,9 +273,12 @@ describe('PostgreSQL migration constraints', () => {
         ['auth_sessions', sessionId, 'expires_at'],
       ] as const
     ).map(([table, id, column]) => ({ table, id, column })),
-  )('rejects a null required value in $table.$column', async ({ table, id, column }) => {
-    await expectRejectedUpdate(table, id, column, null, '23502');
-  });
+  )(
+    'should reject a null required value in $table.$column',
+    async ({ table, id, column }) => {
+      await expectRejectedUpdate(table, id, column, null, '23502');
+    },
+  );
 
   it.each(
     (
@@ -285,13 +291,13 @@ describe('PostgreSQL migration constraints', () => {
       ] as const
     ).map(([table, id, column, constraint]) => ({ table, id, column, constraint })),
   )(
-    'rejects an invalid $table.$column reference',
+    'should reject an invalid $table.$column reference',
     async ({ table, id, column, constraint }) => {
       await expectRejectedUpdate(table, id, column, missingId, '23503', constraint);
     },
   );
 
-  it('rejects duplicate refresh token hashes', async () => {
+  it('should reject duplicate refresh token hashes', async () => {
     await expect(
       testPool.query(
         `INSERT INTO auth_sessions
@@ -305,7 +311,7 @@ describe('PostgreSQL migration constraints', () => {
     });
   });
 
-  it('rejects duplicate product image keys', async () => {
+  it('should reject duplicate product image keys', async () => {
     await expect(
       testPool.query(
         `INSERT INTO products
@@ -318,7 +324,7 @@ describe('PostgreSQL migration constraints', () => {
     ).rejects.toMatchObject({ code: '23505', constraint: 'products_image_key_key' });
   });
 
-  it('allows only one active session per token family', async () => {
+  it('should allow only one active session per token family', async () => {
     await expect(
       testPool.query(
         `INSERT INTO auth_sessions
@@ -349,7 +355,7 @@ describe('PostgreSQL migration constraints', () => {
     expect(result.rows.filter((row) => row.revoked_at === null)).toHaveLength(1);
   });
 
-  it('rejects deletion of referenced categories and products', async () => {
+  it('should reject deletion of referenced categories and products', async () => {
     await expect(
       testPool.query('DELETE FROM categories WHERE id = $1', [categoryId]),
     ).rejects.toMatchObject({ code: '23503' });
@@ -358,7 +364,7 @@ describe('PostgreSQL migration constraints', () => {
     ).rejects.toMatchObject({ code: '23503' });
   });
 
-  it('allows distinct order items for the same product', async () => {
+  it('should allow distinct order items for the same product', async () => {
     await testPool.query(
       `INSERT INTO order_items
          (id, order_id, product_id, product_name, unit_price, quantity)

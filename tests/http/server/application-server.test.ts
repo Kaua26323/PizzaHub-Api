@@ -7,6 +7,7 @@ import { Router } from '@/presentation/http/routes/router';
 import { jsonBodyParser } from '@/presentation/http/parsers/json-body-parser';
 import { ResourceNotFoundError } from '@/application/errors/resource-not-found-error';
 import { busboyMultipartParser } from '@/presentation/http/parsers/busboy-multipart-parse';
+import { env } from '@/infrastructure/config/env';
 
 function createJsonParsingServer(maxBytes: number) {
   const router = new Router();
@@ -48,7 +49,14 @@ describe('createApplicationServer', () => {
     async (method, path, status) => {
       const client = request(createApplicationServer());
 
-      await client[method](path).expect(status);
+      if (path === '/auth/refresh' || path === '/auth/logout') {
+        await client[method](path)
+          .set('Origin', env.WEB_ORIGIN)
+          .set('X-CSRF-Protection', '1')
+          .expect(status);
+      } else {
+        await client[method](path).expect(status);
+      }
     },
   );
 

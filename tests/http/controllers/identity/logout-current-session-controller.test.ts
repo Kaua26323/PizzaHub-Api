@@ -41,24 +41,14 @@ describe('LogoutCurrentSessionController', () => {
   it.each([
     [undefined, 'INVALID_REFRESH_TOKEN', 'Invalid refresh token.', 401],
     ['bad', 'INVALID_REFRESH_TOKEN', 'Invalid refresh token.', 401],
-    [
-      refreshToken,
-      'FORBIDDEN',
-      'You do not have permission to perform this action.',
-      403,
-    ],
   ] as const)(
-    'should require a valid refresh cookie and CSRF header',
+    'should require a valid refresh cookie',
     async (cookie, code, message, status) => {
       const { server, execute } = makeServer();
       const call = request(server).post('/sessions/logout');
 
       if (cookie !== undefined) {
         call.set('Cookie', `pizzahub_refresh=${cookie}`);
-      }
-
-      if (cookie !== refreshToken) {
-        call.set('X-CSRF-Protection', '1');
       }
 
       const response = await call.expect(status);

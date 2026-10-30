@@ -6,6 +6,7 @@ import { AuthenticationError } from '@/application/errors/authentication-error';
 import { RefreshAuthenticationController } from '@/presentation/http/controllers/identity/refresh-authentication-controller';
 
 import type { RefreshAuthenticationUseCase } from '@/application/use-cases/identity/refresh-authentication';
+import { env } from '@/infrastructure/config/env';
 
 const originalToken = 'a'.repeat(43);
 const rotatedToken = 'b'.repeat(43);
@@ -65,24 +66,17 @@ describe('RefreshAuthenticationController', () => {
   it.each([
     [undefined, 'INVALID_REFRESH_TOKEN', 'Invalid refresh token.', 401],
     ['invalid', 'INVALID_REFRESH_TOKEN', 'Invalid refresh token.', 401],
-    [
-      originalToken,
-      'FORBIDDEN',
-      'You do not have permission to perform this action.',
-      403,
-    ],
   ] as const)(
-    'should reject a missing or invalid cookie or missing CSRF header',
+    'should reject a missing or invalid cookie',
     async (cookie, code, message, status) => {
       const { server, execute } = makeServer();
-      const call = request(server).post('/sessions/refresh');
+
+      const call = request(server)
+        .post('/sessions/refresh')
+        .set('Origin', env.WEB_ORIGIN);
 
       if (cookie !== undefined) {
         call.set('Cookie', `pizzahub_refresh=${cookie}`);
-      }
-
-      if (cookie !== originalToken) {
-        call.set('X-CSRF-Protection', '1');
       }
 
       const response = await call.expect(status);

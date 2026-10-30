@@ -48,7 +48,7 @@ function makeSut() {
 }
 
 describe('BootstrapAdminUseCase', () => {
-  it('creates an ADMIN using the explicitly provided credentials', async () => {
+  it('should create an ADMIN using the explicitly provided credentials', async () => {
     const { sut, usersRepository, clock, idGenerator, passwordHasher } = makeSut();
     const data = makeBootstrapAdminDTO();
 
@@ -68,7 +68,7 @@ describe('BootstrapAdminUseCase', () => {
     });
   });
 
-  it('rejects an email that is already registered', async () => {
+  it('should reject an email that is already registered', async () => {
     const { sut, usersRepository, idGenerator, passwordHasher } = makeSut();
     const data = makeBootstrapAdminDTO();
 
@@ -88,7 +88,7 @@ describe('BootstrapAdminUseCase', () => {
     expect(idGenerator.generatedIds).toEqual(['id-1']);
   });
 
-  it('rejects an invalid email without hashing or persisting the password', async () => {
+  it('should reject an invalid email without hashing or persisting the password', async () => {
     const { sut, usersRepository, idGenerator, passwordHasher } = makeSut();
 
     await expect(
@@ -100,7 +100,7 @@ describe('BootstrapAdminUseCase', () => {
     expect(idGenerator.generatedIds).toHaveLength(0);
   });
 
-  it('rejects an invalid name without persisting an admin', async () => {
+  it('should reject an invalid name without persisting an admin', async () => {
     const { sut, usersRepository } = makeSut();
 
     await expect(
@@ -111,7 +111,7 @@ describe('BootstrapAdminUseCase', () => {
   });
 
   it.each(['', '   '])(
-    'rejects an empty password (%j) without hashing or persisting it',
+    'should reject an empty password (%j) without hashing or persisting it',
     async (password) => {
       const { sut, usersRepository, idGenerator, passwordHasher } = makeSut();
 

@@ -6,14 +6,18 @@ import { env } from '@/infrastructure/config/env';
 import { Router } from '@/presentation/http/routes/router';
 import { errorHandler } from '@/presentation/http/errors/error-handler';
 import { createHttpServer } from '@/presentation/http/server/create-http-server';
+import { browserSecurity } from '@/presentation/http/middlewares/browser-security';
 import { createApplicationRoutes } from './routes';
 
 export function createApplicationServer(
   applicationRouter: Router = createApplicationRoutes(),
 ): Server {
   return createHttpServer(async (request, response) => {
-    return applicationRouter
-      .handle(request, response)
+    return Promise.resolve()
+      .then(() => {
+        if (browserSecurity(request, response, env.WEB_ORIGIN)) return;
+        return applicationRouter.handle(request, response);
+      })
       .catch((error: unknown) => {
         errorHandler({ error: error, response });
       })

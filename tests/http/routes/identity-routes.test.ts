@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { describe, expect, it, vi } from 'vitest';
+import { env } from '@/infrastructure/config/env';
 
 import { Router } from '@/presentation/http/routes/router';
 import { createApplicationServer } from '@/main/server';
@@ -7,14 +8,14 @@ import { sendNoContent } from '@/presentation/http/responses/send-no-content';
 import { getRequestContext } from '@/presentation/http/request/request-context';
 import { registerIdentityRoutes } from '@/presentation/http/routes/identity-routes';
 import { ChangeUserRoleController } from '@/presentation/http/controllers/identity/change-user-role-controller';
+import type { HttpRequestHandler } from '@/presentation/http/server/create-http-server';
+import type { IdentityRoutesDependencies } from '@/presentation/http/routes/identity-routes';
+
 import { ChangeUserRoleUseCase } from '@/application/use-cases/identity/change-user-role';
 import { AuthenticationError } from '@/application/errors/authentication-error';
-
 import type { Clock } from '@/application/services/clock';
 import type { UsersRepository } from '@/application/repositories/users-repository';
 import type { AccessTokenProvider } from '@/application/services/access-token-provider';
-import type { HttpRequestHandler } from '@/presentation/http/server/create-http-server';
-import type { IdentityRoutesDependencies } from '@/presentation/http/routes/identity-routes';
 
 const adminId = '00000000-0000-4000-8000-000000000001';
 const staffId = '00000000-0000-4000-8000-000000000002';
@@ -47,6 +48,7 @@ function createRoutes() {
 
   const dependencies: IdentityRoutesDependencies = {
     accessTokenProvider,
+    allowedOrigins: env.WEB_ORIGIN,
     listUsersController: { handler: handler('listUsers') },
     getOwnProfileController: { handler: handler('profile') },
     registerUserController: { handler: handler('register') },
@@ -72,7 +74,15 @@ describe('registerIdentityRoutes', () => {
   ])('should route POST %s without requiring an access token', async (path, expected) => {
     const { calls, server } = createRoutes();
 
-    await request(server).post(path).expect(204);
+    if (path === '/auth/refresh' || path === '/auth/logout') {
+      await request(server)
+        .post(path)
+        .set('Origin', env.WEB_ORIGIN)
+        .set('X-CSRF-Protection', '1')
+        .expect(204);
+    } else {
+      await request(server).post(path).expect(204);
+    }
 
     expect(calls).toEqual([expected]);
   });

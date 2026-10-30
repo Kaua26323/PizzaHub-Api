@@ -17,11 +17,10 @@ import {
 
 const token = 'a'.repeat(43);
 
-function request(cookie: string | undefined, csrf?: string): IncomingMessage {
+function request(cookie: string | undefined): IncomingMessage {
   return {
     headers: {
       cookie,
-      'x-csrf-protection': csrf,
     },
   } as unknown as IncomingMessage;
 }
@@ -102,29 +101,26 @@ describe('refresh-token cookie transport', () => {
     },
   );
 
-  it('should require a single valid cookie and the CSRF header', () => {
+  it('should require a single valid cookie', () => {
     expect(
-      readRefreshToken(request(`other=x; __Host-pizzahub_refresh=${token}`, '1'), true),
+      readRefreshToken(request(`other=x; __Host-pizzahub_refresh=${token}`), true),
     ).toBe(token);
 
-    expect(() =>
-      readRefreshToken(request(`__Host-pizzahub_refresh=${token}`), true),
-    ).toThrow();
+    expect(readRefreshToken(request(`__Host-pizzahub_refresh=${token}`), true)).toBe(
+      token,
+    );
 
     expect(() =>
       readRefreshToken(
-        request(
-          `__Host-pizzahub_refresh=${token}; __Host-pizzahub_refresh=${token}`,
-          '1',
-        ),
+        request(`__Host-pizzahub_refresh=${token}; __Host-pizzahub_refresh=${token}`),
         true,
       ),
     ).toThrow();
 
     expect(() =>
-      readRefreshToken(request(`__Host-pizzahub_refresh=invalid`, '1'), true),
+      readRefreshToken(request(`__Host-pizzahub_refresh=invalid`), true),
     ).toThrow();
 
-    expect(() => readRefreshToken(request(undefined, '1'), true)).toThrow();
+    expect(() => readRefreshToken(request(undefined), true)).toThrow();
   });
 });

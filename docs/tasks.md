@@ -1053,7 +1053,7 @@ Expose authentication and user-management use cases through HTTP.
     - Public and private route boundaries match the requirements.
     - Role-change cannot target the authenticated administrator.
 
-- [ ] **T109** — Write identity HTTP API tests
+- [x] **T109** — Write identity HTTP API tests
   - **Depends on:** T105, T108, T053
   - **Covers:** FR01–FR15; Architecture — Testing
   - **Likely files:** `tests/http/identity/`
