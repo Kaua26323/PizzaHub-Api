@@ -2,6 +2,11 @@ import { env } from '@/infrastructure/config/env';
 import { Router } from '@/presentation/http/routes/router';
 import { sendJson } from '@/presentation/http/responses/send-json';
 
+import { makeCreateCategoryController } from '@/infrastructure/factories/categories/make-create-category-controller';
+import { makeListCategoriesController } from '@/infrastructure/factories/categories/make-list-categories-controller';
+import { makeUpdateCategoryController } from '@/infrastructure/factories/categories/make-update-category-controller';
+import { makeDeleteCategoryController } from '@/infrastructure/factories/categories/make-delete-category-controller';
+
 import { SystemClock } from '@/infrastructure/time/system-clock';
 import { pool } from '@/infrastructure/database/postgres/connection/pool';
 import { NodeIdGenerator } from '@/infrastructure/identifiers/node-id-generator';
@@ -33,6 +38,7 @@ import { RefreshAuthenticationController } from '@/presentation/http/controllers
 
 import { registerImageRoutes } from '@/presentation/http/routes/image-router';
 import { registerIdentityRoutes } from '@/presentation/http/routes/identity-routes';
+import { registerCategoriesRoutes } from '@/presentation/http/routes/categories-routes';
 
 const jwtTokenProvider = new JwtAccessTokenProvider({
   issuer: env.JWT_ISSUER,
@@ -135,6 +141,14 @@ export function createApplicationRoutes(): Router {
       new ChangeUserRoleUseCase(clock, usersRepository),
       jsonBodyParserOptions,
     ),
+  });
+
+  registerCategoriesRoutes(route, {
+    accessTokenProvider: jwtTokenProvider,
+    listCategoriesController: makeListCategoriesController(),
+    deleteCategoryController: makeDeleteCategoryController(),
+    createCategoryController: makeCreateCategoryController(jsonBodyParserOptions),
+    updateCategoryController: makeUpdateCategoryController(jsonBodyParserOptions),
   });
 
   registerImageRoutes(route, {

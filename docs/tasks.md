@@ -1068,7 +1068,7 @@ Expose authentication and user-management use cases through HTTP.
 
 Expose categories, products, uploads, image delivery, product status, and deletion.
 
-- [ ] **T110** — Implement category schemas, controllers, and routes
+- [x] **T110** — Implement category schemas, controllers, and routes
   - **Depends on:** T054, T055, T056, T057, T096, T102, T103, T101
   - **Covers:** FR16–FR19; Requirements §5 Categories
   - **Likely files:** `src/presentation/http/validation/catalog/category-schemas.ts`, `src/presentation/http/controllers/catalog/categories/`, `src/presentation/http/routes/category-routes.ts`
