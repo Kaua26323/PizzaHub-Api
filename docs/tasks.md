@@ -1077,7 +1077,7 @@ Expose categories, products, uploads, image delivery, product status, and deleti
     - Mutations are ADMIN-only.
     - Duplicate, missing, and non-empty-category errors use the standard envelope.
 
-- [ ] **T111** — Write category HTTP API tests
+- [x] **T111** — Write category HTTP API tests
   - **Depends on:** T110, T063, T105
   - **Covers:** FR16–FR19
   - **Likely files:** `tests/http/catalog/categories.test.ts`
