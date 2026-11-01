@@ -1084,7 +1084,7 @@ Expose categories, products, uploads, image delivery, product status, and deleti
   - **Verify:**
     - All routes, validation, roles, conflicts, and deletion restrictions are covered.
 
-- [ ] **T112** — Implement product multipart schemas, controllers, and routes
+- [x] **T112** — Implement product multipart schemas, controllers, and routes
   - **Depends on:** T058, T059, T060, T100, T102, T103, T101
   - **Covers:** FR20–FR24; NFR02; NFR08
   - **Likely files:** `src/presentation/http/validation/catalog/product-schemas.ts`, `src/presentation/http/controllers/catalog/products/`, `src/presentation/http/routes/product-routes.ts`

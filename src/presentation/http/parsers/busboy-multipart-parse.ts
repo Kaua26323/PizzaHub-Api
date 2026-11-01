@@ -145,7 +145,8 @@ export async function busboyMultipartParser({
       limits: {
         files: 1,
         fields: maxFields,
-        parts: maxFields + 1,
+        // Busboy emits these limit events when the configured count is reached.
+        parts: maxFields + 2,
         fileSize: maxFileSize,
         fieldSize: 16 * 1024,
         fieldNameSize: 100,

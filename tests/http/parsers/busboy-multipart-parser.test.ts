@@ -163,6 +163,143 @@ describe('busboyMultipartParser — HTTP', () => {
     await expectNoTemporaryFiles();
   });
 
+  it('should accept exactly five fields and one image at the maxFields=5 boundary', async () => {
+    const response = await api({ maxFields: 5, requireImage: true })
+      .post('/upload')
+      .field('name', 'Pizza')
+      .field('price', '45.90')
+      .field('description', 'With cheese')
+      .field('category', 'Classic')
+      .field('available', 'true')
+      .attach('image', PNG, { filename: 'image.png', contentType: 'image/png' })
+      .expect(200);
+
+    expect(response.body.fields).toEqual({
+      name: 'Pizza',
+      price: '45.90',
+      description: 'With cheese',
+      category: 'Classic',
+      available: 'true',
+    });
+
+    expect(response.body.image).toMatchObject({
+      mimeType: 'image/png',
+      size: PNG.length,
+    });
+
+    expect(await readFile(response.body.image.temporaryPath)).toEqual(PNG);
+    expect(await fileNames(directory)).toHaveLength(1);
+  });
+
+  it('should reject six fields and one image when maxFields=5', async () => {
+    const response = await api({ maxFields: 5 })
+      .post('/upload')
+      .field('first', '1')
+      .field('second', '2')
+      .field('third', '3')
+      .field('fourth', '4')
+      .field('fifth', '5')
+      .field('sixth', '6')
+      .attach('image', PNG, { filename: 'image.png', contentType: 'image/png' })
+      .timeout({ response: 2000, deadline: 5000 })
+      .expect(400);
+
+    expect(response.body.code).toBe('INVALID_MULTIPART_BODY');
+    await expectNoTemporaryFiles();
+  });
+
+  it('should reject five fields and two images when maxFields=5', async () => {
+    const response = await api({ maxFields: 5 })
+      .post('/upload')
+      .field('first', '1')
+      .field('second', '2')
+      .field('third', '3')
+      .field('fourth', '4')
+      .field('fifth', '5')
+      .attach('image', PNG, { filename: 'first.png', contentType: 'image/png' })
+      .attach('image', PNG, { filename: 'second.png', contentType: 'image/png' })
+      .timeout({ response: 2000, deadline: 5000 })
+      .expect(400);
+
+    expect(response.body.code).toBe('INVALID_MULTIPART_BODY');
+    await expectNoTemporaryFiles();
+  });
+
+  it('should accept exactly four fields without an image when maxFields=4', async () => {
+    const response = await api({ maxFields: 4, requireImage: false })
+      .post('/upload')
+      .field('first', '1')
+      .field('second', '2')
+      .field('third', '3')
+      .field('fourth', '4')
+      .expect(200);
+
+    expect(response.body.fields).toEqual({
+      first: '1',
+      second: '2',
+      third: '3',
+      fourth: '4',
+    });
+
+    expect(response.body.image).toBeNull();
+    await expectNoTemporaryFiles();
+  });
+
+  it('should reject five fields without an image when maxFields=4', async () => {
+    const response = await api({ maxFields: 4, requireImage: false })
+      .post('/upload')
+      .field('first', '1')
+      .field('second', '2')
+      .field('third', '3')
+      .field('fourth', '4')
+      .field('fifth', '5')
+      .timeout({ response: 2000, deadline: 5000 });
+
+    await expectNoTemporaryFiles();
+    expect(response.status).toBe(400);
+    expect(response.body.code).toBe('INVALID_MULTIPART_BODY');
+  });
+
+  it('should accept exactly four fields and one image when maxFields=4', async () => {
+    const response = await api({ maxFields: 4, requireImage: false })
+      .post('/upload')
+      .field('first', '1')
+      .field('second', '2')
+      .field('third', '3')
+      .field('fourth', '4')
+      .attach('image', PNG, { filename: 'image.png', contentType: 'image/png' })
+      .expect(200);
+
+    expect(response.body.fields).toEqual({
+      first: '1',
+      second: '2',
+      third: '3',
+      fourth: '4',
+    });
+    expect(response.body.image).toMatchObject({
+      mimeType: 'image/png',
+      size: PNG.length,
+    });
+    expect(await readFile(response.body.image.temporaryPath)).toEqual(PNG);
+    expect(await fileNames(directory)).toHaveLength(1);
+  });
+
+  it('should reject six multipart parts made of five fields and one image when maxFields=4', async () => {
+    const response = await api({ maxFields: 4, requireImage: false })
+      .post('/upload')
+      .field('first', '1')
+      .field('second', '2')
+      .field('third', '3')
+      .field('fourth', '4')
+      .field('fifth', '5')
+      .attach('image', PNG, { filename: 'image.png', contentType: 'image/png' })
+      .timeout({ response: 2000, deadline: 5000 })
+      .expect(400);
+
+    expect(response.body.code).toBe('INVALID_MULTIPART_BODY');
+    await expectNoTemporaryFiles();
+  });
+
   it('should require an image by default', async () => {
     const response = await api().post('/upload').field('name', 'Pizza').expect(400);
     expect(response.body.code).toBe('VALIDATION_ERROR');
@@ -258,6 +395,7 @@ describe('busboyMultipartParser — HTTP', () => {
       .attach('image', JPEG, { filename: 'second.jpg', contentType: 'image/jpeg' })
       .expect(400);
     expect(response.body.code).toBe('INVALID_MULTIPART_BODY');
+
     await expectNoTemporaryFiles();
   });
 

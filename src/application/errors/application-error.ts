@@ -1,4 +1,4 @@
-export type ValidationErrorCode = 'VALIDATION_ERROR';
+export type ValidationErrorCode = 'VALIDATION_ERROR' | 'PRODUCT_IMAGE_REQUIRED';
 
 export type AuthorizationErrorCode = 'FORBIDDEN';
 

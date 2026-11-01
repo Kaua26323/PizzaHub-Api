@@ -16,14 +16,23 @@ import { makeCreateCategoryController } from '@/infrastructure/factories/categor
 import { makeListCategoriesController } from '@/infrastructure/factories/categories/make-list-categories-controller';
 import { makeUpdateCategoryController } from '@/infrastructure/factories/categories/make-update-category-controller';
 import { makeDeleteCategoryController } from '@/infrastructure/factories/categories/make-delete-category-controller';
+import { makeCreateProductController } from '@/infrastructure/factories/products/make-create-product-controller';
+import { makeUpdateProductController } from '@/infrastructure/factories/products/make-update-product-controller';
+import { makeListProductsController } from '@/infrastructure/factories/products/make-list-products-controller';
 
 import { GetProductImageController } from '@/presentation/http/controllers/catalog/get-product-image-controller';
 
 import { registerImageRoutes } from '@/presentation/http/routes/image-router';
 import { registerIdentityRoutes } from '@/presentation/http/routes/identity-routes';
 import { registerCategoriesRoutes } from '@/presentation/http/routes/categories-routes';
+import { registerProductRoutes } from '@/presentation/http/routes/product-routes';
 
 const jsonBodyParserOptions = { maxBytes: 64 * 1024, allowEmpty: false };
+const productMultipartOptions = {
+  temporaryFilePath: env.UPLOAD_TEMP_DIRECTORY,
+  maxFileSize: env.MAX_UPLOAD_SIZE,
+  maxTotalBytes: env.MAX_UPLOAD_SIZE + 128 * 1024,
+};
 const getProductImageController = new GetProductImageController(env.UPLOAD_DIRECTORY);
 
 export function createApplicationRoutes(): Router {
@@ -65,6 +74,19 @@ export function createApplicationRoutes(): Router {
     deleteCategoryController: makeDeleteCategoryController(),
     createCategoryController: makeCreateCategoryController(jsonBodyParserOptions),
     updateCategoryController: makeUpdateCategoryController(jsonBodyParserOptions),
+  });
+
+  registerProductRoutes(route, {
+    accessTokenProvider: jwtTokenProvider,
+    listProductsController: makeListProductsController(),
+    createProductController: makeCreateProductController(
+      productMultipartOptions,
+      env.UPLOAD_DIRECTORY,
+    ),
+    updateProductController: makeUpdateProductController(
+      productMultipartOptions,
+      env.UPLOAD_DIRECTORY,
+    ),
   });
 
   registerImageRoutes(route, {
