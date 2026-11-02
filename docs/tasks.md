@@ -1127,7 +1127,7 @@ Expose categories, products, uploads, image delivery, product status, and deleti
 
 Expose order and order-item workflows and verify concurrent state changes.
 
-- [ ] **T116** — Create Zod schemas for orders, order items, filters, and notes
+- [x] **T116** — Create Zod schemas for orders, order items, filters, and notes
   - **Depends on:** T099
   - **Covers:** FR27–FR42; NFR05
   - **Likely files:** `src/presentation/http/validation/orders/`
