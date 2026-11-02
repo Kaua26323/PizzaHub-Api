@@ -1111,7 +1111,7 @@ Expose categories, products, uploads, image delivery, product status, and deleti
     - Deletion with history returns conflict.
     - STAFF cannot mutate products.
 
-- [ ] **T115** — Write product and upload HTTP API tests
+- [x] **T115** — Write product and upload HTTP API tests
   - **Depends on:** T111, T112, T113, T114, T063, T093
   - **Covers:** FR20–FR26; NFR08
   - **Likely files:** `tests/http/catalog/products.test.ts`, `tests/http/catalog/product-images.test.ts`
