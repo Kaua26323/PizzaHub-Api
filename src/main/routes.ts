@@ -19,6 +19,15 @@ import { makeDeleteCategoryController } from '@/infrastructure/factories/categor
 import { makeCreateProductController } from '@/infrastructure/factories/products/make-create-product-controller';
 import { makeUpdateProductController } from '@/infrastructure/factories/products/make-update-product-controller';
 import { makeListProductsController } from '@/infrastructure/factories/products/make-list-products-controller';
+import { makeCreateOrderController } from '@/infrastructure/factories/orders/make-create-order-controller';
+import { makeListOrdersController } from '@/infrastructure/factories/orders/make-list-orders-controller';
+import { makeGetOrderController } from '@/infrastructure/factories/orders/make-get-order-controller';
+import { makeAddOrderItemController } from '@/infrastructure/factories/orders/make-add-order-item-controller';
+import { makeUpdateOrderItemController } from '@/infrastructure/factories/orders/make-update-order-item-controller';
+import { makeRemoveOrderItemController } from '@/infrastructure/factories/orders/make-remove-order-item-controller';
+import { makeSubmitOrderController } from '@/infrastructure/factories/orders/make-submit-order-controller';
+import { makeCompleteOrderController } from '@/infrastructure/factories/orders/make-complete-order-controller';
+import { makeCancelOrderController } from '@/infrastructure/factories/orders/make-cancel-order-controller';
 
 import { GetProductImageController } from '@/presentation/http/controllers/catalog/get-product-image-controller';
 
@@ -26,6 +35,7 @@ import { registerImageRoutes } from '@/presentation/http/routes/image-router';
 import { registerIdentityRoutes } from '@/presentation/http/routes/identity-routes';
 import { registerCategoriesRoutes } from '@/presentation/http/routes/categories-routes';
 import { registerProductRoutes } from '@/presentation/http/routes/product-routes';
+import { registerOrderRoutes } from '@/presentation/http/routes/order-routes';
 import { makeDeleteProductController } from '@/infrastructure/factories/products/make-delete-product-controller';
 import { makeChangeProductStatusController } from '@/infrastructure/factories/products/make-change-product-status-controller';
 
@@ -95,6 +105,19 @@ export function createApplicationRoutes(): Router {
     ),
     changeProductStatusController:
       makeChangeProductStatusController(jsonBodyParserOptions),
+  });
+
+  registerOrderRoutes(route, {
+    accessTokenProvider: jwtTokenProvider,
+    createOrderController: makeCreateOrderController(jsonBodyParserOptions),
+    listOrdersController: makeListOrdersController(),
+    getOrderController: makeGetOrderController(),
+    addOrderItemController: makeAddOrderItemController(jsonBodyParserOptions),
+    updateOrderItemController: makeUpdateOrderItemController(jsonBodyParserOptions),
+    removeOrderItemController: makeRemoveOrderItemController(),
+    submitOrderController: makeSubmitOrderController(),
+    completeOrderController: makeCompleteOrderController(),
+    cancelOrderController: makeCancelOrderController(),
   });
 
   registerImageRoutes(route, {

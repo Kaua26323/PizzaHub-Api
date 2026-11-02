@@ -1135,7 +1135,7 @@ Expose order and order-item workflows and verify concurrent state changes.
     - tableNumber, optional customerName, IDs, statuses, quantity, and notes are validated.
     - Empty notes normalize to null and notes longer than 500 are rejected.
 
-- [ ] **T117** — Implement order and order-item controllers and routes
+- [x] **T117** — Implement order and order-item controllers and routes
   - **Depends on:** T064, T065, T066, T067, T068, T069, T070, T071, T072, T096, T102, T101, T116
   - **Covers:** Requirements §5 Orders; Requirements §5 Order Items
   - **Likely files:** `src/presentation/http/controllers/orders/`, `src/presentation/http/routes/order-routes.ts`
