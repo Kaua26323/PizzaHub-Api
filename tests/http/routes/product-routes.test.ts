@@ -40,12 +40,16 @@ function makeServer() {
     issue: vi.fn(async () => 'token'),
     verify,
   };
+
   const router = new Router();
+
   registerProductRoutes(router, {
     accessTokenProvider,
     listProductsController: { handler: handler('list') },
     createProductController: { handler: handler('create') },
     updateProductController: { handler: handler('update') },
+    changeProductStatusController: { handler: handler('change-status') },
+    deleteProductController: { handler: handler('delete') },
   });
 
   return { calls, verify, server: createApplicationServer(router) };
@@ -56,6 +60,8 @@ describe('registerProductRoutes', () => {
     ['get', '/products'],
     ['post', '/products'],
     ['patch', `/products/${productId}`],
+    ['patch', `/products/${productId}/status`],
+    ['delete', `/products/${productId}`],
   ] as const)(
     'should reject unauthenticated %s %s without invoking a controller',
     async (method, path) => {
@@ -70,16 +76,32 @@ describe('registerProductRoutes', () => {
   );
 
   it.each([
-    ['Basic admin-token', 'AUTHENTICATION_REQUIRED'],
-    ['Bearer', 'AUTHENTICATION_REQUIRED'],
-    ['Bearer invalid-token', 'INVALID_ACCESS_TOKEN'],
-  ])(
-    'should reject malformed or invalid Bearer credentials',
-    async (authorization, code) => {
+    ['get', '/products', 'Basic admin-token', 'AUTHENTICATION_REQUIRED'],
+    ['get', '/products', 'Bearer', 'AUTHENTICATION_REQUIRED'],
+    ['get', '/products', 'Bearer invalid-token', 'INVALID_ACCESS_TOKEN'],
+    [
+      'patch',
+      `/products/${productId}/status`,
+      'Basic admin-token',
+      'AUTHENTICATION_REQUIRED',
+    ],
+    ['patch', `/products/${productId}/status`, 'Bearer', 'AUTHENTICATION_REQUIRED'],
+    [
+      'patch',
+      `/products/${productId}/status`,
+      'Bearer invalid-token',
+      'INVALID_ACCESS_TOKEN',
+    ],
+    ['delete', `/products/${productId}`, 'Basic admin-token', 'AUTHENTICATION_REQUIRED'],
+    ['delete', `/products/${productId}`, 'Bearer', 'AUTHENTICATION_REQUIRED'],
+    ['delete', `/products/${productId}`, 'Bearer invalid-token', 'INVALID_ACCESS_TOKEN'],
+  ] as const)(
+    'should reject malformed or invalid Bearer credentials for %s %s',
+    async (method, path, authorization, code) => {
       const { calls, server } = makeServer();
+      const client = request(server);
 
-      const response = await request(server)
-        .get('/products')
+      const response = await client[method](path)
         .set('Authorization', authorization)
         .expect(401);
 
@@ -108,6 +130,8 @@ describe('registerProductRoutes', () => {
   it.each([
     ['post', '/products'],
     ['patch', `/products/${productId}`],
+    ['patch', `/products/${productId}/status`],
+    ['delete', `/products/${productId}`],
   ] as const)(
     'should deny STAFF %s %s before invoking a controller',
     async (method, path) => {
@@ -126,6 +150,8 @@ describe('registerProductRoutes', () => {
   it.each([
     ['post', '/products', 'create', {}],
     ['patch', `/products/${productId}`, 'update', { productId }],
+    ['patch', `/products/${productId}/status`, 'change-status', { productId }],
+    ['delete', `/products/${productId}`, 'delete', { productId }],
   ] as const)(
     'should send authorized ADMIN requests to the registered controller',
     async (method, path, name, params) => {
@@ -135,6 +161,29 @@ describe('registerProductRoutes', () => {
       await client[method](path).set('Authorization', 'Bearer admin-token').expect(204);
 
       expect(calls).toEqual([{ name, actor: { id: adminId, role: 'ADMIN' }, params }]);
+    },
+  );
+
+  it.each([
+    ['post', `/products/${productId}/status`],
+    ['delete', `/products/${productId}/status`],
+    ['get', `/products/${productId}`],
+  ] as const)(
+    'should reject unsupported %s %s without invoking a controller',
+    async (method, path) => {
+      const { calls, server } = makeServer();
+      const client = request(server);
+
+      const response = await client[method](path)
+        .set('Authorization', 'Bearer admin-token')
+        .expect(404);
+
+      expect(response.body).toEqual({
+        success: false,
+        data: null,
+        error: { code: 'ROUTE_NOT_FOUND', message: 'Route not found' },
+      });
+      expect(calls).toEqual([]);
     },
   );
 });

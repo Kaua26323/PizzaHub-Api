@@ -26,6 +26,8 @@ import { registerImageRoutes } from '@/presentation/http/routes/image-router';
 import { registerIdentityRoutes } from '@/presentation/http/routes/identity-routes';
 import { registerCategoriesRoutes } from '@/presentation/http/routes/categories-routes';
 import { registerProductRoutes } from '@/presentation/http/routes/product-routes';
+import { makeDeleteProductController } from '@/infrastructure/factories/products/make-delete-product-controller';
+import { makeChangeProductStatusController } from '@/infrastructure/factories/products/make-change-product-status-controller';
 
 const jsonBodyParserOptions = { maxBytes: 64 * 1024, allowEmpty: false };
 const productMultipartOptions = {
@@ -87,6 +89,12 @@ export function createApplicationRoutes(): Router {
       productMultipartOptions,
       env.UPLOAD_DIRECTORY,
     ),
+    deleteProductController: makeDeleteProductController(
+      env.UPLOAD_TEMP_DIRECTORY,
+      env.UPLOAD_DIRECTORY,
+    ),
+    changeProductStatusController:
+      makeChangeProductStatusController(jsonBodyParserOptions),
   });
 
   registerImageRoutes(route, {

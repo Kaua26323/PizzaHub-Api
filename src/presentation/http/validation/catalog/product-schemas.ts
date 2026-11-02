@@ -18,6 +18,12 @@ export const createProductSchema = z
 
 export const updateProductSchema = z.object(productFields).partial().strict();
 
+export const changeProductStatusSchema = z
+  .object({
+    isActive: z.boolean(),
+  })
+  .strict();
+
 export const productIdParamsSchema = z.object({ productId: z.uuid() }).strict();
 
 export const listProductsQuerySchema = z

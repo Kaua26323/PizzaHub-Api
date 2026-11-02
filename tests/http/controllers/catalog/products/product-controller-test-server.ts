@@ -17,7 +17,7 @@ export const productId = '00000000-0000-4000-8000-000000000003';
 export const png = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 0]);
 
 export function productControllerTestServer(
-  method: 'get' | 'post' | 'patch',
+  method: 'get' | 'post' | 'patch' | 'delete',
   path: string,
   handler: HttpRequestHandler,
   actor?: AuthenticatedActor,

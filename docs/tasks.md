@@ -1102,7 +1102,7 @@ Expose categories, products, uploads, image delivery, product status, and deleti
     - Domain/application outputs retain imageKey.
     - HTTP responses expose a stable imageUrl generated from configured API information.
 
-- [ ] **T114** — Expose product status and permanent-deletion operations
+- [x] **T114** — Expose product status and permanent-deletion operations
   - **Depends on:** T061, T062, T096, T102, T103, T101
   - **Covers:** FR25; FR26; Requirements §5 Products
   - **Likely files:** `src/presentation/http/controllers/catalog/products/change-product-status-controller.ts`, `src/presentation/http/controllers/catalog/products/delete-product-controller.ts`, `src/presentation/http/routes/product-routes.ts`
