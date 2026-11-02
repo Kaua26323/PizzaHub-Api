@@ -145,8 +145,11 @@ export async function busboyMultipartParser({
       limits: {
         files: 1,
         fields: maxFields,
-        parts: maxFields + 1,
-        fileSize: maxFileSize,
+        // Busboy emits these limit events when the configured count is reached.
+        parts: maxFields + 2,
+        // Busboy emits `limit` when the file reaches this value, so allow
+        // one extra byte to distinguish an exact-size file from an overrun.
+        fileSize: maxFileSize + 1,
         fieldSize: 16 * 1024,
         fieldNameSize: 100,
         headerPairs: 100,
@@ -219,7 +222,7 @@ export async function busboyMultipartParser({
       { signal: controller.signal },
     ).then(
       () => {
-        if (stream.truncated) {
+        if (stream.truncated || size > maxFileSize) {
           fail('FILE_TOO_LARGE', 'Image exceeds the maximum file size.');
         }
         if (size === 0 || !matchesSignature(signature, mimeType)) {

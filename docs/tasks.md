@@ -1068,7 +1068,7 @@ Expose authentication and user-management use cases through HTTP.
 
 Expose categories, products, uploads, image delivery, product status, and deletion.
 
-- [ ] **T110** — Implement category schemas, controllers, and routes
+- [x] **T110** — Implement category schemas, controllers, and routes
   - **Depends on:** T054, T055, T056, T057, T096, T102, T103, T101
   - **Covers:** FR16–FR19; Requirements §5 Categories
   - **Likely files:** `src/presentation/http/validation/catalog/category-schemas.ts`, `src/presentation/http/controllers/catalog/categories/`, `src/presentation/http/routes/category-routes.ts`
@@ -1077,14 +1077,14 @@ Expose categories, products, uploads, image delivery, product status, and deleti
     - Mutations are ADMIN-only.
     - Duplicate, missing, and non-empty-category errors use the standard envelope.
 
-- [ ] **T111** — Write category HTTP API tests
+- [x] **T111** — Write category HTTP API tests
   - **Depends on:** T110, T063, T105
   - **Covers:** FR16–FR19
   - **Likely files:** `tests/http/catalog/categories.test.ts`
   - **Verify:**
     - All routes, validation, roles, conflicts, and deletion restrictions are covered.
 
-- [ ] **T112** — Implement product multipart schemas, controllers, and routes
+- [x] **T112** — Implement product multipart schemas, controllers, and routes
   - **Depends on:** T058, T059, T060, T100, T102, T103, T101
   - **Covers:** FR20–FR24; NFR02; NFR08
   - **Likely files:** `src/presentation/http/validation/catalog/product-schemas.ts`, `src/presentation/http/controllers/catalog/products/`, `src/presentation/http/routes/product-routes.ts`
@@ -1094,7 +1094,7 @@ Expose categories, products, uploads, image delivery, product status, and deleti
     - Product names longer than 80 characters are rejected.
     - Listing supports categoryId.
 
-- [ ] **T113** — Implement product presentation mapping from imageKey to imageUrl
+- [x] **T113** — Implement product presentation mapping from imageKey to imageUrl
   - **Depends on:** T104, T112
   - **Covers:** Domain §10.6; Architecture — Product Images; ADR-003
   - **Likely files:** `src/presentation/http/presenters/product-presenter.ts`
@@ -1102,7 +1102,7 @@ Expose categories, products, uploads, image delivery, product status, and deleti
     - Domain/application outputs retain imageKey.
     - HTTP responses expose a stable imageUrl generated from configured API information.
 
-- [ ] **T114** — Expose product status and permanent-deletion operations
+- [x] **T114** — Expose product status and permanent-deletion operations
   - **Depends on:** T061, T062, T096, T102, T103, T101
   - **Covers:** FR25; FR26; Requirements §5 Products
   - **Likely files:** `src/presentation/http/controllers/catalog/products/change-product-status-controller.ts`, `src/presentation/http/controllers/catalog/products/delete-product-controller.ts`, `src/presentation/http/routes/product-routes.ts`
@@ -1111,7 +1111,7 @@ Expose categories, products, uploads, image delivery, product status, and deleti
     - Deletion with history returns conflict.
     - STAFF cannot mutate products.
 
-- [ ] **T115** — Write product and upload HTTP API tests
+- [x] **T115** — Write product and upload HTTP API tests
   - **Depends on:** T111, T112, T113, T114, T063, T093
   - **Covers:** FR20–FR26; NFR08
   - **Likely files:** `tests/http/catalog/products.test.ts`, `tests/http/catalog/product-images.test.ts`

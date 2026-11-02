@@ -44,6 +44,9 @@ describe('createApplicationServer', () => {
     ['get', '/users/me', 401],
     ['get', '/users', 401],
     ['patch', '/users/00000000-0000-4000-8000-000000000001/role', 401],
+    ['get', '/products', 401],
+    ['post', '/products', 401],
+    ['patch', '/products/00000000-0000-4000-8000-000000000001', 401],
   ] as const)(
     'should mount %s %s in the default router',
     async (method, path, status) => {
