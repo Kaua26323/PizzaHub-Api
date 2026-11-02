@@ -1,6 +1,7 @@
 import { sendJson } from '@/presentation/http/responses/send-json';
 import { getRequestContext } from '@/presentation/http/request/request-context';
 import { AuthenticationError } from '@/application/errors/authentication-error';
+import { presentProduct } from '@/presentation/http/presenters/product-presenter';
 import { listProductsQuerySchema } from '@/presentation/http/validation/catalog/product-schemas';
 
 import type { HttpRequestHandler } from '@/presentation/http/server/create-http-server';
@@ -37,7 +38,7 @@ class ListProductsController {
     sendJson({
       response,
       statusCode: 200,
-      body: { success: true, data: products, error: null },
+      body: { success: true, data: products.map(presentProduct), error: null },
     });
   };
 }

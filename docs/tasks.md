@@ -1094,7 +1094,7 @@ Expose categories, products, uploads, image delivery, product status, and deleti
     - Product names longer than 80 characters are rejected.
     - Listing supports categoryId.
 
-- [ ] **T113** — Implement product presentation mapping from imageKey to imageUrl
+- [x] **T113** — Implement product presentation mapping from imageKey to imageUrl
   - **Depends on:** T104, T112
   - **Covers:** Domain §10.6; Architecture — Product Images; ADR-003
   - **Likely files:** `src/presentation/http/presenters/product-presenter.ts`
