@@ -1127,7 +1127,7 @@ Expose categories, products, uploads, image delivery, product status, and deleti
 
 Expose order and order-item workflows and verify concurrent state changes.
 
-- [ ] **T116** — Create Zod schemas for orders, order items, filters, and notes
+- [x] **T116** — Create Zod schemas for orders, order items, filters, and notes
   - **Depends on:** T099
   - **Covers:** FR27–FR42; NFR05
   - **Likely files:** `src/presentation/http/validation/orders/`
@@ -1135,7 +1135,7 @@ Expose order and order-item workflows and verify concurrent state changes.
     - tableNumber, optional customerName, IDs, statuses, quantity, and notes are validated.
     - Empty notes normalize to null and notes longer than 500 are rejected.
 
-- [ ] **T117** — Implement order and order-item controllers and routes
+- [x] **T117** — Implement order and order-item controllers and routes
   - **Depends on:** T064, T065, T066, T067, T068, T069, T070, T071, T072, T096, T102, T101, T116
   - **Covers:** Requirements §5 Orders; Requirements §5 Order Items
   - **Likely files:** `src/presentation/http/controllers/orders/`, `src/presentation/http/routes/order-routes.ts`
@@ -1144,14 +1144,14 @@ Expose order and order-item workflows and verify concurrent state changes.
     - Authenticated STAFF and ADMIN access matches requirements.
     - Status filtering and preparation queue are exposed.
 
-- [ ] **T118** — Write order and order-item HTTP API tests
+- [x] **T118** — Write order and order-item HTTP API tests
   - **Depends on:** T117, T073, T105
   - **Covers:** FR27–FR42
   - **Likely files:** `tests/http/orders/`
   - **Verify:**
     - Creation, repeated products, notes, item updates/removal, detail, listing/filtering, submit, complete, cancel, invalid transitions, and terminal immutability are covered.
 
-- [ ] **T119** — Write concurrent order-transition and refresh-rotation integration tests
+- [x] **T119** — Write concurrent order-transition and refresh-rotation integration tests
   - **Depends on:** T084, T087, T109, T118
   - **Covers:** Architecture — Concurrency; ADR-004
   - **Likely files:** `tests/integration/concurrency/`
