@@ -67,7 +67,11 @@ describe('registerOrderRoutes', () => {
   it.each(routes)('requires authentication for %s %s', async (method, path) => {
     const { server, calls } = makeServer();
     const response = await request(server)[method](path).expect(401);
-    expect(response.body.error.code).toBe('AUTHENTICATION_REQUIRED');
+    expect(response.body).toMatchObject({
+      success: false,
+      data: null,
+      error: { code: 'AUTHENTICATION_REQUIRED', message: expect.any(String) },
+    });
     expect(calls).toEqual([]);
   });
 
@@ -89,4 +93,20 @@ describe('registerOrderRoutes', () => {
       expect(calls[4]?.params).toEqual({ orderId, itemId });
     },
   );
+
+  it('rejects unsupported order operations with the standard route error', async () => {
+    const { server, calls } = makeServer();
+
+    const response = await request(server)
+      .patch(`/orders/${orderId}`)
+      .set('Authorization', 'Bearer staff')
+      .expect(404);
+
+    expect(response.body).toEqual({
+      success: false,
+      data: null,
+      error: { code: 'ROUTE_NOT_FOUND', message: 'Route not found' },
+    });
+    expect(calls).toEqual([]);
+  });
 });

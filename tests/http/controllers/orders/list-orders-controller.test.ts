@@ -36,4 +36,17 @@ describe('ListOrdersController', () => {
 
     expect(execute).not.toHaveBeenCalled();
   });
+
+  it('rejects an unsupported status filter before invoking the use case', async () => {
+    const { execute, server } = makeServer();
+
+    const response = await request(server).get('/orders?status=UNKNOWN').expect(400);
+
+    expect(response.body).toMatchObject({
+      success: false,
+      data: null,
+      error: { code: 'VALIDATION_ERROR', message: expect.any(String) },
+    });
+    expect(execute).not.toHaveBeenCalled();
+  });
 });

@@ -38,4 +38,20 @@ describe('CreateOrderController', () => {
     });
     expect(response.body).toEqual({ success: true, data: null, error: null });
   });
+
+  it('rejects a missing table number before calling the use case', async () => {
+    const { execute, server } = makeServer();
+
+    const response = await request(server)
+      .post('/orders')
+      .send({ customerName: 'Ava' })
+      .expect(400);
+
+    expect(response.body).toMatchObject({
+      success: false,
+      data: null,
+      error: { code: 'VALIDATION_ERROR', message: expect.any(String) },
+    });
+    expect(execute).not.toHaveBeenCalled();
+  });
 });

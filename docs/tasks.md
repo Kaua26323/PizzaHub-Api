@@ -1144,7 +1144,7 @@ Expose order and order-item workflows and verify concurrent state changes.
     - Authenticated STAFF and ADMIN access matches requirements.
     - Status filtering and preparation queue are exposed.
 
-- [ ] **T118** — Write order and order-item HTTP API tests
+- [x] **T118** — Write order and order-item HTTP API tests
   - **Depends on:** T117, T073, T105
   - **Covers:** FR27–FR42
   - **Likely files:** `tests/http/orders/`
