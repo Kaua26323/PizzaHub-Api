@@ -1151,7 +1151,7 @@ Expose order and order-item workflows and verify concurrent state changes.
   - **Verify:**
     - Creation, repeated products, notes, item updates/removal, detail, listing/filtering, submit, complete, cancel, invalid transitions, and terminal immutability are covered.
 
-- [ ] **T119** — Write concurrent order-transition and refresh-rotation integration tests
+- [x] **T119** — Write concurrent order-transition and refresh-rotation integration tests
   - **Depends on:** T084, T087, T109, T118
   - **Covers:** Architecture — Concurrency; ADR-004
   - **Likely files:** `tests/integration/concurrency/`
