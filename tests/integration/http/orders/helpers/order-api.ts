@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto';
 import request from 'supertest';
 import { expect } from 'vitest';
 
-import { makeAccessTokenProvider } from '@/infrastructure/factories/identity/make-access-token-provider';
+import { makeAccessTokenProvider } from '@/main/dependencies/identity/make-access-token-provider';
 import { createApplicationServer } from '@/main/server';
 import { testPool } from '@tests/setup/postgres';
 

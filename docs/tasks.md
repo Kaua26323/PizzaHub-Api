@@ -1167,7 +1167,7 @@ Expose order and order-item workflows and verify concurrent state changes.
 
 Connect concrete dependencies, run acceptance checks, document the project, and verify scope.
 
-- [ ] **T120** — Assemble concrete dependencies in the main composition root
+- [x] **T120** — Assemble concrete dependencies in the main composition root
   - **Depends on:** T083, T084, T085, T086, T087, T089, T090, T091, T092, T108, T110, T112, T114, T117
   - **Covers:** Architecture — Dependency Assembly
   - **Likely files:** `src/main/dependencies/`

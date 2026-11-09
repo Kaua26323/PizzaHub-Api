@@ -7,7 +7,7 @@ import request from 'supertest';
 import { expect } from 'vitest';
 
 import { env } from '@/infrastructure/config/env';
-import { makeAccessTokenProvider } from '@/infrastructure/factories/identity/make-access-token-provider';
+import { makeAccessTokenProvider } from '@/main/dependencies/identity/make-access-token-provider';
 import { createApplicationServer } from '@/main/server';
 import { testPool } from '@tests/setup/postgres';
 

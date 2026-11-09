@@ -2,32 +2,32 @@ import { env } from '@/infrastructure/config/env';
 import { Router } from '@/presentation/http/routes/router';
 import { sendJson } from '@/presentation/http/responses/send-json';
 
-import { makeAccessTokenProvider } from '@/infrastructure/factories/identity/make-access-token-provider';
-import { makeRegisterUserController } from '@/infrastructure/factories/identity/make-register-user-controller';
-import { makeAuthenticateUserController } from '@/infrastructure/factories/identity/make-authenticate-user-controller';
-import { makeRefreshAuthenticationController } from '@/infrastructure/factories/identity/make-refresh-authentication-controller';
-import { makeLogoutCurrentSessionController } from '@/infrastructure/factories/identity/make-logout-current-session-controller';
-import { makeLogoutAllOwnSessionsController } from '@/infrastructure/factories/identity/make-logout-all-own-sessions-controller';
-import { makeGetOwnProfileController } from '@/infrastructure/factories/identity/make-get-own-profile-controller';
-import { makeListUsersController } from '@/infrastructure/factories/identity/make-list-users-controller';
-import { makeChangeUserRoleController } from '@/infrastructure/factories/identity/make-change-user-role-controller';
+import { makeAccessTokenProvider } from '@/main/dependencies/identity/make-access-token-provider';
+import { makeRegisterUserController } from '@/main/dependencies/identity/make-register-user-controller';
+import { makeAuthenticateUserController } from '@/main/dependencies/identity/make-authenticate-user-controller';
+import { makeRefreshAuthenticationController } from '@/main/dependencies/identity/make-refresh-authentication-controller';
+import { makeLogoutCurrentSessionController } from '@/main/dependencies/identity/make-logout-current-session-controller';
+import { makeLogoutAllOwnSessionsController } from '@/main/dependencies/identity/make-logout-all-own-sessions-controller';
+import { makeGetOwnProfileController } from '@/main/dependencies/identity/make-get-own-profile-controller';
+import { makeListUsersController } from '@/main/dependencies/identity/make-list-users-controller';
+import { makeChangeUserRoleController } from '@/main/dependencies/identity/make-change-user-role-controller';
 
-import { makeCreateCategoryController } from '@/infrastructure/factories/categories/make-create-category-controller';
-import { makeListCategoriesController } from '@/infrastructure/factories/categories/make-list-categories-controller';
-import { makeUpdateCategoryController } from '@/infrastructure/factories/categories/make-update-category-controller';
-import { makeDeleteCategoryController } from '@/infrastructure/factories/categories/make-delete-category-controller';
-import { makeCreateProductController } from '@/infrastructure/factories/products/make-create-product-controller';
-import { makeUpdateProductController } from '@/infrastructure/factories/products/make-update-product-controller';
-import { makeListProductsController } from '@/infrastructure/factories/products/make-list-products-controller';
-import { makeCreateOrderController } from '@/infrastructure/factories/orders/make-create-order-controller';
-import { makeListOrdersController } from '@/infrastructure/factories/orders/make-list-orders-controller';
-import { makeGetOrderController } from '@/infrastructure/factories/orders/make-get-order-controller';
-import { makeAddOrderItemController } from '@/infrastructure/factories/orders/make-add-order-item-controller';
-import { makeUpdateOrderItemController } from '@/infrastructure/factories/orders/make-update-order-item-controller';
-import { makeRemoveOrderItemController } from '@/infrastructure/factories/orders/make-remove-order-item-controller';
-import { makeSubmitOrderController } from '@/infrastructure/factories/orders/make-submit-order-controller';
-import { makeCompleteOrderController } from '@/infrastructure/factories/orders/make-complete-order-controller';
-import { makeCancelOrderController } from '@/infrastructure/factories/orders/make-cancel-order-controller';
+import { makeCreateCategoryController } from '@/main/dependencies/categories/make-create-category-controller';
+import { makeListCategoriesController } from '@/main/dependencies/categories/make-list-categories-controller';
+import { makeUpdateCategoryController } from '@/main/dependencies/categories/make-update-category-controller';
+import { makeDeleteCategoryController } from '@/main/dependencies/categories/make-delete-category-controller';
+import { makeCreateProductController } from '@/main/dependencies/products/make-create-product-controller';
+import { makeUpdateProductController } from '@/main/dependencies/products/make-update-product-controller';
+import { makeListProductsController } from '@/main/dependencies/products/make-list-products-controller';
+import { makeCreateOrderController } from '@/main/dependencies/orders/make-create-order-controller';
+import { makeListOrdersController } from '@/main/dependencies/orders/make-list-orders-controller';
+import { makeGetOrderController } from '@/main/dependencies/orders/make-get-order-controller';
+import { makeAddOrderItemController } from '@/main/dependencies/orders/make-add-order-item-controller';
+import { makeUpdateOrderItemController } from '@/main/dependencies/orders/make-update-order-item-controller';
+import { makeRemoveOrderItemController } from '@/main/dependencies/orders/make-remove-order-item-controller';
+import { makeSubmitOrderController } from '@/main/dependencies/orders/make-submit-order-controller';
+import { makeCompleteOrderController } from '@/main/dependencies/orders/make-complete-order-controller';
+import { makeCancelOrderController } from '@/main/dependencies/orders/make-cancel-order-controller';
 
 import { GetProductImageController } from '@/presentation/http/controllers/catalog/get-product-image-controller';
 
@@ -36,8 +36,8 @@ import { registerIdentityRoutes } from '@/presentation/http/routes/identity-rout
 import { registerCategoriesRoutes } from '@/presentation/http/routes/categories-routes';
 import { registerProductRoutes } from '@/presentation/http/routes/product-routes';
 import { registerOrderRoutes } from '@/presentation/http/routes/order-routes';
-import { makeDeleteProductController } from '@/infrastructure/factories/products/make-delete-product-controller';
-import { makeChangeProductStatusController } from '@/infrastructure/factories/products/make-change-product-status-controller';
+import { makeDeleteProductController } from '@/main/dependencies/products/make-delete-product-controller';
+import { makeChangeProductStatusController } from '@/main/dependencies/products/make-change-product-status-controller';
 
 const jsonBodyParserOptions = { maxBytes: 64 * 1024, allowEmpty: false };
 const productMultipartOptions = {
