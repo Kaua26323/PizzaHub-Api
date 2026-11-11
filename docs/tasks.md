@@ -1175,7 +1175,7 @@ Connect concrete dependencies, run acceptance checks, document the project, and 
     - Only the composition root knows concrete adapters.
     - Controllers and use cases receive dependencies explicitly.
 
-- [ ] **T121** — Implement production startup and graceful shutdown
+- [x] **T121** — Implement production startup and graceful shutdown
   - **Depends on:** T120, T014, T095
   - **Covers:** Architecture — Technology Stack; Architecture — Persistence
   - **Likely files:** `src/main/server.ts`
