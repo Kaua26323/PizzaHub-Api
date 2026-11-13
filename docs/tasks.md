@@ -1184,7 +1184,7 @@ Connect concrete dependencies, run acceptance checks, document the project, and 
     - SIGINT/SIGTERM close HTTP server and PostgreSQL pool.
     - Startup failure returns a non-zero process status.
 
-- [ ] **T122** — Run a Docker Compose persistence smoke test
+- [x] **T122** — Run a Docker Compose persistence smoke test
   - **Depends on:** T016, T121, T115
   - **Covers:** Architecture — Technology Stack; Architecture — Product Images
   - **Likely files:** `docs/testing/docker-smoke.md`

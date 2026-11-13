@@ -6,14 +6,14 @@ services:
     ports:
       - '3000:3000'
     env_file:
-      - .env.development
+      - ${API_ENV_FILE:-.env.docker}
 
     depends_on:
       database:
         condition: service_healthy
 
     volumes:
-      - product_images:/app/uploads/products
+      - product_images:/app/uploads
     init: true
   database:
     image: postgres:17-alpine
