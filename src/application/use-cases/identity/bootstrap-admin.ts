@@ -4,10 +4,11 @@ import { Email } from '@/domain/value-objects/email';
 import { ConflictError } from '@/application/errors/conflict-error';
 import { ValidationError } from '@/application/errors/validation-error';
 
-import type { UsersRepository } from '@/application/repositories/users-repository';
 import type { Clock } from '@/application/services/clock';
 import type { IdGenerator } from '@/application/services/id-generator';
 import type { PasswordHasher } from '@/application/services/password-hasher';
+
+import type { UsersRepository } from '@/application/repositories/users-repository';
 
 export type BootstrapAdminDTO = {
   name: string;
@@ -51,7 +52,11 @@ class BootstrapAdminUseCase {
       updatedAt: now,
     });
 
-    await this.usersRepository.create(admin);
+    const result = await this.usersRepository.createInitialAdmin(admin);
+
+    if (result.status === 'admin-already-exists') {
+      throw new ConflictError('ADMIN_ALREADY_EXISTS', 'An administrator already exists.');
+    }
   }
 }
 

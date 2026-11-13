@@ -25,6 +25,7 @@ type NotFoundErrors =
   | 'IMAGE_NOT_FOUND';
 
 type ConflictErrors =
+  | 'ADMIN_ALREADY_EXISTS'
   | 'EMAIL_ALREADY_EXISTS'
   | 'CATEGORY_NAME_ALREADY_EXISTS'
   | 'CATEGORY_NOT_EMPTY'

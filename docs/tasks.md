@@ -1191,7 +1191,7 @@ Connect concrete dependencies, run acceptance checks, document the project, and 
   - **Verify:**
     - Database data and product images survive API container recreation.
 
-- [ ] **T123** — Run a bootstrap-admin smoke test
+- [x] **T123** — Run a bootstrap-admin smoke test
   - **Depends on:** T094, T121
   - **Covers:** FR15; NFR12
   - **Likely files:** `docs/testing/bootstrap-smoke.md`

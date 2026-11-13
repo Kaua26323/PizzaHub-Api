@@ -1,6 +1,7 @@
 import type {
   ChangeRoleAndRevokeSessionsParams,
   ChangeRoleAndRevokeSessionsResult,
+  CreateInitialAdminResult,
   UsersRepository,
 } from '@/application/repositories/users-repository';
 import type { AuthSessionsRepository } from '@/application/repositories/auth-sessions-repository';
@@ -29,6 +30,16 @@ class InMemoryUsersRepository implements UsersRepository {
 
   async create(data: User): Promise<void> {
     this.users.push(cloneUser(data));
+  }
+
+  async createInitialAdmin(data: User): Promise<CreateInitialAdminResult> {
+    if (this.users.some((user) => user.role === 'ADMIN')) {
+      return { status: 'admin-already-exists' };
+    }
+
+    this.users.push(cloneUser(data));
+
+    return { status: 'created' };
   }
 
   async listUsers(): Promise<User[]> {

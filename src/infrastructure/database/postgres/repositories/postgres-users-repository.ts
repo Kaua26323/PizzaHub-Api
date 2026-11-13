@@ -6,6 +6,7 @@ import { withTransaction } from '@/infrastructure/database/postgres/connection/t
 
 import type {
   UsersRepository,
+  CreateInitialAdminResult,
   ChangeRoleAndRevokeSessionsParams,
   ChangeRoleAndRevokeSessionsResult,
 } from '@/application/repositories/users-repository';
@@ -32,6 +33,10 @@ function mapUserRow(row: UserRow): User {
     updatedAt: row.updated_at,
   });
 }
+
+// Dedicated transaction advisory lock shared by bootstrap processes; the fixed key
+// ensures they serialize the ADMIN existence check and insert across connections.
+const INITIAL_ADMIN_LOCK_KEY = 123456;
 
 class PostgresUsersRepository implements UsersRepository {
   constructor(private readonly pool: Pool) {}
@@ -102,6 +107,47 @@ class PostgresUsersRepository implements UsersRepository {
     const row = result.rows[0];
 
     return row ? mapUserRow(row) : null;
+  }
+
+  async createInitialAdmin(data: User): Promise<CreateInitialAdminResult> {
+    return withTransaction(this.pool, async (client) => {
+      await client.query(`SELECT pg_advisory_xact_lock($1)`, [INITIAL_ADMIN_LOCK_KEY]);
+
+      const result = await client.query<{ exists: boolean }>(
+        `
+          SELECT EXISTS (
+            SELECT 1
+            FROM users
+            WHERE role = $1
+          ) AS exists;
+        `,
+        ['ADMIN'],
+      );
+
+      if (result.rows[0]?.exists) {
+        return { status: 'admin-already-exists' };
+      }
+
+      const { id, name, email, role, passwordHash, createdAt, updatedAt } = data;
+
+      await client.query(
+        `
+        INSERT INTO users (
+          id,
+          name,
+          email,
+          role,
+          password_hash,
+          created_at,
+          updated_at
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7);
+        `,
+        [id, name, email, role, passwordHash, createdAt, updatedAt],
+      );
+
+      return { status: 'created' };
+    });
   }
 
   async changeRoleAndRevokeSessions(

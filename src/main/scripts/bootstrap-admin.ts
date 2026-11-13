@@ -71,10 +71,12 @@ try {
   console.log('Administrator created successfully.');
   process.exitCode = 0;
 } catch (err) {
+  console.error('='.repeat(28));
+
   if (err instanceof ApplicationError) {
-    console.log(err.message);
+    console.error(`Error: ${err.message}`);
   } else {
-    console.log('Failed to create administrator.');
+    console.error('Error: Failed to create administrator.');
   }
 
   process.exitCode = 1;

@@ -57,6 +57,12 @@ describe('mapError', () => {
       'EMAIL_ALREADY_EXISTS',
     ],
     [
+      'bootstrap conflict',
+      new ConflictError('ADMIN_ALREADY_EXISTS', 'An administrator already exists.'),
+      409,
+      'ADMIN_ALREADY_EXISTS',
+    ],
+    [
       'not found',
       new ResourceNotFoundError('USER_NOT_FOUND', 'User not found.'),
       404,

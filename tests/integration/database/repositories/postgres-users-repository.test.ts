@@ -81,6 +81,75 @@ describe('PostgresUsersRepository', () => {
     });
   });
 
+  describe('createInitialAdmin', () => {
+    it('should create the first ADMIN when none exists', async () => {
+      const admin = makeUser();
+
+      const result = await postgresUsersRepository.createInitialAdmin(admin);
+      const users = await postgresUsersRepository.listUsers();
+
+      expect(result).toEqual({ status: 'created' });
+      expect(users.filter((user) => user.role === 'ADMIN')).toHaveLength(1);
+      expect(users[0]?.id).toBe(admin.id);
+    });
+
+    it('should reject a second initial ADMIN with a different email', async () => {
+      const firstAdmin = makeUser();
+      const secondAdmin = makeUser({
+        id: '550e8400-e29b-41d4-a716-446655440002',
+        email: 'second-admin@example.com',
+      });
+
+      await postgresUsersRepository.createInitialAdmin(firstAdmin);
+      const result = await postgresUsersRepository.createInitialAdmin(secondAdmin);
+      const users = await postgresUsersRepository.listUsers();
+
+      expect(result).toEqual({ status: 'admin-already-exists' });
+      expect(users.filter((user) => user.role === 'ADMIN')).toHaveLength(1);
+      expect(users[0]?.id).toBe(firstAdmin.id);
+    });
+
+    it('should create the first ADMIN when STAFF users already exist', async () => {
+      const staff = makeUser({ role: 'STAFF' });
+      const admin = makeUser({
+        id: '550e8400-e29b-41d4-a716-446655440002',
+        email: 'initial-admin@example.com',
+      });
+
+      await postgresUsersRepository.create(staff);
+      const result = await postgresUsersRepository.createInitialAdmin(admin);
+      const users = await postgresUsersRepository.listUsers();
+
+      expect(result).toEqual({ status: 'created' });
+      expect(users.filter((user) => user.role === 'ADMIN')).toHaveLength(1);
+      expect(users.find((user) => user.id === staff.id)?.role).toBe('STAFF');
+    });
+
+    it('should create only one ADMIN from concurrent bootstrap attempts', async () => {
+      expect(testPool.options.max).toBeGreaterThanOrEqual(2);
+
+      const firstAdmin = makeUser();
+      const secondAdmin = makeUser({
+        id: '550e8400-e29b-41d4-a716-446655440002',
+        email: 'second-admin@example.com',
+      });
+      const firstRepository = new PostgresUsersRepository(testPool);
+      const secondRepository = new PostgresUsersRepository(testPool);
+
+      const results = await Promise.all([
+        firstRepository.createInitialAdmin(firstAdmin),
+        secondRepository.createInitialAdmin(secondAdmin),
+      ]);
+      const users = await postgresUsersRepository.listUsers();
+
+      expect(results.map((result) => result.status).sort()).toEqual([
+        'admin-already-exists',
+        'created',
+      ]);
+      expect(users.filter((user) => user.role === 'ADMIN')).toHaveLength(1);
+    });
+  });
+
   describe('listUsers', () => {
     it('should list the users from database', async () => {
       await postgresUsersRepository.create(makeUser());

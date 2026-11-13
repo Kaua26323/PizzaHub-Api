@@ -17,6 +17,7 @@ export type NotFoundErrorCode =
   | 'ORDER_ITEM_NOT_FOUND';
 
 export type ConflictErrorCode =
+  | 'ADMIN_ALREADY_EXISTS'
   | 'EMAIL_ALREADY_EXISTS'
   | 'CATEGORY_NAME_ALREADY_EXISTS'
   | 'CATEGORY_NOT_EMPTY'

@@ -10,11 +10,15 @@ export type ChangeRoleAndRevokeSessionsParams = {
 export type ChangeRoleAndRevokeSessionsResult =
   { status: 'changed' } | { status: 'not-found' };
 
+export type CreateInitialAdminResult =
+  { status: 'created' } | { status: 'admin-already-exists' };
+
 export type UsersRepository = {
   create(data: User): Promise<void>;
   listUsers(): Promise<User[]>;
   findById(userId: string): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;
+  createInitialAdmin(data: User): Promise<CreateInitialAdminResult>;
   changeRoleAndRevokeSessions(
     params: ChangeRoleAndRevokeSessionsParams,
   ): Promise<ChangeRoleAndRevokeSessionsResult>;
